@@ -154,6 +154,26 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
 .sc-badge span{font-size:11px;font-weight:600;color:var(--green);letter-spacing:0.04em}
 .sc-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);background:var(--surface2);color:var(--sub);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;flex-shrink:0}
 
+/* MULTI-TIER SLIDERS */
+.sc-tiers{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.sc-tier-row{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px}
+.sc-tier-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sc-tier-name{font-size:9px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--sub)}
+.sc-tier-name.s{color:var(--sub)}.sc-tier-name.m{color:var(--green)}.sc-tier-name.l{color:var(--amber)}
+.sc-tier-price{font-family:'Fraunces',serif;font-size:12px;font-weight:700;color:var(--text)}
+.sc-tier-qty-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
+.sc-tier-qty{font-family:'Fraunces',serif;font-size:22px;font-weight:800;letter-spacing:-0.04em;color:var(--text);line-height:1}
+.sc-tier-qty small{font-size:11px;font-weight:400;color:var(--sub);font-family:'Instrument Sans',sans-serif;letter-spacing:0}
+.sc-tier-rev{font-size:11px;color:var(--sub);text-align:right;line-height:1}
+.sc-tier-rev strong{display:block;font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.sc-total-row{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);padding:7px 0;border-bottom:1px solid var(--border)}
+.sc-total-row:last-child{border-bottom:none}
+.sc-total-row.big{color:var(--text);font-weight:600;font-size:13px}
+.sc-total-row.profit-row{color:var(--green);font-weight:700}
+.sc-total-row.loss-row{color:var(--red);font-weight:700}
+.sc-total-row.be-row{color:var(--amber);font-weight:700}
+.sc-summary{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px}
+
 /* BIG P/L */
 .pl-display{text-align:center;padding:4px 0 22px}
 .pl-label{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
@@ -388,31 +408,63 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
       <!-- Scenario explorer — shown when a tier is tapped -->
       <div class="scenario-panel" id="scenario-panel">
         <div class="scenario-hd">
-          <div class="sc-badge"><span id="sc-badge-text">Small · GHS 0</span></div>
+          <div class="sc-badge"><span id="sc-badge-text">Scenario Explorer</span></div>
           <div class="sc-close" onclick="closeScenario()">✕</div>
         </div>
 
         <div class="pl-display">
-          <div class="pl-label" id="sc-pl-label">Estimated profit</div>
+          <div class="pl-label" id="sc-pl-label">Combined profit / loss</div>
           <div class="pl-amount profit" id="sc-pl-amount">GHS 0</div>
           <div class="pl-meta" id="sc-pl-meta"></div>
         </div>
 
-        <div>
-          <div class="sc-slider-hd">
-            <span class="sc-slider-lbl">Portions sold</span>
-            <div class="sc-qty"><span id="sc-qty-num">0</span> <small>portions</small></div>
+        <!-- Three tier sliders -->
+        <div class="sc-tiers">
+          <div class="sc-tier-row" id="sc-row-0">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name s">Small</span>
+              <span class="sc-tier-price" id="sc-tp-0">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-0">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-0">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-0" min="0" max="60" value="0" step="1" oninput="updateMultiScenario()">
+            <div class="range-ends"><span>0</span><span id="sc-max-0">60</span></div>
           </div>
-          <input type="range" id="sc-slider" min="1" max="60" value="10" step="1" oninput="updateScenario(+this.value)">
-          <div class="range-ends"><span>1</span><span id="sc-slider-max">60</span></div>
+          <div class="sc-tier-row" id="sc-row-1">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name m">Medium</span>
+              <span class="sc-tier-price" id="sc-tp-1">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-1">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-1">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-1" min="0" max="60" value="0" step="1" oninput="updateMultiScenario()">
+            <div class="range-ends"><span>0</span><span id="sc-max-1">60</span></div>
+          </div>
+          <div class="sc-tier-row" id="sc-row-2">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name l">Large</span>
+              <span class="sc-tier-price" id="sc-tp-2">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-2">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-2">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-2" min="0" max="60" value="0" step="1" oninput="updateMultiScenario()">
+            <div class="range-ends"><span>0</span><span id="sc-max-2">60</span></div>
+          </div>
         </div>
+
         <div class="be-marker" id="sc-be-marker"></div>
 
-        <div class="scen-table">
-          <div class="scen-table-hd">
-            <span>Qty sold</span><span>Revenue</span><span>Profit / Loss</span>
-          </div>
-          <div id="sc-table-body"></div>
+        <div class="sc-summary">
+          <div class="sc-total-row"><span>Total portions sold</span><span id="sc-sum-qty">0</span></div>
+          <div class="sc-total-row"><span>Total revenue</span><span id="sc-sum-rev">GHS 0</span></div>
+          <div class="sc-total-row"><span>Total batch cost</span><span id="sc-sum-cost">GHS 0</span></div>
+          <div class="sc-total-row big" id="sc-sum-pl-row"><span>Profit / Loss</span><span id="sc-sum-pl">—</span></div>
         </div>
       </div>
 
@@ -444,17 +496,17 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
     <div style="margin-bottom:14px">
       <div class="tier-log-hd"><span>Tier</span><span>Price (GHS)</span><span>Qty sold</span></div>
       <div class="tier-log-row">
-        <div class="tier-log-name">Small<span>1 scoop</span></div>
+        <div class="tier-log-name">Small</div>
         <input class="inp sm" id="lg-p0" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
         <input class="inp sm" id="lg-q0" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
       </div>
       <div class="tier-log-row">
-        <div class="tier-log-name">Medium<span>2 scoops</span></div>
+        <div class="tier-log-name">Medium</div>
         <input class="inp sm" id="lg-p1" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
         <input class="inp sm" id="lg-q1" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
       </div>
       <div class="tier-log-row">
-        <div class="tier-log-name">Large<span>3 scoops</span></div>
+        <div class="tier-log-name">Large</div>
         <input class="inp sm" id="lg-p2" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
         <input class="inp sm" id="lg-q2" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
       </div>
@@ -659,9 +711,9 @@ function updateLogPreview(){
 function logSale(){
   const dish=document.getElementById('lg-dish').value.trim()||'Unnamed Dish';
   const costs=parseFloat(document.getElementById('lg-costs').value)||0;
-  const LABELS=['Small','Medium','Large'],TAGS=['1 scoop','2 scoops','3 scoops'];
+  const LABELS=['Small','Medium','Large'];
   const tiers=[0,1,2].map(i=>({
-    label:LABELS[i],tag:TAGS[i],
+    label:LABELS[i],
     price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,
     qty:parseFloat(document.getElementById(`lg-q${i}`).value)||0
   })).filter(t=>t.qty>0);
@@ -706,7 +758,7 @@ function renderSales(){
     let tierRows='';
     if(s.tiers&&s.tiers.length){
       tierRows=s.tiers.map(t=>`<div class="sale-tier-row">
-        <span class="stl">${t.label} (${t.tag||''}) × ${t.qty}</span>
+        <span class="stl">${t.label} × ${t.qty}</span>
         <span class="stv">GHS ${fmt(t.price)} = <strong>GHS ${fmt(t.qty*t.price)}</strong></span>
       </div>`).join('');
     } else {
@@ -759,10 +811,10 @@ function calcPrice(){
   const sellEst=Math.max(parseFloat(document.getElementById('p-sellest').value)||portions,1);
   const margin=parseFloat(document.getElementById('margin-slider').value)/100;
   const totalCost=expenses.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-  const cps=totalCost/portions; // cost per scoop
+  const cpp=totalCost/portions; // cost per portion
 
-  const TIERS=[{label:'Small',scoops:1,tag:'1 scoop'},{label:'Medium',scoops:2,tag:'2 scoops'},{label:'Large',scoops:3,tag:'3 scoops'}];
-  const tierPrices=TIERS.map(t=>({...t,cost:cps*t.scoops,price:Math.ceil(cps*t.scoops/(1-margin))}));
+  const TIERS=[{label:'Small',mult:1},{label:'Medium',mult:2},{label:'Large',mult:3}];
+  const tierPrices=TIERS.map(t=>({...t,cost:cpp*t.mult,price:Math.ceil(cpp*t.mult/(1-margin))}));
 
   calcState={totalCost,portions,tierPrices,sellEst,name,margin};
   selectedTier=-1;
@@ -771,7 +823,7 @@ function calcPrice(){
   document.getElementById('r-lbl').textContent=`Tier pricing · ${name}`;
   document.getElementById('r-tier-grid').innerHTML=tierPrices.map((t,i)=>`
     <div class="tier${i===1?' hi':''}" id="tc-${i}" onclick="selectTier(${i})">
-      <div class="tier-name">${t.label} <span style="opacity:.4;font-size:7px;text-transform:none;letter-spacing:0">${t.tag}</span></div>
+      <div class="tier-name">${t.label}</div>
       <div class="tier-price">GHS ${t.price}</div>
       <div class="tier-unit">per serving</div>
       <div class="tier-row">Cost / serving<strong>GHS ${fmt(t.cost)}</strong></div>
@@ -785,7 +837,7 @@ function calcPrice(){
     `${Math.round(margin*100)}% margin · batch of ${portions} · GHS ${fmt(totalCost)} total cost`;
 
   document.getElementById('r-pills').innerHTML=`
-    <div class="r-pill">Cost/scoop<strong>GHS ${fmt(cps)}</strong></div>
+    <div class="r-pill">Cost/portion<strong>GHS ${fmt(cpp)}</strong></div>
     <div class="r-pill">Total cost<strong>GHS ${fmt(totalCost)}</strong></div>
     <div class="r-pill hi">Medium profit est.<strong>GHS ${fmt(midProfit)}</strong></div>`;
 
@@ -800,7 +852,7 @@ function calcPrice(){
   setTimeout(()=>document.getElementById('price-result').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
 }
 
-// ═══ SCENARIO EXPLORER ═══
+// ═══ SCENARIO EXPLORER (MULTI-TIER) ═══
 function selectTier(idx){
   if(!calcState)return;
   selectedTier=idx;
@@ -812,17 +864,21 @@ function selectTier(idx){
   });
   document.getElementById(`tc-${idx}`).classList.add('selected');
 
-  const t=calcState.tierPrices[idx];
   const maxQty=Math.max(calcState.portions*2,Math.ceil(calcState.sellEst*2),40);
 
-  document.getElementById('sc-badge-text').textContent=`${t.label} · GHS ${t.price} / serving`;
-  const slider=document.getElementById('sc-slider');
-  slider.max=maxQty;
-  slider.value=calcState.sellEst;
-  document.getElementById('sc-slider-max').textContent=maxQty;
+  // Init each tier slider
+  calcState.tierPrices.forEach((t,i)=>{
+    document.getElementById(`sc-tp-${i}`).textContent=`GHS ${t.price} / serving`;
+    const sl=document.getElementById(`sc-slider-${i}`);
+    sl.max=maxQty;
+    document.getElementById(`sc-max-${i}`).textContent=maxQty;
+    // Distribute sellEst roughly: clicked tier gets most of the estimate
+    sl.value=i===idx?Math.round(calcState.sellEst*0.6):Math.round(calcState.sellEst*0.2);
+  });
 
+  document.getElementById('sc-badge-text').textContent=`Mix Scenario · Tap any tier`;
   document.getElementById('scenario-panel').classList.add('show');
-  updateScenario(calcState.sellEst);
+  updateMultiScenario();
   setTimeout(()=>document.getElementById('scenario-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
 }
 
@@ -836,68 +892,81 @@ function closeScenario(){
   });
 }
 
-function updateScenario(qty){
-  if(!calcState||selectedTier<0)return;
-  qty=Math.round(qty);
-  const t=calcState.tierPrices[selectedTier];
-  const rev=t.price*qty;
-  const prf=rev-calcState.totalCost;
-  const beQty=Math.ceil(calcState.totalCost/t.price);
-  const mPct=rev>0?((prf/rev)*100).toFixed(1):'0';
+function updateMultiScenario(){
+  if(!calcState)return;
+  const qtys=[0,1,2].map(i=>Math.round(+document.getElementById(`sc-slider-${i}`).value||0));
+  const tiers=calcState.tierPrices;
 
-  document.getElementById('sc-qty-num').textContent=qty;
+  // Update each tier's display
+  let totalRev=0;
+  qtys.forEach((q,i)=>{
+    const rev=tiers[i].price*q;
+    totalRev+=rev;
+    document.getElementById(`sc-qty-${i}`).textContent=q;
+    document.getElementById(`sc-rev-${i}`).textContent=`GHS ${fmt(rev)}`;
+  });
 
-  // Big P/L
+  const totalQty=qtys.reduce((a,b)=>a+b,0);
+  const prf=totalRev-calcState.totalCost;
+  const mPct=totalRev>0?((prf/totalRev)*100).toFixed(1):'0';
+
+  // Big P/L display
   const plEl=document.getElementById('sc-pl-amount');
   const lbEl=document.getElementById('sc-pl-label');
   const metaEl=document.getElementById('sc-pl-meta');
 
-  if(qty===beQty){
+  // Break-even: weighted avg price for current mix
+  const avgPrice=totalQty>0?totalRev/totalQty:0;
+  const beQty=avgPrice>0?Math.ceil(calcState.totalCost/avgPrice):null;
+
+  if(totalQty===0){
+    plEl.textContent='—';plEl.className='pl-amount';
+    lbEl.textContent='Adjust portions to see outcome';
+    metaEl.innerHTML='Slide each tier to simulate your sell mix';
+  } else if(Math.abs(prf)<0.01){
     plEl.textContent='Break even';plEl.className='pl-amount breakeven';
-    lbEl.textContent='At break-even point';
-    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(rev)}</strong> exactly covers costs`;
+    lbEl.textContent='Exactly at break-even';
+    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> covers your costs`;
   } else if(prf>0){
     plEl.textContent=`GHS ${fmt(prf)}`;plEl.className='pl-amount profit';
     lbEl.textContent='Estimated profit';
-    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(rev)}</strong> · Margin <strong>${mPct}%</strong>`;
+    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> · Margin <strong>${mPct}%</strong>`;
   } else {
     plEl.textContent=`−GHS ${fmt(Math.abs(prf))}`;plEl.className='pl-amount loss';
     lbEl.textContent='Estimated loss';
-    metaEl.innerHTML=`Need <strong>${beQty-qty} more</strong> to break even · Revenue <strong>GHS ${fmt(rev)}</strong>`;
+    const shortfall=Math.abs(prf);
+    metaEl.innerHTML=`Short by <strong>GHS ${fmt(shortfall)}</strong> · Revenue <strong>GHS ${fmt(totalRev)}</strong>`;
   }
 
   // Break-even marker
   const beEl=document.getElementById('sc-be-marker');
-  if(qty<beQty){
-    beEl.textContent=`Need ${beQty} portions to break even`;beEl.className='be-marker bad';
-  } else if(qty===beQty){
+  if(totalQty===0){
+    beEl.textContent='';beEl.className='be-marker';
+  } else if(beQty&&totalQty<beQty){
+    beEl.textContent=`Need ${beQty} total portions at this mix to break even`;beEl.className='be-marker bad';
+  } else if(beQty&&totalQty===beQty){
     beEl.textContent=`▲ Exactly at break-even (${beQty} portions)`;beEl.className='be-marker warn';
+  } else if(beQty){
+    beEl.textContent=`✓ Break-even at ${beQty} portions — you're ${totalQty-beQty} above it`;beEl.className='be-marker ok';
   } else {
-    beEl.textContent=`✓ Break-even at ${beQty} portions — you're ${qty-beQty} above it`;beEl.className='be-marker ok';
+    beEl.textContent='';beEl.className='be-marker';
   }
 
-  // Scenario table
-  const maxQty=Math.max(calcState.portions*2,Math.ceil(calcState.sellEst*2),40);
-  const step=Math.max(1,Math.floor(maxQty/8));
-  let rows=[];
-  for(let q=step;q<=maxQty;q+=step)rows.push(q);
-  if(!rows.includes(beQty)&&beQty>0&&beQty<=maxQty)rows.push(beQty);
-  if(!rows.includes(qty))rows.push(qty);
-  rows=[...new Set(rows)].sort((a,b)=>a-b);
-
-  document.getElementById('sc-table-body').innerHTML=rows.map(q=>{
-    const rv=t.price*q;
-    const pf=rv-calcState.totalCost;
-    const isCur=q===qty,isBe=q===beQty;
-    let pc;
-    if(Math.abs(pf)<0.01)pc=`<span class="be-cell">Break even</span>`;
-    else if(pf>0)pc=`<span class="profit-cell">+GHS ${fmt(pf)}</span>`;
-    else pc=`<span class="loss-cell">−GHS ${fmt(Math.abs(pf))}</span>`;
-    return `<div class="scen-row${isCur?' is-current':''}${isBe?' is-be':''}">
-      <span>${isCur?'<span class="cur-dot"></span>':''}${q} ptns</span>
-      <span>GHS ${fmt(rv)}</span>${pc}
-    </div>`;
-  }).join('');
+  // Summary table
+  document.getElementById('sc-sum-qty').textContent=totalQty+' portions';
+  document.getElementById('sc-sum-rev').textContent=`GHS ${fmt(totalRev)}`;
+  document.getElementById('sc-sum-cost').textContent=`GHS ${fmt(calcState.totalCost)}`;
+  const plRow=document.getElementById('sc-sum-pl-row');
+  const plVal=document.getElementById('sc-sum-pl');
+  if(totalQty===0){
+    plVal.textContent='—';plRow.className='sc-total-row big';
+  } else if(prf>0){
+    plVal.textContent=`+GHS ${fmt(prf)}`;plRow.className='sc-total-row big profit-row';
+  } else if(prf<0){
+    plVal.textContent=`−GHS ${fmt(Math.abs(prf))}`;plRow.className='sc-total-row big loss-row';
+  } else {
+    plVal.textContent='Break even';plRow.className='sc-total-row big be-row';
+  }
 }
 
 // ═══ HISTORY ═══
@@ -920,15 +989,15 @@ function renderHistory(){
   c.innerHTML=history.map((h,i)=>{
     const cpm=h.totalCost/h.portions;
     const tiers=h.tierPrices||[
-      {label:'Small',scoops:1,tag:'1 scoop',price:Math.ceil(cpm/(1-(h.margin||0.45))),cost:cpm},
-      {label:'Medium',scoops:2,tag:'2 scoops',price:Math.ceil(2*cpm/(1-(h.margin||0.45))),cost:2*cpm},
-      {label:'Large',scoops:3,tag:'3 scoops',price:Math.ceil(3*cpm/(1-(h.margin||0.45))),cost:3*cpm}
+      {label:'Small',mult:1,price:Math.ceil(cpm/(1-(h.margin||0.45))),cost:cpm},
+      {label:'Medium',mult:2,price:Math.ceil(2*cpm/(1-(h.margin||0.45))),cost:2*cpm},
+      {label:'Large',mult:3,price:Math.ceil(3*cpm/(1-(h.margin||0.45))),cost:3*cpm}
     ];
     const tHTML=tiers.map((t,ti)=>`
       <div class="ht${ti===1?' hi':''}">
         <div class="ht-name">${t.label}</div>
         <div class="ht-price">GHS ${t.price}</div>
-        <div class="ht-unit">${t.tag||''}</div>
+        <div class="ht-unit">per serving</div>
         <div class="ht-row">Cost<strong>GHS ${fmt(t.cost)}</strong></div>
       </div>`).join('');
     const expRows=(h.expenses||[]).map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('');
