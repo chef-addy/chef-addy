@@ -19,11 +19,13 @@
   --dim: #555;
   --green: #22c97a;
   --green-dim: rgba(34,201,122,0.12);
-  --green-border: rgba(34,201,122,0.25);
+  --green-border: rgba(34,201,122,0.3);
   --amber: #f5a623;
   --amber-dim: rgba(245,166,35,0.12);
+  --amber-border: rgba(245,166,35,0.3);
   --red: #ef4444;
   --red-dim: rgba(239,68,68,0.1);
+  --red-border: rgba(239,68,68,0.28);
   --r: 16px;
   --r-sm: 11px;
   --r-lg: 22px;
@@ -39,34 +41,953 @@
   --sub: #777;
   --dim: #bbb;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-::-webkit-scrollbar { display: none; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  min-height: 100svh;
-  padding-bottom: 88px;
-  overflow-x: hidden;
-}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{display:none}
+body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;font-size:15px;line-height:1.5;min-height:100svh;padding-bottom:92px;overflow-x:hidden}
 
 /* HEADER */
-.hdr {
-  position: sticky; top: 0; z-index: 400;
-  background: rgba(11,11,11,0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+.hdr{position:sticky;top:0;z-index:400;background:rgba(11,11,11,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+[data-theme="light"] .hdr{background:rgba(247,246,242,0.9)}
+.hdr-in{max-width:500px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:13px;color:#000;letter-spacing:-0.02em}
+.brand-name{font-family:'Fraunces',serif;font-weight:700;font-size:20px;letter-spacing:-0.04em}
+.hdr-btn{width:34px;height:34px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--sub);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:background 0.15s}
+.hdr-btn:active{background:var(--surface2)}
+
+/* LAYOUT */
+.wrap{max-width:500px;margin:0 auto;padding:24px 18px 0}
+
+/* TABS */
+.tab{display:none}
+.tab.active{display:block;animation:up 0.35s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* HEADINGS */
+.pg-title{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(30px,8vw,42px);letter-spacing:-0.05em;line-height:1.04}
+.pg-title em{font-style:italic;color:var(--green)}
+.pg-sub{color:var(--sub);font-size:13px;margin-top:7px;margin-bottom:24px}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.sec-row{display:flex;align-items:center;justify-content:space-between;margin:30px 0 12px}
+.sec-title{font-family:'Fraunces',serif;font-weight:700;font-size:17px;letter-spacing:-0.03em}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 10px 16px;text-align:center}
+.stat-lbl{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim)}
+.stat-num{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(17px,4.5vw,22px);letter-spacing:-0.04em;margin-top:6px;line-height:1}
+.stat.is-profit .stat-lbl{color:var(--green)}.stat.is-profit .stat-num{color:var(--green)}
+.stat.is-spent .stat-lbl{color:var(--amber)}.stat.is-spent .stat-num{color:var(--amber)}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 18px}
+.card+.card{margin-top:10px}
+
+/* FORM */
+.field{margin-bottom:16px}.field:last-child{margin-bottom:0}
+.lbl{display:block;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--sub);margin-bottom:6px}
+.inp{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r-sm);padding:13px 15px;font-size:16px;font-family:'Instrument Sans',sans-serif;color:var(--text);outline:none;-webkit-appearance:none;transition:border-color 0.2s,box-shadow 0.2s}
+.inp:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-dim)}
+.inp.sm{font-size:14px;padding:11px 13px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.hr{height:1px;background:var(--border);margin:18px 0}
+
+/* RANGE */
+.range-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.range-lbl{font-size:10px;font-weight:600;color:var(--sub);letter-spacing:0.1em;text-transform:uppercase}
+.range-val{font-family:'Fraunces',serif;font-size:38px;font-weight:800;letter-spacing:-0.05em;color:var(--green);line-height:1}
+input[type="range"]{-webkit-appearance:none;width:100%;height:4px;background:var(--surface2);border-radius:2px;outline:none}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:var(--green);border-radius:50%;border:3px solid var(--bg);box-shadow:0 0 0 2px var(--green);cursor:pointer}
+.range-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:5px}
+
+/* BUTTONS */
+.btn{width:100%;padding:16px;border-radius:var(--r);border:none;font-family:'Fraunces',serif;font-size:16px;font-weight:700;letter-spacing:-0.02em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.1s,opacity 0.1s}
+.btn:active{transform:scale(0.97);opacity:0.85}
+.btn-g{background:var(--green);color:#000}
+.btn-w{background:#fff;color:#000}
+[data-theme="light"] .btn-w{background:#111;color:#fff}
+.btn-ghost{background:var(--surface2);color:var(--text)}
+.btn.sm{padding:11px;font-size:13px;border-radius:var(--r-sm)}
+
+/* PILLS */
+.pill{font-size:11px;font-weight:600;padding:5px 13px;border-radius:50px;border:1px solid var(--border2);background:var(--surface);color:var(--sub);cursor:pointer;transition:transform 0.1s;white-space:nowrap}
+.pill.green{color:var(--green);border-color:var(--green-border)}
+.pill.amber{color:var(--amber);border-color:var(--amber-border)}
+.pill:active{transform:scale(0.95)}
+
+/* EXPENSE ITEMS */
+.expense-list{margin-bottom:14px}
+.expense-item{display:flex;align-items:center;gap:9px;margin-bottom:8px;animation:up 0.25s both}
+.expense-item .inp{flex:1}.expense-item .inp.name{flex:1.4}.expense-item .inp.amount{flex:0.8}
+.exp-del{width:30px;height:30px;min-width:30px;border:none;background:none;color:var(--dim);cursor:pointer;border-radius:8px;font-size:15px;display:flex;align-items:center;justify-content:center;transition:color 0.15s}
+.exp-del:active{color:var(--red)}
+
+/* BREAKDOWN */
+.breakdown{text-align:left;margin-top:16px}
+.brow{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);padding:7px 0;border-bottom:1px solid var(--border)}
+.brow:last-child{border-bottom:none}
+.brow.total{color:var(--text);font-weight:600}
+.brow.profit{color:var(--green);font-weight:600}
+.brow.loss{color:var(--red);font-weight:600}
+
+/* TIER CARDS — interactive */
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tier{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 8px 14px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s,transform 0.12s;animation:up 0.3s both;position:relative;user-select:none}
+.tier:active{transform:scale(0.96)}
+.tier.hi{background:var(--green-dim);border-color:var(--green-border)}
+.tier.selected{background:var(--green-dim) !important;border-color:var(--green) !important;border-width:2px !important;box-shadow:0 0 0 3px var(--green-dim)}
+.tier.selected::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid var(--green);z-index:1}
+.tier-name{font-size:8px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.tier.hi .tier-name,.tier.selected .tier-name{color:var(--green)}
+.tier-price{font-family:'Fraunces',serif;font-size:clamp(20px,5vw,26px);font-weight:800;letter-spacing:-0.04em}
+.tier-unit{font-size:9px;color:var(--sub);margin:2px 0 9px}
+.tier-row{font-size:10px;color:var(--sub);margin-top:4px}
+.tier-row strong{display:block;font-family:'Fraunces',serif;font-size:12px;font-weight:700;letter-spacing:-0.02em;color:var(--text)}
+.tier-tap{font-size:9px;color:var(--dim);margin-top:9px;letter-spacing:0.03em}
+.tier.selected .tier-tap{color:var(--green)}
+
+/* SCENARIO EXPLORER */
+.scenario-panel{display:none;background:var(--surface);border:2px solid var(--green-border);border-radius:var(--r-lg);padding:22px 18px 20px;margin-top:12px;animation:up 0.3s cubic-bezier(0.22,1,0.36,1) both}
+.scenario-panel.show{display:block}
+.scenario-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sc-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:50px;padding:5px 13px}
+.sc-badge span{font-size:11px;font-weight:600;color:var(--green);letter-spacing:0.04em}
+.sc-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);background:var(--surface2);color:var(--sub);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;flex-shrink:0}
+
+/* BIG P/L */
+.pl-display{text-align:center;padding:4px 0 22px}
+.pl-label{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
+.pl-amount{font-family:'Fraunces',serif;font-size:clamp(42px,12vw,62px);font-weight:800;letter-spacing:-0.05em;line-height:1;transition:color 0.25s}
+.pl-amount.profit{color:var(--green)}
+.pl-amount.loss{color:var(--red)}
+.pl-amount.breakeven{color:var(--amber)}
+.pl-meta{font-size:12px;color:var(--sub);margin-top:8px}
+.pl-meta strong{color:var(--text)}
+
+/* SLIDER ROW */
+.sc-slider-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sc-slider-lbl{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--sub)}
+.sc-qty{font-family:'Fraunces',serif;font-size:24px;font-weight:800;letter-spacing:-0.04em;color:var(--text)}
+.sc-qty small{font-size:12px;font-weight:400;color:var(--sub);letter-spacing:0;font-family:'Instrument Sans',sans-serif}
+.be-marker{font-size:10px;text-align:center;margin-top:7px;letter-spacing:0.02em;min-height:15px}
+.be-marker.ok{color:var(--green)}.be-marker.warn{color:var(--amber)}.be-marker.bad{color:var(--red)}
+
+/* SCENARIO TABLE */
+.scen-table{margin-top:18px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.scen-table-hd{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surface3);padding:9px 14px}
+.scen-table-hd span{font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);text-align:right}
+.scen-table-hd span:first-child{text-align:left}
+.scen-row{display:grid;grid-template-columns:1fr 1fr 1fr;padding:9px 14px;border-top:1px solid var(--border);transition:background 0.15s}
+.scen-row.is-current{background:var(--surface2)}
+.scen-row.is-be{background:var(--amber-dim)}
+.scen-row span{font-size:12px;color:var(--sub);text-align:right}
+.scen-row span:first-child{text-align:left;color:var(--text);font-weight:600}
+.profit-cell{color:var(--green) !important;font-weight:600}
+.loss-cell{color:var(--red) !important;font-weight:600}
+.be-cell{color:var(--amber) !important;font-weight:600}
+.cur-dot{display:inline-block;width:5px;height:5px;background:var(--green);border-radius:50%;margin-right:5px;vertical-align:middle}
+
+/* RESULT BOX */
+.result-box{margin-top:18px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 18px;animation:up 0.3s both}
+.result-lbl{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.result-ctx{color:var(--sub);font-size:12px;margin-top:14px;text-align:center}
+.result-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.r-pill{flex:1;min-width:80px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 10px;font-size:10px;color:var(--sub);text-align:center}
+.r-pill strong{display:block;font-family:'Fraunces',serif;font-size:14px;font-weight:700;letter-spacing:-0.03em;color:var(--text);margin-top:2px}
+.r-pill.hi{border-color:var(--green-border)}.r-pill.hi strong{color:var(--green)}
+
+/* SALES LOG */
+.sale-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:9px;animation:up 0.28s both}
+.sale-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.sale-dot{width:8px;height:8px;min-width:8px;border-radius:50%;background:var(--green);margin-top:5px}
+.sale-info{flex:1}
+.sale-dish{font-weight:600;font-size:14px}
+.sale-meta{font-size:11px;color:var(--sub);margin-top:2px}
+.sale-right{text-align:right;flex-shrink:0}
+.sale-rev{font-family:'Fraunces',serif;font-weight:700;font-size:17px;letter-spacing:-0.03em;color:var(--green)}
+.sale-del{color:var(--dim);cursor:pointer;font-size:13px;padding:4px;opacity:0.5;transition:opacity 0.2s;display:block;margin-top:4px;text-align:right}
+.sale-del:active{opacity:1;color:var(--red)}
+.sale-tiers{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
+.sale-tier-row{display:flex;justify-content:space-between;font-size:12px}
+.stl{color:var(--sub)}.stv{color:var(--text);font-weight:500}
+.sale-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* LOG FORM */
+.log-form-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 18px;margin-bottom:18px}
+.log-form-title{font-family:'Fraunces',serif;font-weight:700;font-size:16px;letter-spacing:-0.03em;margin-bottom:16px}
+.tier-log-hd{display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim);padding:0 0 7px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.tier-log-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:8px;align-items:center;margin-bottom:9px}
+.tier-log-name{font-size:12px;font-weight:600;color:var(--sub);padding-left:2px}
+.tier-log-name span{display:block;font-size:9px;font-weight:400;color:var(--dim);margin-top:1px}
+.log-preview{font-size:12px;color:var(--sub);margin:4px 0 14px;min-height:0;padding:10px 13px;background:var(--bg);border-radius:var(--r-sm);display:none}
+.log-preview.show{display:block;animation:up 0.2s both}
+
+/* SALES SUMMARY */
+.sales-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px}
+.s-sum{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 10px 14px;text-align:center}
+.s-sum-lbl{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim)}
+.s-sum-num{font-family:'Fraunces',serif;font-weight:700;font-size:16px;letter-spacing:-0.04em;margin-top:5px;line-height:1}
+
+/* CHECKLIST */
+.cl-item{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:7px;animation:up 0.25s both;transition:background 0.2s,border-color 0.2s}
+.cl-item.done{background:var(--green-dim);border-color:var(--green-border)}
+.cl-item.done .cl-text{color:var(--sub);text-decoration:line-through}
+.cl-box{width:20px;height:20px;min-width:20px;border:1.5px solid var(--border2);border-radius:6px;background:var(--surface2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:11px;color:#000}
+.cl-box.on{background:var(--green);border-color:var(--green)}
+.cl-text{flex:1;font-size:14px}
+.cl-del{color:var(--dim);opacity:0.4;cursor:pointer;font-size:12px;padding:4px;transition:opacity 0.2s}
+.cl-del:active{opacity:1;color:var(--red)}
+.prog-row{display:flex;justify-content:space-between;margin:12px 0 5px;font-size:11px}
+.prog-lbl{color:var(--sub)}.prog-pct{font-weight:600;color:var(--green)}
+.prog-track{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:2px;transition:width 0.4s cubic-bezier(0.22,1,0.36,1)}
+
+/* HISTORY */
+.hist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:9px;overflow:hidden}
+.hist-card.open{border-color:var(--green-border)}
+.hist-hd{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;cursor:pointer}
+.hist-dish{font-weight:600;font-size:14px}.hist-meta{font-size:11px;color:var(--sub);margin-top:2px}
+.hist-cost{font-family:'Fraunces',serif;font-weight:700;font-size:17px;letter-spacing:-0.03em;color:var(--green)}
+.hist-chev{font-size:11px;color:var(--sub);margin-left:9px;transition:transform 0.22s}
+.hist-card.open .hist-chev{transform:rotate(180deg)}
+.hist-body{display:none;padding:14px 16px 18px;border-top:1px solid var(--border)}
+.hist-card.open .hist-body{display:block}
+.htg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.ht{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 8px;text-align:center}
+.ht.hi{background:var(--green-dim);border-color:var(--green-border)}
+.ht-name{font-size:8px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.ht.hi .ht-name{color:var(--green)}
+.ht-price{font-family:'Fraunces',serif;font-size:20px;font-weight:800;letter-spacing:-0.04em}
+.ht-unit{font-size:9px;color:var(--sub);margin:2px 0 7px}
+.ht-row{font-size:10px;color:var(--sub)}
+.ht-row strong{display:block;font-family:'Fraunces',serif;font-size:11px;font-weight:700;color:var(--text)}
+
+/* SHEET */
+.backdrop{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.7);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:flex-end;justify-content:center}
+.backdrop.show{display:flex}
+.sheet{background:var(--surface);border:1px solid var(--border);border-radius:24px 24px 0 0;width:100%;max-width:500px;padding:22px 20px max(22px,env(safe-area-inset-bottom));animation:sheetUp 0.28s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes sheetUp{from{transform:translateY(44px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sheet-handle{width:32px;height:3.5px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
+.sheet-title{font-family:'Fraunces',serif;font-weight:800;font-size:21px;letter-spacing:-0.04em;margin-bottom:20px}
+.srow{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.srow:last-of-type{border-bottom:none}
+.srow-icon{width:34px;height:34px;background:var(--surface2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.srow-text{font-size:15px;font-weight:500}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:400;background:rgba(11,11,11,0.93);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--border);padding:8px 0 max(8px,env(safe-area-inset-bottom))}
+[data-theme="light"] .bnav{background:rgba(247,246,242,0.93)}
+.bnav-in{max-width:500px;margin:0 auto;display:flex}
+.nav-btn{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 0;color:var(--dim);cursor:pointer;position:relative;transition:color 0.15s}
+.nav-btn.on{color:var(--green)}
+.nav-btn svg{width:20px;height:20px}
+.nav-btn span{font-size:9px;font-weight:600;letter-spacing:0.04em}
+.nav-bar{position:absolute;top:0;width:22px;height:2.5px;background:var(--green);border-radius:0 0 3px 3px;opacity:0;transition:opacity 0.15s}
+.nav-btn.on .nav-bar{opacity:1}
+
+/* TAG */
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:50px;letter-spacing:0.06em}
+.tag.green{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+.tag.amber{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-border)}
+.tag.red{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border)}
+
+/* EMPTY */
+.empty{text-align:center;padding:32px 16px;color:var(--sub);font-size:13px}
+.empty-icon{font-size:28px;margin-bottom:10px;opacity:0.4}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="brand">
+      <div class="brand-mark">CA</div>
+      <span class="brand-name">Chef Addy</span>
+    </div>
+    <button class="hdr-btn" onclick="openSettings()">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><circle cx="10" cy="10" r="2"/><circle cx="10" cy="3.5" r="1.3"/><circle cx="10" cy="16.5" r="1.3"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ═══════ TAB 0: HOME ═══════ -->
+<div id="tab-0" class="tab active">
+  <p class="eyebrow">Weekend Business</p>
+  <h1 class="pg-title" id="home-title">Good morning,<br><em>Chef Addy.</em></h1>
+  <p class="pg-sub" id="home-sub">Ready to make it count this weekend?</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-lbl">Income</div><div class="stat-num" id="dash-income">GHS 0</div></div>
+    <div class="stat is-spent"><div class="stat-lbl">Costs</div><div class="stat-num" id="dash-costs">GHS 0</div></div>
+    <div class="stat is-profit"><div class="stat-lbl">Profit</div><div class="stat-num" id="dash-profit">GHS 0</div></div>
+  </div>
+
+  <div class="sec-row">
+    <span class="sec-title">Weekend Prep</span>
+    <div style="display:flex;gap:7px">
+      <button class="pill green" onclick="addCheckItem()">+ Add</button>
+      <button class="pill amber" onclick="resetChecklist()">Reset</button>
+    </div>
+  </div>
+  <div id="cl-list"></div>
+  <div class="prog-row">
+    <span class="prog-lbl" id="prog-lbl">0 of 0 done</span>
+    <span class="prog-pct" id="prog-pct">0%</span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<!-- ═══════ TAB 1: PRICE MY DISH ═══════ -->
+<div id="tab-1" class="tab">
+  <h1 class="pg-title">Price My <em>Dish</em></h1>
+  <p class="pg-sub">Set your costs and margin — then tap any tier to explore scenarios.</p>
+
+  <div class="card">
+    <div class="field">
+      <label class="lbl">Dish name</label>
+      <input class="inp" id="p-name" type="text" placeholder="e.g. Waakye with egg">
+    </div>
+    <div class="g2">
+      <div>
+        <label class="lbl">Portions (batch size)</label>
+        <input class="inp" id="p-portions" type="number" value="20" inputmode="numeric">
+      </div>
+      <div>
+        <label class="lbl">Estimate to sell</label>
+        <input class="inp" id="p-sellest" type="number" value="18" inputmode="numeric">
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-row">
+    <span class="sec-title">Your Costs</span>
+    <button class="pill green" onclick="addExpense()">+ Add cost</button>
+  </div>
+  <div class="expense-list" id="expense-list"></div>
+
+  <div class="card" style="margin-top:8px">
+    <div class="range-hd">
+      <span class="range-lbl">Profit margin</span>
+      <span class="range-val" id="margin-val">50%</span>
+    </div>
+    <input type="range" id="margin-slider" min="15" max="80" value="50" step="1">
+    <div class="range-ends"><span>15%</span><span>80%</span></div>
+  </div>
+
+  <button class="btn btn-w" onclick="calcPrice()" style="margin-top:14px">Calculate Price</button>
+
+  <div id="price-result" style="display:none">
+    <div class="result-box">
+      <div class="result-lbl" id="r-lbl">Tier pricing</div>
+
+      <!-- 3 clickable tier cards -->
+      <div class="tier-grid" id="r-tier-grid"></div>
+
+      <!-- Scenario explorer — shown when a tier is tapped -->
+      <div class="scenario-panel" id="scenario-panel">
+        <div class="scenario-hd">
+          <div class="sc-badge"><span id="sc-badge-text">Small · GHS 0</span></div>
+          <div class="sc-close" onclick="closeScenario()">✕</div>
+        </div>
+
+        <div class="pl-display">
+          <div class="pl-label" id="sc-pl-label">Estimated profit</div>
+          <div class="pl-amount profit" id="sc-pl-amount">GHS 0</div>
+          <div class="pl-meta" id="sc-pl-meta"></div>
+        </div>
+
+        <div>
+          <div class="sc-slider-hd">
+            <span class="sc-slider-lbl">Portions sold</span>
+            <div class="sc-qty"><span id="sc-qty-num">0</span> <small>portions</small></div>
+          </div>
+          <input type="range" id="sc-slider" min="1" max="60" value="10" step="1" oninput="updateScenario(+this.value)">
+          <div class="range-ends"><span>1</span><span id="sc-slider-max">60</span></div>
+        </div>
+        <div class="be-marker" id="sc-be-marker"></div>
+
+        <div class="scen-table">
+          <div class="scen-table-hd">
+            <span>Qty sold</span><span>Revenue</span><span>Profit / Loss</span>
+          </div>
+          <div id="sc-table-body"></div>
+        </div>
+      </div>
+
+      <div class="result-ctx" id="r-ctx"></div>
+      <div class="result-pills" id="r-pills"></div>
+      <div class="breakdown" id="r-breakdown"></div>
+      <button class="btn btn-g" id="r-save-btn" style="margin-top:18px">&#9997; Save to history</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB 2: SALES LOG ═══════ -->
+<div id="tab-2" class="tab">
+  <h1 class="pg-title">Sales <em>Log</em></h1>
+  <p class="pg-sub">Record what you sold across all price tiers.</p>
+
+  <div class="sales-summary">
+    <div class="s-sum"><div class="s-sum-lbl">Revenue</div><div class="s-sum-num" id="sl-income" style="color:var(--text)">GHS 0</div></div>
+    <div class="s-sum"><div class="s-sum-lbl">Costs</div><div class="s-sum-num" id="sl-costs" style="color:var(--amber)">GHS 0</div></div>
+    <div class="s-sum"><div class="s-sum-lbl">Profit</div><div class="s-sum-num" id="sl-profit" style="color:var(--green)">GHS 0</div></div>
+  </div>
+
+  <div class="log-form-wrap">
+    <div class="log-form-title">Log a sale</div>
+    <div class="field" style="margin-bottom:14px">
+      <label class="lbl">Dish name</label>
+      <input class="inp sm" id="lg-dish" type="text" placeholder="e.g. Jollof Rice">
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="tier-log-hd"><span>Tier</span><span>Price (GHS)</span><span>Qty sold</span></div>
+      <div class="tier-log-row">
+        <div class="tier-log-name">Small<span>1 scoop</span></div>
+        <input class="inp sm" id="lg-p0" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
+        <input class="inp sm" id="lg-q0" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
+      </div>
+      <div class="tier-log-row">
+        <div class="tier-log-name">Medium<span>2 scoops</span></div>
+        <input class="inp sm" id="lg-p1" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
+        <input class="inp sm" id="lg-q1" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
+      </div>
+      <div class="tier-log-row">
+        <div class="tier-log-name">Large<span>3 scoops</span></div>
+        <input class="inp sm" id="lg-p2" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
+        <input class="inp sm" id="lg-q2" type="number" inputmode="numeric" placeholder="0" oninput="updateLogPreview()">
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:10px">
+      <label class="lbl">Batch costs (GHS)</label>
+      <input class="inp sm" id="lg-costs" type="number" inputmode="decimal" placeholder="0" oninput="updateLogPreview()">
+    </div>
+    <div id="lg-preview" class="log-preview"></div>
+    <button class="btn btn-g" onclick="logSale()">Save Sale</button>
+  </div>
+
+  <div id="sales-list"></div>
+</div>
+
+<!-- ═══════ TAB 3: HISTORY ═══════ -->
+<div id="tab-3" class="tab">
+  <h1 class="pg-title">Price <em>History</em></h1>
+  <p class="pg-sub">All your saved dish calculations.</p>
+  <div id="hist-list"></div>
+</div>
+
+</main>
+
+<!-- BOTTOM NAV — 4 tabs -->
+<nav class="bnav">
+  <div class="bnav-in">
+    <button class="nav-btn on" id="nav-0" onclick="navigate(0)">
+      <div class="nav-bar"></div>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2.5L2 8.5V17a1 1 0 001 1h5v-5h4v5h5a1 1 0 001-1V8.5L10 2.5z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" id="nav-1" onclick="navigate(1)">
+      <div class="nav-bar"></div>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.5 2a.5.5 0 00-1 0v1.07A6.5 6.5 0 0010 3a7 7 0 107 7 .5.5 0 00-1 0 6 6 0 11-5.5-5.972V2zM13 2.5a.5.5 0 011 0v3a.5.5 0 01-.5.5h-3a.5.5 0 010-1H13V2.5z"/><path d="M9.5 7a.5.5 0 01.5.5V10h1.5a.5.5 0 010 1H9.5a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5z"/></svg>
+      <span>Price</span>
+    </button>
+    <button class="nav-btn" id="nav-2" onclick="navigate(2)">
+      <div class="nav-bar"></div>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 00-2 0v1H7V3a1 1 0 00-1-1zm0 5h8v1H6V7zm0 3h8v1H6v-1zm0 3h5v1H6v-1z"/></svg>
+      <span>Sales</span>
+    </button>
+    <button class="nav-btn" id="nav-3" onclick="navigate(3)">
+      <div class="nav-bar"></div>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4h12a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm1 3v1.5h10V7H5zm0 3v1.5h10V10H5zm0 3v1.5h7V13H5z"/></svg>
+      <span>History</span>
+    </button>
+  </div>
+</nav>
+
+<!-- SETTINGS SHEET -->
+<div class="backdrop" id="settings-bd" onclick="if(event.target===this)closeSettings()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Settings</div>
+    <div class="srow" onclick="toggleTheme()">
+      <div class="srow-icon" id="theme-icon">&#9790;</div>
+      <span class="srow-text" id="theme-lbl">Switch to Light Mode</span>
+    </div>
+    <div class="srow" onclick="clearAllData()">
+      <div class="srow-icon" style="color:var(--amber)">&#128465;</div>
+      <span class="srow-text" style="color:var(--amber)">Reset all data</span>
+    </div>
+    <div style="height:1px;background:var(--border);margin:16px 0"></div>
+    <p style="text-align:center;font-size:11px;color:var(--sub);padding:4px 0 12px">Saved locally · Works offline · Private to you</p>
+    <button class="btn btn-ghost" onclick="closeSettings()">Close</button>
+  </div>
+</div>
+
+<script>
+// ═══ STATE ═══
+const DEFAULTS = ["Buy market ingredients","Gas canister full (GHS 300)","Helpers confirmed","Packaging ready","Phone charged for orders","Kitchen cleaned and prepped"];
+let sales=[], history=[], items=[], checked=new Set(), expenses=[];
+let calcState=null, selectedTier=-1;
+const ls=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+// ═══ BOOT ═══
+window.onload=()=>{
+  sales=ls('ca2_sales')||[];
+  history=ls('ca2_history')||[];
+  items=ls('ca2_items')||[...DEFAULTS];
+  checked=new Set(ls('ca2_checked')||[]);
+  expenses=ls('ca2_expenses')||defaultExpenses();
+  const theme=ls('ca2_theme')||'dark';
+  document.body.setAttribute('data-theme',theme);
+  updateThemeUI(theme);
+  setGreeting();
+  renderChecklist();
+  renderExpenseList();
+  refreshDash();
+  document.getElementById('margin-slider').addEventListener('input',e=>{
+    document.getElementById('margin-val').textContent=e.target.value+'%';
+  });
+};
+
+function defaultExpenses(){
+  return [{id:Date.now()+1,name:'Ingredients',amount:450},{id:Date.now()+2,name:'Gas',amount:300},{id:Date.now()+3,name:'Helpers',amount:100}];
 }
-[data-theme="light"] .hdr { background: rgba(247,246,242,0.9); }
-.hdr-in {
-  max-width: 500px; margin: 0 auto;
-  padding: 12px 18px;
-  display: flex; align-items: center; justify-content: space-between;
+
+// ═══ NAVIGATION ═══
+function navigate(t){
+  document.querySelectorAll('.tab').forEach((d,i)=>d.classList.toggle('active',i===t));
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',i===t));
+  if(t===0){refreshDash();renderChecklist();}
+  if(t===2){renderSales();renderSalesTotals();}
+  if(t===3)renderHistory();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-.brand { display: flex; align-items: center; gap: 10px; }
+
+// ═══ GREETING ═══
+function setGreeting(){
+  const h=new Date().getHours();
+  const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('home-title').innerHTML=`${g},<br><em>Chef Addy.</em>`;
+  const subs=['Ready to cook up a great weekend?','Your kitchen, your profit.',"Let's make every plate count.",'Price right. Cook well. Profit more.'];
+  document.getElementById('home-sub').textContent=subs[new Date().getDay()%subs.length];
+}
+
+// ═══ DASHBOARD ═══
+function refreshDash(){
+  const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
+  const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
+  const profit=income-costs;
+  animNum('dash-income',income);
+  animNum('dash-costs',costs);
+  animNum('dash-profit',profit);
+}
+
+function animNum(id,target){
+  const el=document.getElementById(id);
+  const dur=600,t0=performance.now();
+  const step=now=>{
+    const p=Math.min((now-t0)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent='GHS '+Math.round(target*ease);
+    if(p<1)requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+// ═══ CHECKLIST ═══
+function renderChecklist(){
+  const list=document.getElementById('cl-list');
+  list.innerHTML=items.map((item,i)=>{
+    const done=checked.has(i);
+    return `<div class="cl-item${done?' done':''}" id="cl-${i}">
+      <div class="cl-box${done?' on':''}" onclick="toggleCheck(${i})">${done?'✓':''}</div>
+      <span class="cl-text">${item}</span>
+      <span class="cl-del" onclick="delCheckItem(${i})">✕</span>
+    </div>`;
+  }).join('');
+  updateProgress();
+}
+function toggleCheck(i){
+  if(checked.has(i))checked.delete(i);else checked.add(i);
+  save('ca2_checked',[...checked]);renderChecklist();
+}
+function addCheckItem(){
+  const name=prompt('New prep item:');
+  if(!name||!name.trim())return;
+  items.push(name.trim());save('ca2_items',items);renderChecklist();
+}
+function delCheckItem(i){
+  items.splice(i,1);
+  const nc=new Set();
+  checked.forEach(c=>{if(c<i)nc.add(c);else if(c>i)nc.add(c-1)});
+  checked=nc;save('ca2_items',items);save('ca2_checked',[...checked]);renderChecklist();
+}
+function resetChecklist(){
+  if(!confirm('Reset checklist to defaults?'))return;
+  items=[...DEFAULTS];checked=new Set();
+  save('ca2_items',items);save('ca2_checked',[]);renderChecklist();
+}
+function updateProgress(){
+  const total=items.length,done=checked.size;
+  const pct=total?Math.round((done/total)*100):0;
+  document.getElementById('prog-lbl').textContent=`${done} of ${total} done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+
+// ═══ SALES LOG ═══
+function updateLogPreview(){
+  const tiers=[0,1,2].map(i=>({
+    price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,
+    qty:parseFloat(document.getElementById(`lg-q${i}`).value)||0
+  }));
+  const costs=parseFloat(document.getElementById('lg-costs').value)||0;
+  const rev=tiers.reduce((s,t)=>s+t.price*t.qty,0);
+  const prf=rev-costs;
+  const el=document.getElementById('lg-preview');
+  const any=tiers.some(t=>t.price||t.qty)||costs;
+  if(!any){el.classList.remove('show');el.innerHTML='';return;}
+  const pTag=prf>=0
+    ?`<span style="color:var(--green)">+GHS ${fmt(prf)} profit</span>`
+    :`<span style="color:var(--red)">−GHS ${fmt(Math.abs(prf))} loss</span>`;
+  el.innerHTML=`Revenue: <strong style="color:var(--text)">GHS ${fmt(rev)}</strong> · ${pTag}`;
+  el.classList.add('show');
+}
+
+function logSale(){
+  const dish=document.getElementById('lg-dish').value.trim()||'Unnamed Dish';
+  const costs=parseFloat(document.getElementById('lg-costs').value)||0;
+  const LABELS=['Small','Medium','Large'],TAGS=['1 scoop','2 scoops','3 scoops'];
+  const tiers=[0,1,2].map(i=>({
+    label:LABELS[i],tag:TAGS[i],
+    price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,
+    qty:parseFloat(document.getElementById(`lg-q${i}`).value)||0
+  })).filter(t=>t.qty>0);
+  if(!tiers.length){alert('Enter at least one quantity sold.');return;}
+  const revenue=tiers.reduce((s,t)=>s+t.price*t.qty,0);
+  const profit=revenue-costs;
+  sales.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-GB'),dish,costs,revenue,profit,tiers});
+  save('ca2_sales',sales);
+  document.getElementById('lg-dish').value='';
+  document.getElementById('lg-costs').value='';
+  [0,1,2].forEach(i=>{document.getElementById(`lg-p${i}`).value='';document.getElementById(`lg-q${i}`).value='';});
+  const prev=document.getElementById('lg-preview');prev.innerHTML='';prev.classList.remove('show');
+  renderSales();renderSalesTotals();refreshDash();
+}
+
+function deleteSale(id){
+  sales=sales.filter(s=>s.id!==id);save('ca2_sales',sales);
+  renderSales();renderSalesTotals();refreshDash();
+}
+
+function renderSalesTotals(){
+  const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
+  const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
+  const profit=income-costs;
+  document.getElementById('sl-income').textContent='GHS '+fmt(income);
+  document.getElementById('sl-costs').textContent='GHS '+fmt(costs);
+  const pEl=document.getElementById('sl-profit');
+  pEl.textContent='GHS '+fmt(profit);
+  pEl.style.color=profit>=0?'var(--green)':'var(--red)';
+}
+
+function renderSales(){
+  const c=document.getElementById('sales-list');
+  if(!sales.length){
+    c.innerHTML=`<div class="empty"><div class="empty-icon">&#128203;</div>No sales logged yet.<br>Fill in the form above after you cook.</div>`;
+    return;
+  }
+  c.innerHTML=sales.map(s=>{
+    const profitTag=s.profit>=0
+      ?`<span class="tag green">+GHS ${fmt(s.profit)}</span>`
+      :`<span class="tag red">−GHS ${fmt(Math.abs(s.profit))}</span>`;
+    let tierRows='';
+    if(s.tiers&&s.tiers.length){
+      tierRows=s.tiers.map(t=>`<div class="sale-tier-row">
+        <span class="stl">${t.label} (${t.tag||''}) × ${t.qty}</span>
+        <span class="stv">GHS ${fmt(t.price)} = <strong>GHS ${fmt(t.qty*t.price)}</strong></span>
+      </div>`).join('');
+    } else {
+      tierRows=`<div class="sale-tier-row"><span class="stl">${s.portions} portions @ GHS ${fmt(s.pricePerPortion)}</span></div>`;
+    }
+    const totalQty=s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0);
+    return `<div class="sale-card">
+      <div class="sale-top">
+        <div class="sale-dot"></div>
+        <div class="sale-info">
+          <div class="sale-dish">${s.dish}</div>
+          <div class="sale-meta">${s.date} · ${totalQty} portions sold</div>
+        </div>
+        <div class="sale-right">
+          <div class="sale-rev">GHS ${fmt(s.revenue)}</div>
+          <span class="sale-del" onclick="deleteSale(${s.id})">✕</span>
+        </div>
+      </div>
+      <div class="sale-tiers">${tierRows}</div>
+      <div class="sale-footer">
+        <span style="font-size:11px;color:var(--sub)">Costs: GHS ${fmt(s.costs)}</span>
+        ${profitTag}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══ EXPENSES ═══
+function renderExpenseList(){
+  const c=document.getElementById('expense-list');
+  c.innerHTML=expenses.map((e,i)=>`
+    <div class="expense-item">
+      <input class="inp sm name" type="text" placeholder="Cost name" value="${e.name}" oninput="expenses[${i}].name=this.value;saveExpenses()">
+      <input class="inp sm amount" type="number" placeholder="GHS" value="${e.amount||''}" inputmode="numeric" oninput="expenses[${i}].amount=parseFloat(this.value)||0;saveExpenses()">
+      <button class="exp-del" onclick="removeExpense(${i})">✕</button>
+    </div>`).join('');
+}
+function addExpense(){
+  expenses.push({id:Date.now(),name:'',amount:0});saveExpenses();renderExpenseList();
+  const inputs=document.querySelectorAll('.expense-item .name');
+  if(inputs.length)inputs[inputs.length-1].focus();
+}
+function removeExpense(i){expenses.splice(i,1);saveExpenses();renderExpenseList();}
+function saveExpenses(){save('ca2_expenses',expenses);}
+
+// ═══ PRICE CALCULATOR ═══
+function calcPrice(){
+  const name=document.getElementById('p-name').value.trim()||'Untitled Dish';
+  const portions=Math.max(parseFloat(document.getElementById('p-portions').value)||1,1);
+  const sellEst=Math.max(parseFloat(document.getElementById('p-sellest').value)||portions,1);
+  const margin=parseFloat(document.getElementById('margin-slider').value)/100;
+  const totalCost=expenses.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
+  const cps=totalCost/portions; // cost per scoop
+
+  const TIERS=[{label:'Small',scoops:1,tag:'1 scoop'},{label:'Medium',scoops:2,tag:'2 scoops'},{label:'Large',scoops:3,tag:'3 scoops'}];
+  const tierPrices=TIERS.map(t=>({...t,cost:cps*t.scoops,price:Math.ceil(cps*t.scoops/(1-margin))}));
+
+  calcState={totalCost,portions,tierPrices,sellEst,name,margin};
+  selectedTier=-1;
+
+  // Tier grid
+  document.getElementById('r-lbl').textContent=`Tier pricing · ${name}`;
+  document.getElementById('r-tier-grid').innerHTML=tierPrices.map((t,i)=>`
+    <div class="tier${i===1?' hi':''}" id="tc-${i}" onclick="selectTier(${i})">
+      <div class="tier-name">${t.label} <span style="opacity:.4;font-size:7px;text-transform:none;letter-spacing:0">${t.tag}</span></div>
+      <div class="tier-price">GHS ${t.price}</div>
+      <div class="tier-unit">per serving</div>
+      <div class="tier-row">Cost / serving<strong>GHS ${fmt(t.cost)}</strong></div>
+      <div class="tier-tap">Tap to explore ↓</div>
+    </div>`).join('');
+
+  document.getElementById('scenario-panel').classList.remove('show');
+
+  const midProfit=tierPrices[1].price*sellEst-totalCost;
+  document.getElementById('r-ctx').textContent=
+    `${Math.round(margin*100)}% margin · batch of ${portions} · GHS ${fmt(totalCost)} total cost`;
+
+  document.getElementById('r-pills').innerHTML=`
+    <div class="r-pill">Cost/scoop<strong>GHS ${fmt(cps)}</strong></div>
+    <div class="r-pill">Total cost<strong>GHS ${fmt(totalCost)}</strong></div>
+    <div class="r-pill hi">Medium profit est.<strong>GHS ${fmt(midProfit)}</strong></div>`;
+
+  document.getElementById('r-breakdown').innerHTML=
+    expenses.map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('')+
+    `<div class="brow total"><span>Total batch cost</span><span>GHS ${fmt(totalCost)}</span></div>`;
+
+  document.getElementById('r-save-btn').onclick=()=>
+    savePlan(name,portions,sellEst,totalCost,margin,tierPrices,midProfit,[...expenses]);
+
+  document.getElementById('price-result').style.display='block';
+  setTimeout(()=>document.getElementById('price-result').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+}
+
+// ═══ SCENARIO EXPLORER ═══
+function selectTier(idx){
+  if(!calcState)return;
+  selectedTier=idx;
+  [0,1,2].forEach(i=>{
+    const el=document.getElementById(`tc-${i}`);
+    el.classList.remove('selected');
+    if(i!==1)el.classList.remove('hi');
+    if(i===1&&i!==idx)el.classList.add('hi');
+  });
+  document.getElementById(`tc-${idx}`).classList.add('selected');
+
+  const t=calcState.tierPrices[idx];
+  const maxQty=Math.max(calcState.portions*2,Math.ceil(calcState.sellEst*2),40);
+
+  document.getElementById('sc-badge-text').textContent=`${t.label} · GHS ${t.price} / serving`;
+  const slider=document.getElementById('sc-slider');
+  slider.max=maxQty;
+  slider.value=calcState.sellEst;
+  document.getElementById('sc-slider-max').textContent=maxQty;
+
+  document.getElementById('scenario-panel').classList.add('show');
+  updateScenario(calcState.sellEst);
+  setTimeout(()=>document.getElementById('scenario-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+}
+
+function closeScenario(){
+  document.getElementById('scenario-panel').classList.remove('show');
+  selectedTier=-1;
+  [0,1,2].forEach(i=>{
+    const el=document.getElementById(`tc-${i}`);
+    el.classList.remove('selected');
+    if(i===1)el.classList.add('hi');
+  });
+}
+
+function updateScenario(qty){
+  if(!calcState||selectedTier<0)return;
+  qty=Math.round(qty);
+  const t=calcState.tierPrices[selectedTier];
+  const rev=t.price*qty;
+  const prf=rev-calcState.totalCost;
+  const beQty=Math.ceil(calcState.totalCost/t.price);
+  const mPct=rev>0?((prf/rev)*100).toFixed(1):'0';
+
+  document.getElementById('sc-qty-num').textContent=qty;
+
+  // Big P/L
+  const plEl=document.getElementById('sc-pl-amount');
+  const lbEl=document.getElementById('sc-pl-label');
+  const metaEl=document.getElementById('sc-pl-meta');
+
+  if(qty===beQty){
+    plEl.textContent='Break even';plEl.className='pl-amount breakeven';
+    lbEl.textContent='At break-even point';
+    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(rev)}</strong> exactly covers costs`;
+  } else if(prf>0){
+    plEl.textContent=`GHS ${fmt(prf)}`;plEl.className='pl-amount profit';
+    lbEl.textContent='Estimated profit';
+    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(rev)}</strong> · Margin <strong>${mPct}%</strong>`;
+  } else {
+    plEl.textContent=`−GHS ${fmt(Math.abs(prf))}`;plEl.className='pl-amount loss';
+    lbEl.textContent='Estimated loss';
+    metaEl.innerHTML=`Need <strong>${beQty-qty} more</strong> to break even · Revenue <strong>GHS ${fmt(rev)}</strong>`;
+  }
+
+  // Break-even marker
+  const beEl=document.getElementById('sc-be-marker');
+  if(qty<beQty){
+    beEl.textContent=`Need ${beQty} portions to break even`;beEl.className='be-marker bad';
+  } else if(qty===beQty){
+    beEl.textContent=`▲ Exactly at break-even (${beQty} portions)`;beEl.className='be-marker warn';
+  } else {
+    beEl.textContent=`✓ Break-even at ${beQty} portions — you're ${qty-beQty} above it`;beEl.className='be-marker ok';
+  }
+
+  // Scenario table
+  const maxQty=Math.max(calcState.portions*2,Math.ceil(calcState.sellEst*2),40);
+  const step=Math.max(1,Math.floor(maxQty/8));
+  let rows=[];
+  for(let q=step;q<=maxQty;q+=step)rows.push(q);
+  if(!rows.includes(beQty)&&beQty>0&&beQty<=maxQty)rows.push(beQty);
+  if(!rows.includes(qty))rows.push(qty);
+  rows=[...new Set(rows)].sort((a,b)=>a-b);
+
+  document.getElementById('sc-table-body').innerHTML=rows.map(q=>{
+    const rv=t.price*q;
+    const pf=rv-calcState.totalCost;
+    const isCur=q===qty,isBe=q===beQty;
+    let pc;
+    if(Math.abs(pf)<0.01)pc=`<span class="be-cell">Break even</span>`;
+    else if(pf>0)pc=`<span class="profit-cell">+GHS ${fmt(pf)}</span>`;
+    else pc=`<span class="loss-cell">−GHS ${fmt(Math.abs(pf))}</span>`;
+    return `<div class="scen-row${isCur?' is-current':''}${isBe?' is-be':''}">
+      <span>${isCur?'<span class="cur-dot"></span>':''}${q} ptns</span>
+      <span>GHS ${fmt(rv)}</span>${pc}
+    </div>`;
+  }).join('');
+}
+
+// ═══ HISTORY ═══
+function savePlan(name,portions,sellEst,totalCost,margin,tierPrices,profit,expSnap){
+  history.unshift({
+    id:Date.now(),date:new Date().toLocaleDateString('en-GB'),
+    name,portions,sellEst,totalCost,margin,tierPrices,
+    sellPrice:tierPrices[1].price,profit,expenses:expSnap
+  });
+  save('ca2_history',history);
+  navigate(3);
+}
+
+function renderHistory(){
+  const c=document.getElementById('hist-list');
+  if(!history.length){
+    c.innerHTML=`<div class="empty"><div class="empty-icon">&#128202;</div>No saved plans yet.<br>Calculate a price and tap "Save to history".</div>`;
+    return;
+  }
+  c.innerHTML=history.map((h,i)=>{
+    const cpm=h.totalCost/h.portions;
+    const tiers=h.tierPrices||[
+      {label:'Small',scoops:1,tag:'1 scoop',price:Math.ceil(cpm/(1-(h.margin||0.45))),cost:cpm},
+      {label:'Medium',scoops:2,tag:'2 scoops',price:Math.ceil(2*cpm/(1-(h.margin||0.45))),cost:2*cpm},
+      {label:'Large',scoops:3,tag:'3 scoops',price:Math.ceil(3*cpm/(1-(h.margin||0.45))),cost:3*cpm}
+    ];
+    const tHTML=tiers.map((t,ti)=>`
+      <div class="ht${ti===1?' hi':''}">
+        <div class="ht-name">${t.label}</div>
+        <div class="ht-price">GHS ${t.price}</div>
+        <div class="ht-unit">${t.tag||''}</div>
+        <div class="ht-row">Cost<strong>GHS ${fmt(t.cost)}</strong></div>
+      </div>`).join('');
+    const expRows=(h.expenses||[]).map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('');
+    return `<div class="hist-card" id="hc-${i}">
+      <div class="hist-hd" onclick="toggleHist(${i})">
+        <div>
+          <div class="hist-dish">${h.name} · ${h.portions} portions</div>
+          <div class="hist-meta">${h.date} · ${Math.round((h.margin||0)*100)}% margin</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <div style="text-align:right">
+            <div class="hist-cost">GHS ${tiers[0].price}–${tiers[2].price}</div>
+            <div class="hist-meta">S / M / L</div>
+          </div>
+          <span class="hist-chev">&#9660;</span>
+        </div>
+      </div>
+      <div class="hist-body">
+        <div class="htg">${tHTML}</div>
+        <div class="breakdown">
+          ${expRows}
+          <div class="brow total"><span>Total batch cost</span><span>GHS ${fmt(h.totalCost)}</span></div>
+          <div class="brow${h.profit>=0?' profit':' loss'}"><span>Est. profit at medium tier</span><span>${h.profit>=0?'+':'−'}GHS ${fmt(Math.abs(h.profit))}</span></div>
+        </div>
+        <button class="btn btn-ghost sm" onclick="deleteHistory(${h.id})" style="margin-top:12px">Delete plan</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleHist(i){document.getElementById(`hc-${i}`).classList.toggle('open');}
+function deleteHistory(id){history=history.filter(h=>h.id!==id);save('ca2_history',history);renderHistory();}
+
+// ═══ HELPERS ═══
+function fmt(n){
+  if(isNaN(n)||n==null)return'0';
+  const r=Math.round(n*100)/100;
+  return r%1===0?r.toString():r.toFixed(2);
+}
+
+// ═══ SETTINGS ═══
+function openSettings(){document.getElementById('settings-bd').classList.add('show');}
+function closeSettings(){document.getElementById('settings-bd').classList.remove('show');}
+function toggleTheme(){
+  const cur=document.body.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  document.body.setAttribute('data-theme',next);save('ca2_theme',next);updateThemeUI(next);
+}
+function updateThemeUI(theme){
+  document.getElementById('theme-icon').textContent=theme==='dark'?'☀️':'🌙';
+  document.getElementById('theme-lbl').textContent=theme==='dark'?'Switch to Light Mode':'Switch to Dark Mode';
+}
+function clearAllData(){
+  if(!confirm('Delete ALL data and start fresh? This cannot be undone.'))return;
+  localStorage.clear();location.reload();
+}
+</script>
+</body>
+</html>.brand { display: flex; align-items: center; gap: 10px; }
 .brand-mark {
   width: 34px; height: 34px;
   background: var(--green); border-radius: 10px;
