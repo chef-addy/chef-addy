@@ -47,6 +47,7 @@
   --sub: #6a6a6a;
   --dim: #bbb;
 }
+
 /* ══════════════════════════════════════
    RESET & BASE
 ══════════════════════════════════════ */
@@ -66,13 +67,14 @@ body{
 [data-theme="dark"] body{background:#080808}
 
 /* ══════════════════════════════════════
-   TOAST NOTIFICATION (NEW)
+   TOAST NOTIFICATION
 ══════════════════════════════════════ */
 .toast {
   position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
   background: var(--green); color: #000; padding: 12px 24px; border-radius: 50px;
   font-weight: 600; opacity: 0; transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-  z-index: 9999; font-size: 14px; box-shadow: 0 4px 20px var(--g-glow);
+  z-index: 9999;
+  font-size: 14px; box-shadow: 0 4px 20px var(--g-glow);
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -143,7 +145,8 @@ body{
 /* ══════════════════════════════════════
    STAT CARDS
 ══════════════════════════════════════ */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:20px}
+.sales-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px}
 .stat{
   background:var(--s1);
   border:1px solid var(--bd);border-radius:var(--r);
@@ -159,6 +162,9 @@ body{
 .stat.is-profit .stat-num{color:var(--green)}
 .stat.is-spent .stat-lbl{color:var(--amber)}
 .stat.is-spent .stat-num{color:var(--amber)}
+.stat.is-loss{border-color:rgba(255,71,87,0.15)}
+.stat.is-loss .stat-lbl{color:var(--red)}
+.stat.is-loss .stat-num{color:var(--red)}
 
 /* ══════════════════════════════════════
    FORM ELEMENTS
@@ -294,7 +300,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .tier-row strong{display:block;font-family:'Fraunces',serif;font-size:12px;font-weight:700;color:var(--text)}
 
 /* ══════════════════════════════════════
-   WHAT IF? PANEL (Now in a Bottom Sheet)
+   WHAT IF? PANEL
 ══════════════════════════════════════ */
 .scenario-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .sc-badge{
@@ -444,7 +450,6 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   display:none;
 }
 .log-preview.show{display:flex;justify-content:space-between;align-items:center;animation:tabUp 0.2s both}
-.sales-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px}
 .s-sum{
   background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
   padding:13px 10px 15px;text-align:center;
@@ -567,7 +572,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 </head>
 <body data-theme="dark">
 
-<div id="toast" class="toast">Sale recorded!</div>
+<div id="toast" class="toast">Entry logged successfully!</div>
 
 <header class="hdr">
   <div class="hdr-in">
@@ -591,6 +596,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   <p class="eyebrow">Weekend Business</p>
   <h1 class="pg-title" id="home-title">Good morning,<br><em>Tasalla.</em></h1>
   <p class="pg-sub" id="home-sub">Ready to make it count this weekend?</p>
+  
   <div class="stats">
     <div class="stat">
       <div class="stat-lbl">Earned</div>
@@ -601,10 +607,15 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
       <div class="stat-num" id="dash-costs">GHS 0</div>
     </div>
     <div class="stat is-profit">
-      <div class="stat-lbl">Profit</div>
+      <div class="stat-lbl">Net Profit</div>
       <div class="stat-num" id="dash-profit">GHS 0</div>
     </div>
+    <div class="stat is-loss">
+      <div class="stat-lbl">Total Loss</div>
+      <div class="stat-num" id="dash-loss">GHS 0</div>
+    </div>
   </div>
+
   <div class="sec-row">
     <span class="sec-title">Prep Checklist</span>
     <div style="display:flex;gap:7px">
@@ -675,26 +686,21 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 <div id="tab-2" class="tab">
   <h1 class="pg-title">Record <em>Sales</em></h1>
   <p class="pg-sub">Tap + to count each portion sold. That's it.</p>
+  
   <div class="sales-summary">
-    <div class="s-sum">
-      <div class="s-sum-lbl">Earned</div>
-      <div class="s-sum-num" id="sl-income">GHS 0</div>
-    </div>
-    <div class="s-sum">
-      <div class="s-sum-lbl">Spent</div>
-      <div class="s-sum-num" id="sl-costs" style="color:var(--amber)">GHS 0</div>
-    </div>
-    <div class="s-sum">
-      <div class="s-sum-lbl">Profit</div>
-      <div class="s-sum-num" id="sl-profit" style="color:var(--green)">GHS 0</div>
-    </div>
+    <div class="s-sum"><div class="s-sum-lbl">Earned</div><div class="s-sum-num" id="sl-income">GHS 0</div></div>
+    <div class="s-sum"><div class="s-sum-lbl">Spent</div><div class="s-sum-num" id="sl-costs" style="color:var(--amber)">GHS 0</div></div>
+    <div class="s-sum"><div class="s-sum-lbl">Net Profit</div><div class="s-sum-num" id="sl-profit" style="color:var(--green)">GHS 0</div></div>
+    <div class="s-sum"><div class="s-sum-lbl">Losses</div><div class="s-sum-num" id="sl-loss" style="color:var(--red)">GHS 0</div></div>
   </div>
+
   <div class="log-form-wrap">
     <div class="log-form-title">Log a Sale</div>
     <div class="field" style="margin-bottom:14px">
       <label class="lbl">What did you cook?</label>
       <input class="inp sm" id="lg-dish" type="text" placeholder="e.g. Jollof Rice">
     </div>
+    
     <div class="qt-grid">
       <div class="qt-row" id="qt-row-0">
         <div class="qt-label"><div class="qt-label-name">Small</div></div>
@@ -733,17 +739,24 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
         </div>
       </div>
     </div>
+    
+    <div class="field" style="margin-bottom:12px; margin-top:8px;">
+      <label class="lbl">Unsold / Wasted Portions <span style="font-size:9px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(Calculates 100% loss)</span></label>
+      <input class="inp sm" id="lg-waste" type="number" inputmode="numeric" placeholder="Number of unsold portions" oninput="updateLogPreview()">
+    </div>
+
     <div class="field" style="margin-bottom:12px">
       <label class="lbl">Extra Costs <span style="font-size:9px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(leave blank — auto-calculates from last price run)</span></label>
       <input class="inp sm" id="lg-costs" type="number" inputmode="decimal" placeholder="GHS 0 — auto" oninput="updateLogPreview()">
     </div>
+    
     <div id="lg-preview" class="log-preview">
       <span id="lg-prev-rev">Revenue: GHS 0</span>
       <span id="lg-prev-prf" style="font-weight:600"></span>
     </div>
-    <button class="btn btn-g" onclick="logSale()">Record This Sale</button>
+    <button class="btn btn-g" onclick="logSale()">Record This Entry</button>
   </div>
-  </div>
+</div>
 
 <div id="tab-3" class="tab">
   <h1 class="pg-title">Your <em>Ledger</em></h1>
@@ -883,7 +896,6 @@ let calcState=null;
 const lgQty=[0,0,0];
 let currentBaseCOGS=0;
 const TIER_MULTS=[1,1.6,2.2];
-
 const ls=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const fmt=n=>{if(isNaN(n)||n==null)return'0';const r=Math.round(n*100)/100;return r%1===0?r.toString():r.toFixed(2)};
@@ -923,7 +935,7 @@ function navigate(t){
   document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',i===t));
   if(t===0){refreshDash();renderChecklist();}
   if(t===2){renderSalesTotals();prefillSalePrices();}
-  if(t===3){renderSales();renderHistory();} // Ensure Ledger data is fresh
+  if(t===3){renderSales();renderHistory();} 
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -941,22 +953,31 @@ function setGreeting(){
   const subs=['Ready to cook up a great weekend?','Your kitchen, your profit.',"Let's make every plate count.",'Price right. Cook well. Profit more.','Every portion counts — let\'s go.'];
   document.getElementById('home-sub').textContent=subs[new Date().getDay()%subs.length];
 }
+
+// === UPDATED DASHBOARD LOGIC (PROFIT VS LOSS) ===
 function refreshDash(){
   const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
   const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
-  const profit=income-costs;
+  const netProfit=income-costs;
+  const totalLosses=sales.reduce((s,x)=>x.profit<0 ? s+Math.abs(x.profit) : s, 0);
+
   animNum('dash-income',income);
   animNum('dash-costs',costs);
-  animNum('dash-profit',profit);
-  const ps=document.querySelector('.stat.is-profit');
+  animNum('dash-profit',netProfit);
+  if(document.getElementById('dash-loss')) animNum('dash-loss',totalLosses);
+
+  const ps=document.querySelector('.stat.is-profit') || document.querySelector('.stat.is-loss');
   if(ps){
-    ps.style.borderColor=profit>0?'rgba(29,245,138,0.25)':profit<0?'rgba(255,71,87,0.2)':'';
-    ps.querySelector('.stat-num').style.color=profit<0?'var(--red)':'var(--green)';
-    ps.querySelector('.stat-lbl').style.color=profit<0?'var(--red)':'var(--green)';
+    // Dynamically change styling based on overall net health
+    ps.className = netProfit >= 0 ? 'stat is-profit' : 'stat is-loss';
+    ps.querySelector('.stat-num').style.color=netProfit<0?'var(--red)':'var(--green)';
+    ps.querySelector('.stat-lbl').style.color=netProfit<0?'var(--red)':'var(--green)';
   }
 }
+
 function animNum(id,target){
   const el=document.getElementById(id);
+  if(!el) return;
   const dur=650,t0=performance.now();
   const step=now=>{
     const p=Math.min((now-t0)/dur,1);
@@ -966,6 +987,7 @@ function animNum(id,target){
   };
   requestAnimationFrame(step);
 }
+
 function renderChecklist(){
   const list=document.getElementById('cl-list');
   list.innerHTML=items.map((item,i)=>{
@@ -1070,11 +1092,9 @@ function setupExpenseDrag(){
 function calcPrice(){
   const name=document.getElementById('p-name').value.trim()||'Untitled Dish';
   const portions=Math.max(parseFloat(document.getElementById('p-portions').value)||1,1);
-  
-  // FIX: Clamp expected sales so it never exceeds batch size
   let inputSellEst = parseFloat(document.getElementById('p-sellest').value) || portions;
   const sellEst = Math.min(Math.max(inputSellEst, 1), portions); 
-  document.getElementById('p-sellest').value = sellEst; // Update UI to clamped value
+  document.getElementById('p-sellest').value = sellEst;
 
   const margin=parseFloat(document.getElementById('margin-slider').value)/100;
   const totalCost=expenses.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
@@ -1094,7 +1114,6 @@ function calcPrice(){
   currentBaseCOGS=cpp;
   save('ca2_cogs',currentBaseCOGS);
   calcState={totalCost,portions,tierPrices,sellEst,name,margin};
-
   document.getElementById('r-lbl').textContent=`Your Prices · ${name}`;
   document.getElementById('r-tier-grid').innerHTML=tierPrices.map((t,i)=>`
     <div class="tier${i===1?' hi':''}">
@@ -1102,7 +1121,6 @@ function calcPrice(){
       <div class="tier-price">GHS ${t.price}</div>
       <div class="tier-unit">cost GHS ${fmt(t.cost)}</div>
     </div>`).join('');
-
   const midProfit=tierPrices[1].price*sellEst-totalCost;
   document.getElementById('r-ctx').textContent=`${Math.round(margin*100)}% margin · batch of ${portions} · GHS ${fmt(totalCost)} total cost`;
   document.getElementById('r-pills').innerHTML=`
@@ -1113,7 +1131,6 @@ function calcPrice(){
   document.getElementById('r-breakdown').innerHTML=
     expenses.map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('')+
     `<div class="brow total"><span>Total batch cost</span><span>GHS ${fmt(totalCost)}</span></div>`;
-  
   document.getElementById('r-save-btn').onclick=()=>
     savePlan(name,portions,sellEst,totalCost,margin,tierPrices,midProfit,[...expenses]);
 
@@ -1133,15 +1150,13 @@ function openWhatIf() {
   
   const maxQty = calcState.portions;
   const seed = calcState.sellEst;
-  
   calcState.tierPrices.forEach((t, i) => {
       document.getElementById(`sc-tp-${i}`).textContent = `GHS ${t.price} / serving`;
       const sl = document.getElementById(`sc-slider-${i}`);
       sl.max = maxQty;
       document.getElementById(`sc-max-${i}`).textContent = `${maxQty} (batch max)`;
-      sl.value = (i === 1) ? seed : 0; // Default scenario puts all est sales in Medium
+      sl.value = (i === 1) ? seed : 0; 
   });
-  
   [0, 1, 2].forEach(i => fillSlider(document.getElementById(`sc-slider-${i}`)));
   updateMultiScenario();
 }
@@ -1181,7 +1196,6 @@ function updateMultiScenario(){
     document.getElementById(`sc-max-${i}`).textContent=
       leftover<=0?'Batch full':remaining===batchMax?`${batchMax} (batch max)`:`${remaining} left`;
   });
-  
   const tiers=calcState.tierPrices;
   let totalRev=0;
   qtys.forEach((q,i)=>{
@@ -1192,7 +1206,6 @@ function updateMultiScenario(){
     const rowCls=['active-s','active-m','active-l'];
     document.getElementById(`sc-row-${i}`).classList.toggle(rowCls[i],q>0);
   });
-  
   const totalQty=qtys.reduce((a,b)=>a+b,0);
   const prf=totalRev-calcState.totalCost;
   const mPct=totalRev>0?((prf/totalRev)*100).toFixed(1):'0';
@@ -1202,7 +1215,6 @@ function updateMultiScenario(){
   const beRemaining=calcState.totalCost-totalRev;
   const hFill=document.getElementById('health-fill');
   const hLabel=document.getElementById('health-label');
-  
   if(totalQty===0){
     hFill.style.width='0%';hFill.style.background='var(--dim)';
     hLabel.textContent='No portions set yet';
@@ -1262,7 +1274,7 @@ function updateMultiScenario(){
 }
 
 // ══════════════════════════════════════
-// RECORD SALES & LEDGER
+// RECORD SALES & LEDGER (UPDATED LOGIC)
 // ══════════════════════════════════════
 function stepQty(tier,delta){
   lgQty[tier]=Math.max(0,lgQty[tier]+delta);
@@ -1280,12 +1292,22 @@ function updateLogPreview(){
     cogsFraction:TIER_MULTS[i]*currentBaseCOGS*lgQty[i]
   }));
   const manualCosts=parseFloat(document.getElementById('lg-costs').value)||0;
+  const wasteQty=parseInt(document.getElementById('lg-waste').value)||0;
+  
+  // Calculate the cost of the wasted/unsold food
+  const wasteCost = wasteQty * currentBaseCOGS;
+  
   const rev=tiers.reduce((s,t)=>s+t.price*t.qty,0);
-  const allocatedCost=manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0);
+  // Add wasteCost to the total allocated cost
+  const allocatedCost=(manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0)) + wasteCost;
+  
   const prf=rev-allocatedCost;
   const el=document.getElementById('lg-preview');
-  const any=tiers.some(t=>t.price>0||t.qty>0)||manualCosts>0;
+  
+  // Check if there's any valid input across any of the fields to show preview
+  const any=tiers.some(t=>t.price>0||t.qty>0)||manualCosts>0||wasteQty>0;
   if(!any){el.classList.remove('show');return;}
+  
   document.getElementById('lg-prev-rev').textContent=`Revenue: GHS ${fmt(rev)}`;
   const pEl=document.getElementById('lg-prev-prf');
   if(prf>=0){pEl.textContent=`+GHS ${fmt(prf)} profit`;pEl.style.color='var(--green)';}
@@ -1304,6 +1326,9 @@ function prefillSalePrices(){
 function logSale(){
   const dish=document.getElementById('lg-dish').value.trim()||'Unnamed Dish';
   const manualCosts=parseFloat(document.getElementById('lg-costs').value)||0;
+  const wasteQty=parseInt(document.getElementById('lg-waste').value)||0;
+  const wasteCost=wasteQty * currentBaseCOGS;
+
   const LABELS=['Small','Medium','Large'];
   const tiers=[0,1,2].map(i=>({
     label:LABELS[i],
@@ -1311,18 +1336,21 @@ function logSale(){
     qty:lgQty[i],
     cogsFraction:TIER_MULTS[i]*currentBaseCOGS*lgQty[i]
   })).filter(t=>t.qty>0);
-  
-  if(!tiers.length){alert('Add at least one portion sold.');return;}
+
+  if(!tiers.length && wasteQty === 0 && manualCosts === 0){alert('Add portions sold or waste.');return;}
   
   const revenue=tiers.reduce((s,t)=>s+t.price*t.qty,0);
-  const allocatedCost=manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0);
+  const allocatedCost=(manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0)) + wasteCost;
   const profit=revenue-allocatedCost;
   
-  sales.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-GB'),dish,costs:allocatedCost,revenue,profit,tiers});
+  // Include waste details in the history object
+  sales.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-GB'),dish,costs:allocatedCost,revenue,profit,tiers,wasteQty,wasteCost});
   save('ca2_sales',sales);
   
+  // Reset form
   document.getElementById('lg-dish').value='';
   document.getElementById('lg-costs').value='';
+  document.getElementById('lg-waste').value='';
   [0,1,2].forEach(i=>{
     document.getElementById(`lg-p${i}`).value='';
     lgQty[i]=0;
@@ -1330,12 +1358,9 @@ function logSale(){
     document.getElementById(`lg-q${i}-disp`).className='qt-count';
     document.getElementById(`qt-row-${i}`).classList.remove('active');
   });
-  
   document.getElementById('lg-preview').classList.remove('show');
   
-  // Show clean success toast instead of long history list here
-  showToast('Sale logged successfully!');
-  
+  showToast('Entry logged successfully!');
   renderSales();
   renderSalesTotals();
   refreshDash();
@@ -1349,12 +1374,16 @@ function deleteSale(id){
 function renderSalesTotals(){
   const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
   const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
-  const profit=income-costs;
+  const netProfit=income-costs;
+  const totalLosses=sales.reduce((s,x)=>x.profit<0 ? s+Math.abs(x.profit) : s, 0);
+
   document.getElementById('sl-income').textContent='GHS '+fmt(income);
   document.getElementById('sl-costs').textContent='GHS '+fmt(costs);
+  document.getElementById('sl-loss').textContent='GHS '+fmt(totalLosses);
+  
   const pEl=document.getElementById('sl-profit');
-  pEl.textContent='GHS '+fmt(profit);
-  pEl.style.color=profit>=0?'var(--green)':'var(--red)';
+  pEl.textContent='GHS '+fmt(netProfit);
+  pEl.style.color=netProfit>=0?'var(--green)':'var(--red)';
 }
 
 function renderSales(){
@@ -1373,16 +1402,26 @@ function renderSales(){
         <span class="stl">${t.label} × ${t.qty}</span>
         <span class="stv">GHS ${fmt(t.price)} = <strong>GHS ${fmt(t.qty*t.price)}</strong></span>
       </div>`).join('');
-    } else {
+    } else if(s.portions) {
       tierRows=`<div class="sale-tier-row"><span class="stl">${s.portions} portions @ GHS ${fmt(s.pricePerPortion)}</span></div>`;
     }
-    const totalQty=s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0);
+
+    // NEW: Render explicit waste row
+    if(s.wasteQty > 0) {
+      tierRows += `<div class="sale-tier-row" style="margin-top:4px; padding-top:4px; border-top:1px dashed var(--bd)">
+        <span class="stl" style="color:var(--red)">Unsold / Waste × ${s.wasteQty}</span>
+        <span class="stv" style="color:var(--red)">Loss of <strong>GHS ${fmt(s.wasteCost)}</strong></span>
+      </div>`;
+    }
+
+    const totalQty=(s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0)) + (s.wasteQty||0);
+ 
     return`<div class="sale-card">
       <div class="sale-top">
         <div class="sale-dot"></div>
         <div class="sale-info">
           <div class="sale-dish">${s.dish}</div>
-          <div class="sale-meta">${s.date} · ${totalQty} portions sold</div>
+          <div class="sale-meta">${s.date} · ${totalQty} logged units</div>
         </div>
         <div class="sale-right">
           <div class="sale-rev">GHS ${fmt(s.revenue)}</div>
@@ -1408,7 +1447,8 @@ function switchLedger(tab) {
   const conP = document.getElementById('saved-plans-container');
   
   if (tab === 'sales') {
-      btnS.style.background = 'var(--s3)'; btnS.style.color = 'var(--text)';
+      btnS.style.background = 'var(--s3)';
+      btnS.style.color = 'var(--text)';
       btnP.style.background = 'transparent'; btnP.style.color = 'var(--sub)';
       conS.style.display = 'block'; conP.style.display = 'none';
       renderSales();
@@ -1432,7 +1472,6 @@ function savePlan(name,portions,sellEst,totalCost,margin,tierPrices,profit,expSn
   save('ca2_history',history);
   
   showToast('Plan saved to Ledger!');
-  // Update ledger but don't force jump
   renderHistory();
 }
 
