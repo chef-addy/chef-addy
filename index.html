@@ -517,8 +517,18 @@ input[type="range"]::-webkit-slider-thumb:active{
 }
 .cl-box.on{background:var(--green);border-color:var(--green);box-shadow:0 0 10px var(--g-glow)}
 .cl-text{flex:1;font-size:14px}
-.cl-del{color:var(--dim);opacity:0.4;cursor:pointer;font-size:12px;padding:4px;transition:opacity 0.2s}
-.cl-del:active{opacity:1;color:var(--red)}
+.cl-del{
+  width:26px;height:26px;min-width:26px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  background:rgba(255,71,87,0.12);
+  border:1px solid rgba(255,71,87,0.3);
+  color:var(--red);
+  cursor:pointer;font-size:13px;font-weight:700;
+  transition:background 0.15s,transform 0.1s,box-shadow 0.15s;
+  flex-shrink:0;
+}
+.cl-del:active{background:rgba(255,71,87,0.28);transform:scale(0.85);box-shadow:0 0 8px rgba(255,71,87,0.3)}
 .prog-row{display:flex;justify-content:space-between;margin:12px 0 6px;font-size:11px}
 .prog-lbl{color:var(--sub)}.prog-pct{font-weight:600;color:var(--green)}
 .prog-track{height:4px;background:var(--s2);border-radius:2px;overflow:hidden}
@@ -688,6 +698,13 @@ input[type="range"]::-webkit-slider-thumb:active{
 .sale-st strong{font-weight:600}
 /* ── BREAK-EVEN IN PREVIEW ── */
 .be-needed{font-size:10px;color:var(--amber);text-align:right;margin-top:2px}
+/* ── HISTORY SALE CARDS ── */
+.hist-sale-card{
+  background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
+  padding:14px 15px;margin-bottom:8px;animation:tabUp 0.25s both;
+  transition:border-color 0.2s;
+}
+[data-theme="light"] .hist-sale-card{background:var(--s-solid)}
 /* ── CLEAR FORM LINK ── */
 .btn-clear{width:100%;background:none;border:none;color:var(--dim);font-size:12px;padding:10px;cursor:pointer;transition:color 0.15s;font-family:'DM Sans',sans-serif}
 .btn-clear:active{color:var(--red)}
@@ -1007,16 +1024,30 @@ input[type="range"]::-webkit-slider-thumb:active{
       </div>
     </div>
 
-    <!-- Batch cost — unified math model -->
-    <div class="batch-cost-wrap">
-      <label class="lbl">What did this batch cost you? <span class="lbl-sub">ingredients, gas & helpers</span></label>
-      <input class="inp sm" id="lg-batch-cost" type="number" inputmode="decimal" placeholder="GHS 0" oninput="updateLogPreview()">
+    <!-- Batch cost is auto-filled from your plan — no need to re-enter -->
+    <div id="lg-batch-cost-hidden" style="display:none">
+      <input id="lg-batch-cost" type="number">
+    </div>
+
+    <!-- Batch cost smart display -->
+    <div id="lg-batch-display" class="batch-cost-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="lbl" style="margin-bottom:0" id="lg-batch-lbl">Batch Cost <span class="lbl-sub">from your plan</span></span>
+        <span id="lg-batch-display-val" style="font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:var(--amber)">—</span>
+      </div>
       <div id="lg-batch-variance" class="batch-variance neutral"></div>
+      <!-- Manual override shown only when no plan loaded -->
+      <input class="inp sm" id="lg-batch-cost-manual" type="number" inputmode="decimal" placeholder="GHS 0 (enter manually)" style="margin-top:10px;display:none" oninput="onManualBatchCost()">
     </div>
 
     <div class="field" style="margin-bottom:12px">
       <label class="lbl">Any extra costs today? <span class="lbl-sub">delivery, fuel, packaging</span></label>
       <input class="inp sm" id="lg-costs" type="number" inputmode="decimal" placeholder="GHS 0" oninput="updateLogPreview()">
+    </div>
+
+    <div class="field" style="margin-bottom:12px">
+      <label class="lbl">Notes <span class="lbl-sub">optional — event, observations…</span></label>
+      <input class="inp sm" id="lg-notes" type="text" placeholder="e.g. Church event, ran out at 3pm…">
     </div>
 
     <div id="lg-preview" class="log-preview">
@@ -1036,7 +1067,18 @@ input[type="range"]::-webkit-slider-thumb:active{
 
 <div id="tab-3" class="tab">
   <h1 class="pg-title">Price <em>History</em></h1>
-  <p class="pg-sub">All your saved dish calculations, at a glance.</p>
+  <p class="pg-sub">Saved plans and all recorded sales in one place.</p>
+
+  <!-- Sales Log History -->
+  <div class="sec-row" style="margin-top:10px">
+    <span class="sec-title">Sales Log</span>
+    <button class="pill" id="sl-undo-btn" onclick="undoLastSale()" style="display:none;color:var(--amber);border-color:var(--a-bd);background:var(--a-dim)">↩ Undo Last</button>
+  </div>
+  <div id="hist-sales-list"></div>
+
+  <div class="sec-row">
+    <span class="sec-title">Price Plans</span>
+  </div>
   <div id="hist-list"></div>
 </div>
 
@@ -1139,8 +1181,74 @@ function navigate(t){
   document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',i===t));
   if(t===0){refreshDash();renderChecklist();}
   if(t===2){renderSales();renderSalesTotals();prefillSalePrices();}
-  if(t===3)renderHistory();
+  if(t===3){renderHistory();renderHistSales();}
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════
+// SALES LOG IN HISTORY
+// ══════════════════════════════════════
+function renderHistSales(){
+  const c=document.getElementById('hist-sales-list');if(!c)return;
+  updateUndoBtn();
+  if(!sales.length){c.innerHTML=`<div class="empty"><div class="empty-icon">🧾</div>No sales recorded yet.</div>`;return;}
+  c.innerHTML=sales.map(s=>{
+    const profitTag=s.profit>=0
+      ?`<span class="tag green">+GHS ${fmt(s.profit)}</span>`
+      :`<span class="tag red">−GHS ${fmt(Math.abs(s.profit))}</span>`;
+    const soldQty=s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0);
+    const tiersStr=s.tiers&&s.tiers.length?s.tiers.map(t=>`${t.label} ×${t.qty} @ GHS${t.price}`).join(' · '):'';
+    const noteLine=s.notes?`<div style="font-size:11px;color:var(--sub);margin-top:3px;font-style:italic">"${s.notes}"</div>`:'';
+    return`<div class="hist-sale-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:14px">${s.dish}</div>
+          <div style="font-size:11px;color:var(--sub);margin-top:2px">${s.date} · ${soldQty} portions sold</div>
+          ${tiersStr?`<div style="font-size:11px;color:var(--dim);margin-top:2px">${tiersStr}</div>`:''}
+          ${noteLine}
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'Fraunces',serif;font-weight:700;font-size:16px;color:var(--green)">GHS ${fmt(s.revenue)}</div>
+          ${profitTag}
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);display:flex;justify-content:space-between">
+        <span>Batch cost: GHS ${fmt(s.batchCost||s.costs)}</span>
+        ${s.extraCosts>0?`<span style="color:var(--amber)">+GHS ${fmt(s.extraCosts)} extra</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateUndoBtn(){
+  const btn=document.getElementById('sl-undo-btn');
+  if(!btn)return;
+  btn.style.display=sales.length?'inline-flex':'none';
+}
+
+function undoLastSale(){
+  if(!sales.length)return;
+  undoBuffer={sale:sales[0],idx:0};
+  sales.shift();
+  save('ca2_sales',sales);
+  renderSales();renderSalesTotals();refreshDash();renderHistSales();
+  if(undoTimer)clearTimeout(undoTimer);
+  showUndoToast('Last sale removed',()=>{
+    if(!undoBuffer)return;
+    sales.unshift(undoBuffer.sale);
+    undoBuffer=null;
+    save('ca2_sales',sales);
+    renderSales();renderSalesTotals();refreshDash();renderHistSales();
+    showToast('Sale restored ✓');
+  });
+  undoTimer=setTimeout(()=>{undoBuffer=null;},5100);
+}
+
+function onManualBatchCost(){
+  const el=document.getElementById('lg-batch-cost-manual');
+  const bc=document.getElementById('lg-batch-cost');
+  if(el&&bc)bc.value=el.value;
+  updateLogPreview();
 }
 
 // ══════════════════════════════════════
@@ -1483,7 +1591,8 @@ function updateBatchHint(){
 function updateLogPreview(){
   const rev=[0,1,2].reduce((s,t)=>s+(parseFloat(document.getElementById(`lg-p${t}`).value)||0)*getQty(t),0);
   // UNIFIED MATH: profit = revenue − batchCost − extraCosts
-  const batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  let batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  if(!batchCost){const m=document.getElementById('lg-batch-cost-manual');batchCost=parseFloat(m&&m.value)||0;}
   const extraCosts=parseFloat(document.getElementById('lg-costs').value)||0;
   const totalCost=batchCost+extraCosts;
   const prf=rev-totalCost;
@@ -1516,15 +1625,27 @@ function updateBatchVariance(entered){
 }
 
 function prefillSalePrices(){
-  if(!calcState)return;
-  calcState.tierPrices.forEach((t,i)=>{
+  const bc=document.getElementById('lg-batch-cost');
+  const dispEl=document.getElementById('lg-batch-display-val');
+  const lblEl=document.getElementById('lg-batch-lbl');
+  const manualInp=document.getElementById('lg-batch-cost-manual');
+  if(calcState){
+    if(bc&&!bc.value)bc.value=calcState.totalCost;
+    if(dispEl)dispEl.textContent=`GHS ${fmt(calcState.totalCost)}`;
+    if(lblEl)lblEl.innerHTML=`Batch Cost <span class="lbl-sub">from your plan</span>`;
+    if(manualInp)manualInp.style.display='none';
+    updateBatchVariance(calcState.totalCost);
+  } else {
+    // No plan — let user type
+    const stored=parseFloat(bc&&bc.value)||0;
+    if(dispEl)dispEl.textContent='No plan loaded';
+    if(lblEl)lblEl.innerHTML=`Batch Cost <span class="lbl-sub">enter manually</span>`;
+    if(manualInp)manualInp.style.display='block';
+  }
+  calcState&&calcState.tierPrices.forEach((t,i)=>{
     const inp=document.getElementById(`lg-p${i}`);
     if(inp&&!inp.value)inp.value=t.price;
   });
-  // Pre-fill batch cost with planned batch cost
-  const bc=document.getElementById('lg-batch-cost');
-  if(bc&&!bc.value)bc.value=calcState.totalCost;
-  updateBatchVariance(calcState.totalCost);
   updateBatchHint();
 }
 
@@ -1532,8 +1653,14 @@ function logSale(){
   const dish=document.getElementById('lg-dish').value.trim()||'Unnamed Dish';
   const LABELS=['Small','Medium','Large'];
   const tiers=[0,1,2].map(i=>({label:LABELS[i],price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,qty:getQty(i)})).filter(t=>t.qty>0);
-  const batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  // Batch cost: use calcState if available, else manual input
+  let batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  if(!calcState||!batchCost){
+    const manualEl=document.getElementById('lg-batch-cost-manual');
+    batchCost=parseFloat(manualEl&&manualEl.value)||0;
+  }
   const extraCosts=parseFloat(document.getElementById('lg-costs').value)||0;
+  const notes=document.getElementById('lg-notes')&&document.getElementById('lg-notes').value.trim()||'';
   if(!tiers.length&&!batchCost){alert('Add portions sold and your batch cost first.');return;}
   const revenue=tiers.reduce((s,t)=>s+t.price*t.qty,0);
   const totalCosts=batchCost+extraCosts;
@@ -1544,19 +1671,22 @@ function logSale(){
   sales.unshift({
     id:Date.now(),date:new Date().toLocaleDateString('en-GB'),
     dish,batchCost,extraCosts,costs:totalCosts,revenue,profit,
-    tiers,wasteQty:lgWaste,soldTotal,batchSize,stPct
+    tiers,wasteQty:lgWaste,soldTotal,batchSize,stPct,notes
   });
   save('ca2_sales',sales);
   clearSaleForm();
   showToast('Sale recorded ✓');
   renderSales();renderSalesTotals();refreshDash();
+  updateUndoBtn();
 }
 
 function clearSaleForm(){
   document.getElementById('lg-dish').value='';
-  document.getElementById('lg-batch-cost').value='';
+  const bc=document.getElementById('lg-batch-cost');if(bc)bc.value='';
+  const manualEl=document.getElementById('lg-batch-cost-manual');if(manualEl)manualEl.value='';
+  const notesEl=document.getElementById('lg-notes');if(notesEl)notesEl.value='';
   document.getElementById('lg-costs').value='';
-  document.getElementById('lg-batch-variance').textContent='';
+  const varEl=document.getElementById('lg-batch-variance');if(varEl)varEl.textContent='';
   [0,1,2].forEach(i=>{
     document.getElementById(`lg-p${i}`).value='';
     const inp=document.getElementById(`lg-q${i}-disp`);
@@ -1576,14 +1706,14 @@ function deleteSale(id){
   undoBuffer={sale:sales[idx],idx};
   sales.splice(idx,1);
   save('ca2_sales',sales);
-  renderSales();renderSalesTotals();refreshDash();
+  renderSales();renderSalesTotals();refreshDash();renderHistSales();
   if(undoTimer)clearTimeout(undoTimer);
   showUndoToast('Sale removed',()=>{
     if(!undoBuffer)return;
     sales.splice(undoBuffer.idx,0,undoBuffer.sale);
     undoBuffer=null;
     save('ca2_sales',sales);
-    renderSales();renderSalesTotals();refreshDash();
+    renderSales();renderSalesTotals();refreshDash();renderHistSales();
     showToast('Sale restored ✓');
   });
   undoTimer=setTimeout(()=>{undoBuffer=null;},5100);
@@ -1637,6 +1767,7 @@ function renderSales(){
           <div class="sale-dish">${s.dish}</div>
           <div class="sale-meta">${s.date} · ${soldQty} portions sold${batchNote}</div>
           ${s.stPct!=null?`<div class="sale-st"><strong>${s.stPct}%</strong> sell-through</div>`:''}
+          ${s.notes?`<div style="font-size:11px;color:var(--sub);margin-top:2px;font-style:italic">"${s.notes}"</div>`:''}
         </div>
         <div class="sale-right">
           <div class="sale-rev" style="${s.profit<0?'color:var(--sub)':''}">GHS ${fmt(s.revenue)}</div>
