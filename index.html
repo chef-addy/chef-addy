@@ -5,33 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tasalla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
    DESIGN TOKENS
 ══════════════════════════════════════ */
 :root {
-  --bg: #080808;
-  --s1: rgba(255,255,255,0.036);
-  --s2: rgba(255,255,255,0.058);
-  --s3: rgba(255,255,255,0.09);
-  --s-solid: #141414;
+  --bg:       #080808;
+  --s1:       rgba(255,255,255,0.036);
+  --s2:       rgba(255,255,255,0.058);
+  --s3:       rgba(255,255,255,0.09);
+  --s-solid:  #141414;
   --s2-solid: #1c1c1c;
-  --bd: rgba(255,255,255,0.07);
-  --bd2: rgba(255,255,255,0.12);
-  --text: #f0f0f0;
-  --sub: #888;
-  --dim: #444;
-  --green: #1df58a;
-  --g-dim: rgba(29,245,138,0.1);
-  --g-bd: rgba(29,245,138,0.28);
-  --g-glow: rgba(29,245,138,0.22);
-  --amber: #f7b731;
-  --a-dim: rgba(247,183,49,0.1);
-  --a-bd: rgba(247,183,49,0.28);
-  --red: #ff4757;
-  --r-dim: rgba(255,71,87,0.1);
-  --r-bd: rgba(255,71,87,0.28);
+  --bd:       rgba(255,255,255,0.07);
+  --bd2:      rgba(255,255,255,0.12);
+  --text:     #f0f0f0;
+  --sub:      #888;
+  --dim:      #444;
+  --green:    #1df58a;
+  --g-dim:    rgba(29,245,138,0.1);
+  --g-bd:     rgba(29,245,138,0.28);
+  --g-glow:   rgba(29,245,138,0.22);
+  --amber:    #f7b731;
+  --a-dim:    rgba(247,183,49,0.1);
+  --a-bd:     rgba(247,183,49,0.28);
+  --red:      #ff4757;
+  --r-dim:    rgba(255,71,87,0.1);
+  --r-bd:     rgba(255,71,87,0.28);
   --r: 16px; --rsm: 12px; --rlg: 22px;
 }
 [data-theme="light"] {
@@ -57,7 +57,7 @@ html{scroll-behavior:smooth}
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'Instrument Sans',sans-serif;
+  font-family:'DM Sans',sans-serif;
   font-size:15px;
   line-height:1.5;
   min-height:100svh;
@@ -65,18 +65,6 @@ body{
   overflow-x:hidden;
 }
 [data-theme="dark"] body{background:#080808}
-
-/* ══════════════════════════════════════
-   TOAST NOTIFICATION
-══════════════════════════════════════ */
-.toast {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
-  background: var(--green); color: #000; padding: 12px 24px; border-radius: 50px;
-  font-weight: 600; opacity: 0; transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-  z-index: 9999;
-  font-size: 14px; box-shadow: 0 4px 20px var(--g-glow);
-}
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
 /* ══════════════════════════════════════
    HEADER
@@ -109,9 +97,13 @@ body{
 .hdr-btn:active{background:var(--s3);transform:scale(0.93)}
 
 /* ══════════════════════════════════════
-   LAYOUT & TABS
+   LAYOUT
 ══════════════════════════════════════ */
 .wrap{max-width:500px;margin:0 auto;padding:22px 16px 0}
+
+/* ══════════════════════════════════════
+   TABS
+══════════════════════════════════════ */
 .tab{display:none}
 .tab.active{display:block;animation:tabUp 0.38s cubic-bezier(0.22,1,0.36,1) both}
 @keyframes tabUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -145,8 +137,7 @@ body{
 /* ══════════════════════════════════════
    STAT CARDS
 ══════════════════════════════════════ */
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:20px}
-.sales-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
 .stat{
   background:var(--s1);
   border:1px solid var(--bd);border-radius:var(--r);
@@ -160,11 +151,14 @@ body{
 .stat.is-profit{border-color:rgba(29,245,138,0.15)}
 .stat.is-profit .stat-lbl{color:var(--green)}
 .stat.is-profit .stat-num{color:var(--green)}
-.stat.is-spent .stat-lbl{color:var(--amber)}
-.stat.is-spent .stat-num{color:var(--amber)}
 .stat.is-loss{border-color:rgba(255,71,87,0.15)}
 .stat.is-loss .stat-lbl{color:var(--red)}
 .stat.is-loss .stat-num{color:var(--red)}
+.stat.is-spent .stat-lbl{color:var(--amber)}
+.stat.is-spent .stat-num{color:var(--amber)}
+.stat.is-revenue{border-color:rgba(77,171,247,0.15)}
+.stat.is-revenue .stat-lbl{color:#4dabf7}
+.stat.is-revenue .stat-num{color:#4dabf7}
 
 /* ══════════════════════════════════════
    FORM ELEMENTS
@@ -178,7 +172,7 @@ body{
   border-radius:var(--rsm);
   padding:13px 15px;
   font-size:16px;
-  font-family:'Instrument Sans',sans-serif;
+  font-family:'DM Sans',sans-serif;
   color:var(--text);
   outline:none;
   -webkit-appearance:none;
@@ -197,17 +191,24 @@ body{
 .range-lbl{font-size:10px;font-weight:600;color:var(--sub);letter-spacing:0.1em;text-transform:uppercase}
 .range-val{font-family:'Fraunces',serif;font-size:38px;font-weight:800;letter-spacing:-0.05em;color:var(--green);line-height:1;transition:text-shadow 0.3s}
 .range-val.glowing{text-shadow:0 0 24px var(--g-glow)}
-input[type="range"]{-webkit-appearance:none;width:100%;height:4px;background:var(--s3);border-radius:2px;outline:none}
+input[type="range"]{
+  -webkit-appearance:none; width:100%; height:8px;
+  background:var(--s3); border-radius:4px; outline:none;
+  transition: background 0.15s ease;
+}
 input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:22px;height:22px;
-  background:var(--green);border-radius:50%;
-  border:3px solid var(--bg);
-  box-shadow:0 0 0 2px var(--green),0 0 12px var(--g-glow);
+  -webkit-appearance:none; width:26px; height:26px;
+  background:var(--green); border-radius:50%;
+  border:4px solid var(--bg);
+  box-shadow:0 0 0 1px var(--g-bd), 0 4px 12px rgba(0,0,0,0.5);
   cursor:pointer;
   transition:box-shadow 0.2s,transform 0.15s;
 }
-input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
-.range-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:5px}
+input[type="range"]::-webkit-slider-thumb:active{
+  transform:scale(1.15);
+  box-shadow:0 0 0 2px var(--green), 0 4px 16px var(--g-glow);
+}
+.range-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:8px}
 
 /* ══════════════════════════════════════
    BUTTONS
@@ -243,25 +244,11 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .pill:active{transform:scale(0.93)}
 
 /* ══════════════════════════════════════
-   EXPENSE ITEMS (DRAG & DROP)
+   EXPENSE ITEMS
 ══════════════════════════════════════ */
 .expense-list{margin-bottom:12px}
-.expense-item{
-  display:flex;align-items:center;gap:8px;margin-bottom:8px;
-  animation:tabUp 0.25s both;
-  cursor:grab;
-  user-select:none;
-  transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
-}
-.expense-item[draggable="true"]{cursor:grab}
-.expense-item.dragging{
-  opacity:0.35;
-  transform:scale(0.97);
-  box-shadow:0 0 0 4px var(--g-bd);
-}
-.expense-item .inp{flex:1}
-.expense-item .inp.name{flex:1.4}
-.expense-item .inp.amount{flex:0.8}
+.expense-item{display:flex;align-items:center;gap:8px;margin-bottom:8px;animation:tabUp 0.25s both}
+.expense-item .inp{flex:1}.expense-item .inp.name{flex:1.4}.expense-item .inp.amount{flex:0.8}
 .exp-del{
   width:30px;height:30px;min-width:30px;border:none;background:none;
   color:var(--dim);cursor:pointer;border-radius:8px;font-size:15px;
@@ -300,8 +287,19 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .tier-row strong{display:block;font-family:'Fraunces',serif;font-size:12px;font-weight:700;color:var(--text)}
 
 /* ══════════════════════════════════════
-   WHAT IF? PANEL
+   WHAT IF? PANEL (multi-tier scenario)
 ══════════════════════════════════════ */
+.scenario-panel{
+  display:none;
+  background:var(--s1);
+  border:2px solid var(--g-bd);
+  border-radius:var(--rlg);
+  padding:22px 17px 20px;
+  margin-top:14px;
+  animation:tabUp 0.32s cubic-bezier(0.22,1,0.36,1) both;
+  box-shadow:0 8px 40px rgba(0,0,0,0.35),0 0 0 1px var(--g-bd);
+}
+.scenario-panel.show{display:block}
 .scenario-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .sc-badge{
   display:inline-flex;align-items:center;gap:6px;
@@ -316,6 +314,8 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   transition:background 0.15s,transform 0.1s;
 }
 .sc-close:active{background:var(--s3);transform:scale(0.88)}
+
+/* BIG P/L */
 .pl-display{text-align:center;padding:4px 0 20px;position:relative}
 .pl-label{font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
 .pl-amount{
@@ -329,33 +329,41 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .pl-amount.breakeven{color:var(--amber);text-shadow:0 0 30px rgba(247,183,49,0.4)}
 .pl-meta{font-size:12px;color:var(--sub);margin-top:8px}
 .pl-meta strong{color:var(--text)}
-.health-bar-wrap{margin:2px 0 20px}
+
+/* PROFIT HEALTH BAR */
+.health-bar-wrap{margin:2px 0 24px}
 .health-bar-label{font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;text-align:center}
-.health-track{height:5px;background:var(--s3);border-radius:3px;overflow:hidden}
+.health-track{height:6px;background:var(--s3);border-radius:3px;overflow:hidden}
 .health-fill{height:100%;border-radius:3px;transition:width 0.5s cubic-bezier(0.22,1,0.36,1),background 0.3s}
-.sc-tiers{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+
+/* TIER SLIDERS IN WHAT IF */
+.sc-tiers{display:flex;flex-direction:column;gap:16px;margin-bottom:14px}
 .sc-tier-row{
   background:rgba(0,0,0,0.2);
-  border:1px solid var(--bd);border-radius:var(--rsm);padding:13px 14px;
+  border:1px solid var(--bd);border-radius:var(--rsm);padding:16px 14px;
   transition:border-color 0.2s;
 }
 [data-theme="light"] .sc-tier-row{background:var(--s2)}
 .sc-tier-row.active-s{border-color:rgba(136,136,136,0.3)}
 .sc-tier-row.active-m{border-color:var(--g-bd)}
 .sc-tier-row.active-l{border-color:var(--a-bd)}
-.sc-tier-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.sc-tier-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .sc-tier-name{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase}
 .sc-tier-name.s{color:var(--sub)}
 .sc-tier-name.m{color:var(--green)}
 .sc-tier-name.l{color:var(--amber)}
-.sc-tier-price{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--text)}
-.sc-tier-qty-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:9px}
-.sc-tier-qty{font-family:'Fraunces',serif;font-size:24px;font-weight:800;letter-spacing:-0.04em;color:var(--text);line-height:1}
-.sc-tier-qty small{font-size:11px;font-weight:400;color:var(--sub);font-family:'Instrument Sans',sans-serif;letter-spacing:0}
+.sc-tier-price{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--text)}
+.sc-tier-qty-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.sc-tier-qty{font-family:'Fraunces',serif;font-size:28px;font-weight:800;letter-spacing:-0.04em;color:var(--text);line-height:1}
+.sc-tier-qty small{font-size:12px;font-weight:400;color:var(--sub);font-family:'DM Sans',sans-serif;letter-spacing:0}
 .sc-tier-rev{font-size:11px;color:var(--sub);text-align:right;line-height:1.3}
-.sc-tier-rev strong{display:block;font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.sc-tier-rev strong{display:block;font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+
+/* BE MARKER */
 .be-marker{font-size:10px;text-align:center;margin-top:8px;letter-spacing:0.02em;min-height:16px;transition:color 0.25s}
 .be-marker.ok{color:var(--green)}.be-marker.warn{color:var(--amber)}.be-marker.bad{color:var(--red)}
+
+/* SUMMARY TABLE */
 .sc-summary{
   background:rgba(0,0,0,0.2);border:1px solid var(--bd);
   border-radius:var(--rsm);padding:13px 15px;margin-top:14px;
@@ -391,7 +399,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .r-pill.hi{border-color:var(--g-bd)}.r-pill.hi strong{color:var(--green)}
 
 /* ══════════════════════════════════════
-   SALES LOG & HISTORY
+   2-TAP SALES LOG
 ══════════════════════════════════════ */
 .log-form-wrap{
   background:var(--s1);
@@ -401,6 +409,8 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   margin-bottom:16px;
 }
 .log-form-title{font-family:'Fraunces',serif;font-weight:700;font-size:17px;letter-spacing:-0.03em;margin-bottom:16px}
+
+/* Quick tier blocks */
 .qt-grid{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
 .qt-row{
   display:flex;align-items:center;gap:10px;
@@ -418,7 +428,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .qt-price{
   width:100%;background:transparent;border:none;border-bottom:1px solid var(--bd2);
   border-radius:0;padding:4px 0;font-size:15px;font-weight:600;
-  font-family:'Instrument Sans',sans-serif;color:var(--text);outline:none;
+  font-family:'DM Sans',sans-serif;color:var(--text);outline:none;
   transition:border-color 0.2s;
 }
 .qt-price:focus{border-bottom-color:var(--green)}
@@ -442,6 +452,8 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   transition:background 0.15s,color 0.15s;
 }
 .qt-count.has-val{background:var(--g-dim);color:var(--green)}
+
+/* log preview */
 .log-preview{
   font-size:13px;color:var(--sub);margin:0 0 14px;
   padding:11px 14px;
@@ -450,6 +462,11 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   display:none;
 }
 .log-preview.show{display:flex;justify-content:space-between;align-items:center;animation:tabUp 0.2s both}
+
+/* ══════════════════════════════════════
+   SALES SUMMARY
+══════════════════════════════════════ */
+.sales-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px}
 .s-sum{
   background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
   padding:13px 10px 15px;text-align:center;
@@ -457,6 +474,10 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 [data-theme="light"] .s-sum{background:var(--s-solid)}
 .s-sum-lbl{font-size:9px;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:var(--dim)}
 .s-sum-num{font-family:'Fraunces',serif;font-weight:800;font-size:16px;letter-spacing:-0.04em;margin-top:5px;line-height:1;transition:color 0.3s}
+
+/* ══════════════════════════════════════
+   SALE CARDS
+══════════════════════════════════════ */
 .sale-card{
   background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
   padding:16px;margin-bottom:9px;animation:tabUp 0.28s both;
@@ -474,6 +495,10 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .sale-tier-row{display:flex;justify-content:space-between;font-size:12px}
 .stl{color:var(--sub)}.stv{color:var(--text);font-weight:500}
 .sale-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd)}
+
+/* ══════════════════════════════════════
+   CHECKLIST
+══════════════════════════════════════ */
 .cl-item{
   display:flex;align-items:center;gap:12px;
   background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
@@ -498,6 +523,10 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .prog-lbl{color:var(--sub)}.prog-pct{font-weight:600;color:var(--green)}
 .prog-track{height:4px;background:var(--s2);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;background:var(--green);border-radius:2px;transition:width 0.45s cubic-bezier(0.22,1,0.36,1);box-shadow:0 0 8px var(--g-glow)}
+
+/* ══════════════════════════════════════
+   HISTORY
+══════════════════════════════════════ */
 .hist-card{
   background:var(--s1);border:1px solid var(--bd);
   border-radius:var(--r);margin-bottom:9px;overflow:hidden;
@@ -522,13 +551,17 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .ht-unit{font-size:9px;color:var(--sub);margin:2px 0 7px}
 .ht-row{font-size:10px;color:var(--sub)}
 .ht-row strong{display:block;font-family:'Fraunces',serif;font-size:11px;font-weight:700;color:var(--text)}
+
+/* ══════════════════════════════════════
+   TAG
+══════════════════════════════════════ */
 .tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:50px;letter-spacing:0.06em}
 .tag.green{background:var(--g-dim);color:var(--green);border:1px solid var(--g-bd)}
 .tag.amber{background:var(--a-dim);color:var(--amber);border:1px solid var(--a-bd)}
 .tag.red{background:var(--r-dim);color:var(--red);border:1px solid var(--r-bd)}
 
 /* ══════════════════════════════════════
-   BOTTOM NAV & SHEETS
+   BOTTOM NAV
 ══════════════════════════════════════ */
 .bnav{
   position:fixed;bottom:0;left:0;right:0;z-index:400;
@@ -550,6 +583,10 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .nav-btn span{font-size:9px;font-weight:600;letter-spacing:0.04em}
 .nav-bar{position:absolute;top:0;width:22px;height:2.5px;background:var(--green);border-radius:0 0 3px 3px;opacity:0;transition:opacity 0.2s;box-shadow:0 0 8px var(--g-glow)}
 .nav-btn.on .nav-bar{opacity:1}
+
+/* ══════════════════════════════════════
+   SHEET / SETTINGS
+══════════════════════════════════════ */
 .backdrop{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:flex-end;justify-content:center}
 .backdrop.show{display:flex}
 .sheet{
@@ -566,19 +603,105 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 .srow:last-of-type{border-bottom:none}
 .srow-icon{width:34px;height:34px;background:var(--s2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px}
 .srow-text{font-size:15px;font-weight:500}
+
+/* ══════════════════════════════════════
+   EMPTY STATE
+══════════════════════════════════════ */
 .empty{text-align:center;padding:36px 16px;color:var(--sub);font-size:13px}
 .empty-icon{font-size:30px;margin-bottom:10px;opacity:0.35}
+
+/* ── CHECKLIST PRIORITY ── */
+.cl-pri{width:16px;height:16px;min-width:16px;border-radius:50%;background:var(--s3);border:1.5px solid var(--bd2);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;}
+.cl-pri.p1{background:rgba(247,183,49,0.12);border-color:rgba(247,183,49,0.4)}
+.cl-pri.p2{background:rgba(255,71,87,0.12);border-color:rgba(255,71,87,0.4)}
+.cl-pri:active{transform:scale(0.75)}
+.cl-item{position:relative;overflow:hidden;}
+.cl-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background 0.2s;}
+.cl-item.pri-1::before{background:var(--amber)}
+.cl-item.pri-2::before{background:var(--red)}
+.cl-item.done::before{background:var(--green) !important}
+.cl-text-input{flex:1;background:transparent;border:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;padding:1px 3px;border-radius:4px;min-width:0;transition:background 0.15s;}
+.cl-text-input:focus{background:var(--s3);outline:1px solid var(--g-bd);}
+.cl-legend{display:flex;gap:12px;margin-bottom:10px;font-size:9px;color:var(--dim);align-items:center;flex-wrap:wrap}
+.cl-legend-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px;vertical-align:middle}
+
+/* ── WASTE STEPPER ── */
+.qt-row.waste-row{border-color:rgba(255,71,87,0.2)}
+.qt-row.waste-row.active{border-color:rgba(255,71,87,0.4);background:rgba(255,71,87,0.04)}
+.qt-label-name.w{color:var(--red)}
+.qt-count.has-val-red{background:rgba(255,71,87,0.12);color:var(--red)}
+.waste-badge{font-size:10px;font-weight:600;color:var(--red);text-align:right;line-height:1.3;min-height:14px;margin-top:3px;display:none}
+.waste-badge.show{display:block}
+.waste-hint{font-size:9px;margin-top:2px;letter-spacing:0.03em}
+
+/* ── TAP-TO-TYPE QTY INPUT ── */
+.qt-num{
+  min-width:44px;height:32px;width:52px;
+  background:var(--s3);
+  border-top:1.5px solid var(--bd2);border-bottom:1.5px solid var(--bd2);
+  border-left:none;border-right:none;border-radius:0;
+  font-family:'Fraunces',serif;font-weight:700;font-size:16px;letter-spacing:-0.03em;
+  text-align:center;color:var(--text);outline:none;
+  -webkit-appearance:none;appearance:none;
+  transition:background 0.15s,color 0.15s;
+}
+.qt-num:focus{background:var(--g-dim);color:var(--green);outline:none}
+.qt-num.has-val{background:var(--g-dim);color:var(--green)}
+.qt-num.has-val-red{background:rgba(255,71,87,0.12);color:var(--red)}
+.qt-num::-webkit-outer-spin-button,.qt-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+/* ── BATCH COST SECTION ── */
+.batch-cost-wrap{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rsm);padding:13px 14px;margin:10px 0}
+[data-theme="light"] .batch-cost-wrap{background:var(--s2)}
+.lbl-sub{font-size:9px;font-weight:400;color:var(--dim);text-transform:none;letter-spacing:0;margin-left:4px}
+.batch-variance{font-size:11px;font-weight:600;margin-top:5px;min-height:15px;transition:color 0.2s}
+.batch-variance.over{color:var(--red)}
+.batch-variance.saved{color:var(--green)}
+.batch-variance.neutral{color:var(--sub)}
+/* ── BATCH ACCOUNTING HINT ── */
+.batch-hint{font-size:11px;padding:9px 13px;border-radius:var(--rsm);margin:8px 0;display:none;justify-content:space-between;align-items:center;border:1px solid var(--bd)}
+.batch-hint.show{display:flex;animation:tabUp 0.2s both}
+.batch-hint.ok{background:var(--g-dim);border-color:var(--g-bd);color:var(--green)}
+.batch-hint.warn{background:var(--a-dim);border-color:var(--a-bd);color:var(--amber)}
+.batch-hint.over{background:var(--r-dim);border-color:var(--r-bd);color:var(--red)}
+/* ── FORECAST BATCH OVERRIDE ── */
+.fc-override{background:rgba(0,0,0,0.18);border:1px solid var(--bd);border-radius:var(--rsm);padding:13px 14px;margin-bottom:18px}
+[data-theme="light"] .fc-override{background:var(--s2)}
+.fc-override-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.fc-override-lbl{font-size:9px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--sub)}
+.fc-override-note{font-size:10px;color:var(--dim);margin-top:2px}
+.fc-override-ctrl{display:flex;align-items:center;gap:4px}
+.fc-override-val{font-family:'Fraunces',serif;font-size:26px;font-weight:800;letter-spacing:-0.05em;color:var(--text);min-width:44px;text-align:center;transition:color 0.2s}
+.fc-override-val.changed{color:var(--amber)}
+.fc-cost-row{display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:9px;padding-top:9px;border-top:1px dashed var(--bd)}
+.fc-cost-row strong{color:var(--text);font-family:'Fraunces',serif;font-size:13px;font-weight:700}
+/* ── FORECAST REMAIN LABEL ── */
+.fc-remain{font-size:10px;color:var(--sub);text-align:right;min-height:14px;margin-top:4px;transition:color 0.2s}
+.fc-remain.full{color:var(--amber);font-weight:600}
+.fc-remain.ok{color:var(--green)}
+/* ── UNDO TOAST ── */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--green);color:#000;padding:11px 20px;border-radius:50px;font-weight:600;opacity:0;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);z-index:9999;font-size:14px;box-shadow:0 4px 20px var(--g-glow);display:flex;align-items:center;gap:10px;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast-undo{background:rgba(0,0,0,0.2);border:none;color:#000;font-family:'Fraunces',serif;font-size:13px;font-weight:800;padding:3px 12px;border-radius:50px;cursor:pointer;letter-spacing:-0.02em;flex-shrink:0}
+.toast-undo:active{background:rgba(0,0,0,0.35)}
+/* ── SELL-THROUGH STRIP (sale cards) ── */
+.sale-st{font-size:10px;color:var(--sub);margin-top:2px}
+.sale-st strong{font-weight:600}
+/* ── BREAK-EVEN IN PREVIEW ── */
+.be-needed{font-size:10px;color:var(--amber);text-align:right;margin-top:2px}
+/* ── CLEAR FORM LINK ── */
+.btn-clear{width:100%;background:none;border:none;color:var(--dim);font-size:12px;padding:10px;cursor:pointer;transition:color 0.15s;font-family:'DM Sans',sans-serif}
+.btn-clear:active{color:var(--red)}
 </style>
 </head>
 <body data-theme="dark">
 
-<div id="toast" class="toast">Entry logged successfully!</div>
+<div id="toast" class="toast"></div>
 
 <header class="hdr">
   <div class="hdr-in">
     <div class="brand">
-      <div class="brand-mark">CA</div>
-      <span class="brand-name">Chef Addy</span>
+      <div class="brand-mark">TA</div>
+      <span class="brand-name">Tasalla</span>
     </div>
     <button class="hdr-btn" onclick="openSettings()">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
@@ -596,22 +719,22 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
   <p class="eyebrow">Weekend Business</p>
   <h1 class="pg-title" id="home-title">Good morning,<br><em>Tasalla.</em></h1>
   <p class="pg-sub" id="home-sub">Ready to make it count this weekend?</p>
-  
+
   <div class="stats">
-    <div class="stat">
-      <div class="stat-lbl">Invested</div>
-      <div class="stat-num" id="dash-income">GHS 0</div>
+    <div class="stat is-revenue">
+      <div class="stat-lbl">Revenue</div>
+      <div class="stat-num" id="dash-revenue">GHS 0</div>
     </div>
     <div class="stat is-spent">
-      <div class="stat-lbl">Spent</div>
-      <div class="stat-num" id="dash-costs">GHS 0</div>
+      <div class="stat-lbl">Invested</div>
+      <div class="stat-num" id="dash-invested">GHS 0</div>
     </div>
-    <div class="stat is-profit">
-      <div class="stat-lbl">Net Profit</div>
+    <div class="stat is-profit" id="stat-profit">
+      <div class="stat-lbl" id="stat-pl-lbl">Net Profit</div>
       <div class="stat-num" id="dash-profit">GHS 0</div>
     </div>
     <div class="stat is-loss">
-      <div class="stat-lbl">Total Loss</div>
+      <div class="stat-lbl">Loss Entries</div>
       <div class="stat-num" id="dash-loss">GHS 0</div>
     </div>
   </div>
@@ -622,6 +745,13 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
       <button class="pill green" onclick="addCheckItem()">+ Add</button>
       <button class="pill amber" onclick="resetChecklist()">Reset</button>
     </div>
+  </div>
+  <div class="cl-legend">
+    <span><span class="cl-legend-dot" style="background:var(--red)"></span>Urgent</span>
+    <span><span class="cl-legend-dot" style="background:var(--amber)"></span>Important</span>
+    <span><span class="cl-legend-dot" style="background:var(--dim)"></span>Normal</span>
+    <span style="flex:1"></span>
+    <span style="font-size:9px;color:var(--dim)">Tap ● priority · Tap text to edit</span>
   </div>
   <div id="cl-list"></div>
   <div class="prog-row">
@@ -634,6 +764,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 <div id="tab-1" class="tab">
   <h1 class="pg-title">Price My <em>Dish</em></h1>
   <p class="pg-sub">Enter your costs and margin — then run "What If?" scenarios.</p>
+
   <div class="card">
     <div class="field">
       <label class="lbl">What are you cooking?</label>
@@ -650,11 +781,13 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
       </div>
     </div>
   </div>
+
   <div class="sec-row">
     <span class="sec-title">Your Costs</span>
     <button class="pill green" onclick="addExpense()">+ Add cost</button>
   </div>
   <div class="expense-list" id="expense-list"></div>
+
   <div class="card" style="margin-top:8px">
     <div class="range-hd">
       <span class="range-lbl">Profit Target</span>
@@ -663,17 +796,111 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
     <input type="range" id="margin-slider" min="15" max="80" value="50" step="1">
     <div class="range-ends"><span>15% (tight)</span><span>80% (premium)</span></div>
   </div>
+
   <button class="btn btn-w" onclick="calcPrice()" style="margin-top:14px">
     <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10.5 2a.5.5 0 00-1 0v1.07A6.5 6.5 0 0010 3a7 7 0 107 7 .5.5 0 00-1 0 6 6 0 11-5.5-5.972V2zM13 2.5a.5.5 0 011 0v3a.5.5 0 01-.5.5h-3a.5.5 0 010-1H13V2.5z"/><path d="M9.5 7a.5.5 0 01.5.5V10h1.5a.5.5 0 010 1H9.5a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5z"/></svg>
     Calculate My Prices
   </button>
+
   <div id="price-result" style="display:none">
     <div class="result-box">
       <div class="result-lbl" id="r-lbl">Your Pricing Tiers</div>
-      
+
       <div class="tier-grid" id="r-tier-grid"></div>
       
-      <button class="btn btn-ghost" id="run-scenarios-btn" onclick="openWhatIf()" style="margin: 16px 0; display: none;">📊 Run 'What If' Scenarios</button>
+      <button class="btn btn-ghost" id="run-scenarios-btn" onclick="openForecast()" style="margin: 16px 0; display: none;">📈 Open Sales Forecast</button>
+
+      <div class="scenario-panel" id="scenario-panel">
+        <div class="scenario-hd">
+          <div class="sc-badge">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="var(--green)"><path d="M6 1C3.24 1 1 3.24 1 6s2.24 5 5 5 5-2.24-5-5-2.24-5-5-5zm.5 7.5h-1v-4h1v4zm0-5.5h-1V2h1v1z"/></svg>
+            <span id="sc-badge-text">Sales Forecast</span>
+          </div>
+          <div class="sc-close" onclick="closeForecast()">✕</div>
+        </div>
+
+        <!-- Batch size override — "I cooked more or less than planned" -->
+        <div class="fc-override">
+          <div class="fc-override-row">
+            <div>
+              <div class="fc-override-lbl">Batch Size</div>
+              <div class="fc-override-note" id="fc-plan-note">Your plan: — portions</div>
+            </div>
+            <div class="fc-override-ctrl">
+              <button class="qt-step minus" onclick="adjustFcBatch(-1)" style="width:28px;height:28px;font-size:16px">−</button>
+              <div class="fc-override-val" id="fc-batch-val">—</div>
+              <button class="qt-step plus" onclick="adjustFcBatch(1)" style="width:28px;height:28px;font-size:16px">+</button>
+            </div>
+          </div>
+          <div class="fc-cost-row">
+            <span>Estimated batch cost</span>
+            <strong id="fc-scaled-cost">GHS 0</strong>
+          </div>
+        </div>
+
+        <div class="pl-display">
+          <div class="pl-label" id="sc-pl-label">Your estimated profit</div>
+          <div class="pl-amount profit" id="sc-pl-amount">—</div>
+          <div class="pl-meta" id="sc-pl-meta">Move the sliders to see your outcome</div>
+        </div>
+
+        <div class="health-bar-wrap">
+          <div class="health-bar-label" id="health-label">Profit health</div>
+          <div class="health-track"><div class="health-fill" id="health-fill" style="width:0%;background:var(--green)"></div></div>
+        </div>
+
+        <div class="sc-tiers">
+          <div class="sc-tier-row" id="sc-row-0">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name s">Small</span>
+              <span class="sc-tier-price" id="sc-tp-0">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-0">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-0">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-0" min="0" max="60" value="0" step="1" oninput="handleSliderInput(0)">
+            <div class="range-ends"><span>0</span><span id="sc-max-0" class="fc-remain">—</span></div>
+          </div>
+
+          <div class="sc-tier-row" id="sc-row-1">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name m">Medium</span>
+              <span class="sc-tier-price" id="sc-tp-1">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-1">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-1">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-1" min="0" max="60" value="0" step="1" oninput="handleSliderInput(1)">
+            <div class="range-ends"><span>0</span><span id="sc-max-1" class="fc-remain">—</span></div>
+          </div>
+
+          <div class="sc-tier-row" id="sc-row-2">
+            <div class="sc-tier-meta">
+              <span class="sc-tier-name l">Large</span>
+              <span class="sc-tier-price" id="sc-tp-2">GHS 0 / serving</span>
+            </div>
+            <div class="sc-tier-qty-row">
+              <div class="sc-tier-qty"><span id="sc-qty-2">0</span> <small>portions</small></div>
+              <div class="sc-tier-rev">Revenue<strong id="sc-rev-2">GHS 0</strong></div>
+            </div>
+            <input type="range" id="sc-slider-2" min="0" max="60" value="0" step="1" oninput="handleSliderInput(2)">
+            <div class="range-ends"><span>0</span><span id="sc-max-2" class="fc-remain">—</span></div>
+          </div>
+        </div>
+
+        <div class="be-marker" id="sc-be-marker"></div>
+
+        <div class="sc-summary" style="margin-bottom:20px;">
+          <div class="sc-sum-row"><span>Portions planned</span><span id="sc-sum-qty">0</span></div>
+          <div class="sc-sum-row"><span>Total revenue</span><span id="sc-sum-rev">GHS 0</span></div>
+          <div class="sc-sum-row"><span>Your investment</span><span id="sc-sum-cost">GHS 0</span></div>
+          <div class="sc-sum-row"><span style="font-weight:600">Projected ROI</span><span id="sc-sum-roi" style="font-weight:600">—</span></div>
+          <div class="sc-sum-row big" id="sc-sum-pl-row"><span>Net result</span><span id="sc-sum-pl">—</span></div>
+        </div>
+        <button class="btn btn-ghost" onclick="closeForecast()">Close</button>
+      </div>
 
       <div class="result-ctx" id="r-ctx"></div>
       <div class="result-pills" id="r-pills"></div>
@@ -686,21 +913,35 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 <div id="tab-2" class="tab">
   <h1 class="pg-title">Record <em>Sales</em></h1>
   <p class="pg-sub">Tap + to count each portion sold. That's it.</p>
-  
+
   <div class="sales-summary">
-    <div class="s-sum"><div class="s-sum-lbl">Invested</div><div class="s-sum-num" id="sl-income">GHS 0</div></div>
-    <div class="s-sum"><div class="s-sum-lbl">Spent</div><div class="s-sum-num" id="sl-costs" style="color:var(--amber)">GHS 0</div></div>
-    <div class="s-sum"><div class="s-sum-lbl">Net Profit</div><div class="s-sum-num" id="sl-profit" style="color:var(--green)">GHS 0</div></div>
-    <div class="s-sum"><div class="s-sum-lbl">Losses</div><div class="s-sum-num" id="sl-loss" style="color:var(--red)">GHS 0</div></div>
+    <div class="s-sum">
+      <div class="s-sum-lbl">Revenue</div>
+      <div class="s-sum-num" id="sl-income" style="color:#4dabf7">GHS 0</div>
+    </div>
+    <div class="s-sum">
+      <div class="s-sum-lbl">Costs</div>
+      <div class="s-sum-num" id="sl-costs" style="color:var(--amber)">GHS 0</div>
+    </div>
+    <div class="s-sum">
+      <div class="s-sum-lbl">Net Profit</div>
+      <div class="s-sum-num" id="sl-profit" style="color:var(--green)">GHS 0</div>
+    </div>
+    <div class="s-sum">
+      <div class="s-sum-lbl">Total Losses</div>
+      <div class="s-sum-num" id="sl-loss" style="color:var(--red)">GHS 0</div>
+    </div>
   </div>
 
   <div class="log-form-wrap">
-    <div class="log-form-title">Log a Sale</div>
+    <div class="log-form-title">Record a Sale</div>
+
     <div class="field" style="margin-bottom:14px">
       <label class="lbl">What did you cook?</label>
       <input class="inp sm" id="lg-dish" type="text" placeholder="e.g. Jollof Rice">
     </div>
-    
+
+    <!-- Qty rows — tap count to type, or use +/− -->
     <div class="qt-grid">
       <div class="qt-row" id="qt-row-0">
         <div class="qt-label"><div class="qt-label-name">Small</div></div>
@@ -710,7 +951,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
         </div>
         <div class="qt-stepper">
           <button class="qt-step minus" onclick="stepQty(0,-1)">−</button>
-          <div class="qt-count" id="lg-q0-disp">0</div>
+          <input class="qt-num" id="lg-q0-disp" type="number" inputmode="numeric" min="0" value="0" oninput="onQtyInput(0)">
           <button class="qt-step plus" onclick="stepQty(0,1)">+</button>
         </div>
       </div>
@@ -722,7 +963,7 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
         </div>
         <div class="qt-stepper">
           <button class="qt-step minus" onclick="stepQty(1,-1)">−</button>
-          <div class="qt-count" id="lg-q1-disp">0</div>
+          <input class="qt-num" id="lg-q1-disp" type="number" inputmode="numeric" min="0" value="0" oninput="onQtyInput(1)">
           <button class="qt-step plus" onclick="stepQty(1,1)">+</button>
         </div>
       </div>
@@ -734,40 +975,69 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
         </div>
         <div class="qt-stepper">
           <button class="qt-step minus" onclick="stepQty(2,-1)">−</button>
-          <div class="qt-count" id="lg-q2-disp">0</div>
+          <input class="qt-num" id="lg-q2-disp" type="number" inputmode="numeric" min="0" value="0" oninput="onQtyInput(2)">
           <button class="qt-step plus" onclick="stepQty(2,1)">+</button>
         </div>
       </div>
     </div>
-    
-    <div class="field" style="margin-bottom:12px; margin-top:8px;">
-      <label class="lbl">Unsold / Wasted Portions <span style="font-size:9px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(Calculates 100% loss)</span></label>
-      <input class="inp sm" id="lg-waste" type="number" inputmode="numeric" placeholder="Number of unsold portions" oninput="updateLogPreview()">
+
+    <!-- Live batch accounting hint -->
+    <div id="batch-hint" class="batch-hint">
+      <span id="bh-text">—</span>
+      <span id="bh-sub" style="font-size:10px;opacity:0.75;text-align:right"></span>
+    </div>
+
+    <!-- Left over row — tracking only, no longer adds to cost -->
+    <div class="qt-row waste-row" id="qt-row-waste">
+      <div class="qt-label">
+        <div class="qt-label-name w">Left over</div>
+        <div style="font-size:8px;color:var(--red);margin-top:2px;line-height:1.2">unsold</div>
+      </div>
+      <div class="qt-price-wrap">
+        <div style="font-size:13px;font-weight:500;color:var(--sub)">Unsold portions</div>
+        <div class="waste-hint" id="waste-cost-hint" style="color:var(--dim)">for tracking only</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
+        <div class="qt-stepper">
+          <button class="qt-step minus" onclick="stepWaste(-1)">−</button>
+          <input class="qt-num" id="lg-waste-disp" type="number" inputmode="numeric" min="0" value="0" oninput="onWasteInput()">
+          <button class="qt-step plus" onclick="stepWaste(1)">+</button>
+        </div>
+        <div id="waste-badge" class="waste-badge"></div>
+      </div>
+    </div>
+
+    <!-- Batch cost — unified math model -->
+    <div class="batch-cost-wrap">
+      <label class="lbl">What did this batch cost you? <span class="lbl-sub">ingredients, gas & helpers</span></label>
+      <input class="inp sm" id="lg-batch-cost" type="number" inputmode="decimal" placeholder="GHS 0" oninput="updateLogPreview()">
+      <div id="lg-batch-variance" class="batch-variance neutral"></div>
     </div>
 
     <div class="field" style="margin-bottom:12px">
-      <label class="lbl">Extra Costs <span style="font-size:9px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">(leave blank — auto-calculates from last price run)</span></label>
-      <input class="inp sm" id="lg-costs" type="number" inputmode="decimal" placeholder="GHS 0 — auto" oninput="updateLogPreview()">
+      <label class="lbl">Any extra costs today? <span class="lbl-sub">delivery, fuel, packaging</span></label>
+      <input class="inp sm" id="lg-costs" type="number" inputmode="decimal" placeholder="GHS 0" oninput="updateLogPreview()">
     </div>
-    
+
     <div id="lg-preview" class="log-preview">
       <span id="lg-prev-rev">Revenue: GHS 0</span>
-      <span id="lg-prev-prf" style="font-weight:600"></span>
+      <div style="text-align:right">
+        <div id="lg-prev-prf" style="font-weight:600"></div>
+        <div id="lg-prev-be" class="be-needed"></div>
+      </div>
     </div>
-    <button class="btn btn-g" onclick="logSale()">Record This Entry</button>
+
+    <button class="btn btn-g" onclick="logSale()">Record This Sale</button>
+    <button class="btn-clear" onclick="clearSaleForm()">Clear form</button>
   </div>
+
+  <div id="sales-list"></div>
 </div>
 
 <div id="tab-3" class="tab">
-  <h1 class="pg-title">Your <em>Ledger</em></h1>
-  
-  <div style="display:flex; background:var(--s2); border-radius:12px; padding:4px; margin-bottom:16px;">
-    <button id="tog-sales" class="btn-ghost" style="flex:1; border:none; background:var(--s3); border-radius:8px; padding:8px; font-weight:600; font-size:13px; color:var(--text)" onclick="switchLedger('sales')">Sales Log</button>
-    <button id="tog-plans" class="btn-ghost" style="flex:1; border:none; background:transparent; border-radius:8px; padding:8px; font-weight:600; font-size:13px; color:var(--sub)" onclick="switchLedger('plans')">Saved Plans</button>
-  </div>
-
-  <div id="sales-list-container"></div>
-  <div id="saved-plans-container" style="display:none;"></div>
+  <h1 class="pg-title">Price <em>History</em></h1>
+  <p class="pg-sub">All your saved dish calculations, at a glance.</p>
+  <div id="hist-list"></div>
 </div>
 
 </main>
@@ -791,82 +1061,11 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
     </button>
     <button class="nav-btn" id="nav-3" onclick="navigate(3)">
       <div class="nav-bar"></div>
-      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4h12a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm1 3v1.5h10V7H5zm0 3v1.5h10V10H5zm0 3v1.5h7V13H5z"/></svg>
-      <span>Ledger</span>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4h12a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 01-1-1V5a1 1 0 011-1zm1 3v1.5h10V7H5zm0 3v1.5h10V10H5zm0 3v1.5h7V13H5z"/></svg>
+      <span>History</span>
     </button>
   </div>
 </nav>
-
-<div class="backdrop" id="whatif-bd" onclick="if(event.target===this)closeWhatIf()">
-  <div class="sheet" style="padding-top: 24px;" onclick="event.stopPropagation()">
-    <div class="sheet-handle"></div>
-    <div class="scenario-hd">
-      <div class="sc-badge">
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="var(--green)"><path d="M6 1C3.24 1 1 3.24 1 6s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm.5 7.5h-1v-4h1v4zm0-5.5h-1V2h1v1z"/></svg>
-        <span id="sc-badge-text">What If?</span>
-      </div>
-      <div class="sc-close" onclick="closeWhatIf()">✕</div>
-    </div>
-    
-    <div class="pl-display">
-      <div class="pl-label" id="sc-pl-label">Your estimated profit</div>
-      <div class="pl-amount profit" id="sc-pl-amount">—</div>
-      <div class="pl-meta" id="sc-pl-meta">Slide the portions below to see your outcome</div>
-    </div>
-    <div class="health-bar-wrap">
-      <div class="health-bar-label" id="health-label">Profit health</div>
-      <div class="health-track"><div class="health-fill" id="health-fill" style="width:0%;background:var(--green)"></div></div>
-    </div>
-    
-    <div class="sc-tiers">
-      <div class="sc-tier-row" id="sc-row-0">
-        <div class="sc-tier-meta">
-          <span class="sc-tier-name s">Small</span>
-          <span class="sc-tier-price" id="sc-tp-0">GHS 0 / serving</span>
-        </div>
-        <div class="sc-tier-qty-row">
-          <div class="sc-tier-qty"><span id="sc-qty-0">0</span> <small>portions</small></div>
-          <div class="sc-tier-rev">Revenue<strong id="sc-rev-0">GHS 0</strong></div>
-        </div>
-        <input type="range" id="sc-slider-0" min="0" max="60" value="0" step="1" oninput="handleSliderInput(0)">
-        <div class="range-ends"><span>0 portions</span><span id="sc-max-0">60 (batch max)</span></div>
-      </div>
-      <div class="sc-tier-row" id="sc-row-1">
-        <div class="sc-tier-meta">
-          <span class="sc-tier-name m">Medium</span>
-          <span class="sc-tier-price" id="sc-tp-1">GHS 0 / serving</span>
-        </div>
-        <div class="sc-tier-qty-row">
-          <div class="sc-tier-qty"><span id="sc-qty-1">0</span> <small>portions</small></div>
-          <div class="sc-tier-rev">Revenue<strong id="sc-rev-1">GHS 0</strong></div>
-        </div>
-        <input type="range" id="sc-slider-1" min="0" max="60" value="0" step="1" oninput="handleSliderInput(1)">
-        <div class="range-ends"><span>0 portions</span><span id="sc-max-1">60 (batch max)</span></div>
-      </div>
-      <div class="sc-tier-row" id="sc-row-2">
-        <div class="sc-tier-meta">
-          <span class="sc-tier-name l">Large</span>
-          <span class="sc-tier-price" id="sc-tp-2">GHS 0 / serving</span>
-        </div>
-        <div class="sc-tier-qty-row">
-          <div class="sc-tier-qty"><span id="sc-qty-2">0</span> <small>portions</small></div>
-          <div class="sc-tier-rev">Revenue<strong id="sc-rev-2">GHS 0</strong></div>
-        </div>
-        <input type="range" id="sc-slider-2" min="0" max="60" value="0" step="1" oninput="handleSliderInput(2)">
-        <div class="range-ends"><span>0 portions</span><span id="sc-max-2">60 (batch max)</span></div>
-      </div>
-    </div>
-    
-    <div class="be-marker" id="sc-be-marker"></div>
-    <div class="sc-summary" style="margin-bottom:20px;">
-      <div class="sc-sum-row"><span>Total portions</span><span id="sc-sum-qty">0</span></div>
-      <div class="sc-sum-row"><span>Total revenue</span><span id="sc-sum-rev">GHS 0</span></div>
-      <div class="sc-sum-row"><span>Batch cost</span><span id="sc-sum-cost">GHS 0</span></div>
-      <div class="sc-sum-row big" id="sc-sum-pl-row"><span>Net result</span><span id="sc-sum-pl">—</span></div>
-    </div>
-    <button class="btn btn-ghost" onclick="closeWhatIf()">Close</button>
-  </div>
-</div>
 
 <div class="backdrop" id="settings-bd" onclick="if(event.target===this)closeSettings()">
   <div class="sheet" onclick="event.stopPropagation()">
@@ -891,14 +1090,20 @@ input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.2)}
 // STATE
 // ══════════════════════════════════════
 const DEFAULTS=["Buy market ingredients","Gas canister full (GHS 300)","Helpers confirmed","Packaging ready","Phone charged for orders","Kitchen cleaned & prepped"];
-let sales=[],history=[],items=[],checked=new Set(),expenses=[];
+let sales=[],history=[],items=[],checked=new Set(),expenses=[],itemPriorities={};
 let calcState=null;
-const lgQty=[0,0,0];
+let lgWaste=0;
 let currentBaseCOGS=0;
 const TIER_MULTS=[1,1.6,2.2];
+// Forecast batch override (null = use calcState.portions)
+let fcBatchOverride=null;
+// Undo state
+let undoBuffer=null,undoTimer=null;
+
 const ls=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const fmt=n=>{if(isNaN(n)||n==null)return'0';const r=Math.round(n*100)/100;return r%1===0?r.toString():r.toFixed(2)};
+const getQty=t=>Math.max(0,parseInt(document.getElementById(`lg-q${t}-disp`).value)||0);
 
 // ══════════════════════════════════════
 // BOOT
@@ -910,40 +1115,49 @@ window.onload=()=>{
   checked=new Set(ls('ca2_checked')||[]);
   expenses=ls('ca2_expenses')||defaultExpenses();
   currentBaseCOGS=ls('ca2_cogs')||0;
+  itemPriorities=ls('ca2_priorities')||{};
   const theme=ls('ca2_theme')||'dark';
   document.body.setAttribute('data-theme',theme);
   updateThemeUI(theme);
-  setGreeting();
-  renderChecklist();
-  renderExpenseList();
-  setupExpenseDrag();
-  refreshDash();
+  setGreeting();renderChecklist();renderExpenseList();refreshDash();
   document.getElementById('margin-slider').addEventListener('input',e=>{
-    const v=e.target.value;
-    document.getElementById('margin-val').textContent=v+'%';
+    document.getElementById('margin-val').textContent=e.target.value+'%';
+    fillSlider(e.target);
   });
+  fillSlider(document.getElementById('margin-slider'));
 };
+
 function defaultExpenses(){
   return [{id:Date.now()+1,name:'Ingredients',amount:450},{id:Date.now()+2,name:'Gas',amount:300},{id:Date.now()+3,name:'Helpers',amount:100}];
 }
 
 // ══════════════════════════════════════
-// NAVIGATION + GREETING + DASHBOARD + CHECKLIST
+// NAVIGATION
 // ══════════════════════════════════════
 function navigate(t){
   document.querySelectorAll('.tab').forEach((d,i)=>d.classList.toggle('active',i===t));
   document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('on',i===t));
   if(t===0){refreshDash();renderChecklist();}
-  if(t===2){renderSalesTotals();prefillSalePrices();}
-  if(t===3){renderSales();renderHistory();} 
+  if(t===2){renderSales();renderSalesTotals();prefillSalePrices();}
+  if(t===3)renderHistory();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
+// ══════════════════════════════════════
+// TOAST (with optional undo)
+// ══════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<span>${msg}</span>`;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+function showUndoToast(msg,fn){
+  window._undoFn=fn;
+  const t=document.getElementById('toast');
+  t.innerHTML=`<span>${msg}</span><button class="toast-undo" onclick="window._undoFn&&(window._undoFn(),document.getElementById('toast').classList.remove('show'))">Undo</button>`;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),5000);
 }
 
 function setGreeting(){
@@ -954,137 +1168,79 @@ function setGreeting(){
   document.getElementById('home-sub').textContent=subs[new Date().getDay()%subs.length];
 }
 
-// === UPDATED DASHBOARD LOGIC (PROFIT VS LOSS) ===
+// ══════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════
 function refreshDash(){
-  const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
-  const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
-  const netProfit=income-costs;
-  const totalLosses=sales.reduce((s,x)=>x.profit<0 ? s+Math.abs(x.profit) : s, 0);
-
-  animNum('dash-income',income);
-  animNum('dash-costs',costs);
-  animNum('dash-profit',netProfit);
-  if(document.getElementById('dash-loss')) animNum('dash-loss',totalLosses);
-
-  const ps=document.querySelector('.stat.is-profit') || document.querySelector('.stat.is-loss');
-  if(ps){
-    // Dynamically change styling based on overall net health
-    ps.className = netProfit >= 0 ? 'stat is-profit' : 'stat is-loss';
-    ps.querySelector('.stat-num').style.color=netProfit<0?'var(--red)':'var(--green)';
-    ps.querySelector('.stat-lbl').style.color=netProfit<0?'var(--red)':'var(--green)';
+  const totalRevenue=sales.reduce((s,x)=>s+(x.revenue||0),0);
+  const totalInvested=sales.reduce((s,x)=>s+(x.batchCost||x.costs||0),0);
+  const netPL=totalRevenue-totalInvested;
+  const totalLosses=sales.reduce((s,x)=>x.profit<0?s+Math.abs(x.profit):s,0);
+  if(document.getElementById('dash-revenue'))animNum('dash-revenue',totalRevenue);
+  if(document.getElementById('dash-invested'))animNum('dash-invested',totalInvested);
+  animNum('dash-profit',Math.abs(netPL));
+  if(document.getElementById('dash-loss'))animNum('dash-loss',totalLosses);
+  const profitStat=document.getElementById('stat-profit');
+  const profitLbl=document.getElementById('stat-pl-lbl');
+  if(profitStat&&profitLbl){
+    profitStat.className=netPL>=0?'stat is-profit':'stat is-loss';
+    profitLbl.textContent=netPL>=0?'Net Profit':'Net Loss';
   }
 }
-
 function animNum(id,target){
-  const el=document.getElementById(id);
-  if(!el) return;
+  const el=document.getElementById(id);if(!el)return;
   const dur=650,t0=performance.now();
-  const step=now=>{
-    const p=Math.min((now-t0)/dur,1);
-    const ease=1-Math.pow(1-p,3);
-    el.textContent='GHS '+Math.round(target*ease);
-    if(p<1)requestAnimationFrame(step);
-  };
+  const step=now=>{const p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,3);
+    el.textContent='GHS '+Math.round(target*ease);if(p<1)requestAnimationFrame(step);};
   requestAnimationFrame(step);
 }
 
+// ══════════════════════════════════════
+// CHECKLIST
+// ══════════════════════════════════════
 function renderChecklist(){
   const list=document.getElementById('cl-list');
-  list.innerHTML=items.map((item,i)=>{
-    const done=checked.has(i);
-    return`<div class="cl-item${done?' done':''}" id="cl-${i}">
+  const withMeta=items.map((item,i)=>({item,i,done:checked.has(i),pri:itemPriorities[i]||0}));
+  const undone=withMeta.filter(x=>!x.done).sort((a,b)=>b.pri-a.pri);
+  const sorted=[...undone,...withMeta.filter(x=>x.done)];
+  list.innerHTML=sorted.map(({item,i,done,pri})=>{
+    const priClass=pri===2?'p2':pri===1?'p1':'';
+    const priDot=pri===2?'🔴':pri===1?'⚡':'·';
+    return`<div class="cl-item${done?' done':''}${pri===1?' pri-1':pri===2?' pri-2':''}" id="cl-${i}">
+      <div class="cl-pri ${priClass}" onclick="cyclePriority(${i})">${priDot}</div>
       <div class="cl-box${done?' on':''}" onclick="toggleCheck(${i})">${done?'✓':''}</div>
-      <span class="cl-text">${item}</span>
+      <input class="cl-text-input" id="cl-inp-${i}" value="${item.replace(/"/g,'&quot;')}"
+        ${done?'readonly':''}
+        onblur="saveItemText(${i},this.value)"
+        onkeydown="if(event.key==='Enter')this.blur()">
       <span class="cl-del" onclick="delCheckItem(${i})">✕</span>
     </div>`;
   }).join('');
   updateProgress();
 }
-function toggleCheck(i){
-  if(checked.has(i))checked.delete(i);else checked.add(i);
-  save('ca2_checked',[...checked]);renderChecklist();
-}
-function addCheckItem(){
-  const name=prompt('New prep item:');
-  if(!name||!name.trim())return;
-  items.push(name.trim());save('ca2_items',items);renderChecklist();
-}
-function delCheckItem(i){
-  items.splice(i,1);
-  const nc=new Set();
-  checked.forEach(c=>{if(c<i)nc.add(c);else if(c>i)nc.add(c-1)});
-  checked=nc;save('ca2_items',items);save('ca2_checked',[...checked]);renderChecklist();
-}
-function resetChecklist(){
-  if(!confirm('Reset checklist to defaults?'))return;
-  items=[...DEFAULTS];checked=new Set();
-  save('ca2_items',items);save('ca2_checked',[]);renderChecklist();
-}
-function updateProgress(){
-  const total=items.length,done=checked.size;
-  const pct=total?Math.round((done/total)*100):0;
-  document.getElementById('prog-lbl').textContent=`${done} of ${total} done`;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-}
+function cyclePriority(i){const cur=itemPriorities[i]||0,next=(cur+1)%3;if(next===0)delete itemPriorities[i];else itemPriorities[i]=next;save('ca2_priorities',itemPriorities);renderChecklist();}
+function saveItemText(i,val){const t=val.trim();if(t)items[i]=t;save('ca2_items',items);}
+function toggleCheck(i){if(checked.has(i))checked.delete(i);else checked.add(i);save('ca2_checked',[...checked]);renderChecklist();}
+function addCheckItem(){const name=prompt('New prep item:');if(!name||!name.trim())return;items.push(name.trim());save('ca2_items',items);renderChecklist();}
+function delCheckItem(i){items.splice(i,1);const nc=new Set();checked.forEach(c=>{if(c<i)nc.add(c);else if(c>i)nc.add(c-1)});checked=nc;const newPri={};Object.entries(itemPriorities).forEach(([k,v])=>{const ki=parseInt(k);if(ki<i)newPri[ki]=v;else if(ki>i)newPri[ki-1]=v;});itemPriorities=newPri;save('ca2_items',items);save('ca2_checked',[...checked]);save('ca2_priorities',itemPriorities);renderChecklist();}
+function resetChecklist(){if(!confirm('Reset checklist to defaults?'))return;items=[...DEFAULTS];checked=new Set();itemPriorities={};save('ca2_items',items);save('ca2_checked',[]);save('ca2_priorities',{});renderChecklist();}
+function updateProgress(){const total=items.length,done=checked.size,pct=total?Math.round((done/total)*100):0;document.getElementById('prog-lbl').textContent=`${done} of ${total} done`;document.getElementById('prog-pct').textContent=pct+'%';document.getElementById('prog-fill').style.width=pct+'%';}
 
 // ══════════════════════════════════════
-// EXPENSES + DRAG & DROP
+// EXPENSES
 // ══════════════════════════════════════
 function renderExpenseList(){
   const c=document.getElementById('expense-list');
   c.innerHTML=expenses.map((e,i)=>`
-    <div class="expense-item" draggable="true">
+    <div class="expense-item">
       <input class="inp sm name" type="text" placeholder="e.g. Tomatoes" value="${e.name}" oninput="expenses[${i}].name=this.value;saveExpenses()">
       <input class="inp sm amount" type="number" placeholder="GHS" value="${e.amount||''}" inputmode="numeric" oninput="expenses[${i}].amount=parseFloat(this.value)||0;saveExpenses()">
       <button class="exp-del" onclick="removeExpense(${i})">✕</button>
     </div>`).join('');
 }
-function addExpense(){
-  expenses.push({id:Date.now(),name:'',amount:0});saveExpenses();renderExpenseList();
-}
+function addExpense(){expenses.push({id:Date.now(),name:'',amount:0});saveExpenses();renderExpenseList();const inputs=document.querySelectorAll('.expense-item .name');if(inputs.length)inputs[inputs.length-1].focus();}
 function removeExpense(i){expenses.splice(i,1);saveExpenses();renderExpenseList();}
 function saveExpenses(){save('ca2_expenses',expenses);}
-
-function setupExpenseDrag(){
-  const list = document.getElementById('expense-list');
-  if(!list) return;
-  list.addEventListener('dragstart', e => {
-    const item = e.target.closest('.expense-item');
-    if(!item) return;
-    item.classList.add('dragging');
-    const index = Array.from(list.children).indexOf(item);
-    e.dataTransfer.setData('text/plain', index);
-    e.dataTransfer.effectAllowed = 'move';
-  });
-  list.addEventListener('dragend', e => {
-    const item = e.target.closest('.expense-item');
-    if(item) item.classList.remove('dragging');
-  });
-  list.addEventListener('dragover', e => {
-    e.preventDefault();
-    const item = e.target.closest('.expense-item');
-    if(item) item.style.border = `2px dashed var(--green)`;
-  });
-  list.addEventListener('dragleave', e => {
-    const item = e.target.closest('.expense-item');
-    if(item) item.style.border = '';
-  });
-  list.addEventListener('drop', e => {
-    e.preventDefault();
-    const listEl = e.currentTarget;
-    const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
-    const dropItem = e.target.closest('.expense-item');
-    if(!dropItem) return;
-    const dropIndex = Array.from(listEl.children).indexOf(dropItem);
-    if(draggedIndex === dropIndex) return;
-
-    const [moved] = expenses.splice(draggedIndex, 1);
-    expenses.splice(dropIndex, 0, moved);
-    saveExpenses();
-    renderExpenseList();
-  });
-}
 
 // ══════════════════════════════════════
 // PRICE CALCULATOR
@@ -1092,181 +1248,173 @@ function setupExpenseDrag(){
 function calcPrice(){
   const name=document.getElementById('p-name').value.trim()||'Untitled Dish';
   const portions=Math.max(parseFloat(document.getElementById('p-portions').value)||1,1);
-  let inputSellEst = parseFloat(document.getElementById('p-sellest').value) || portions;
-  const sellEst = Math.min(Math.max(inputSellEst, 1), portions); 
-  document.getElementById('p-sellest').value = sellEst;
-
+  let inputSellEst=parseFloat(document.getElementById('p-sellest').value)||portions;
+  const sellEst=Math.min(Math.max(inputSellEst,1),portions);
+  document.getElementById('p-sellest').value=sellEst;
   const margin=parseFloat(document.getElementById('margin-slider').value)/100;
   const totalCost=expenses.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
   const cpp=totalCost/portions;
-
-  const TIERS=[
-    {label:'Small', mult:TIER_MULTS[0]},
-    {label:'Medium',mult:TIER_MULTS[1]},
-    {label:'Large', mult:TIER_MULTS[2]}
-  ];
-  const tierPrices=TIERS.map(t=>({
-    ...t,
-    cost:parseFloat((cpp*t.mult).toFixed(2)),
-    price:Math.ceil(cpp*t.mult/(1-margin))
-  }));
-
-  currentBaseCOGS=cpp;
-  save('ca2_cogs',currentBaseCOGS);
+  const TIERS=[{label:'Small',mult:TIER_MULTS[0]},{label:'Medium',mult:TIER_MULTS[1]},{label:'Large',mult:TIER_MULTS[2]}];
+  const tierPrices=TIERS.map(t=>({...t,cost:parseFloat((cpp*t.mult).toFixed(2)),price:Math.ceil(cpp*t.mult/(1-margin))}));
+  currentBaseCOGS=cpp;save('ca2_cogs',currentBaseCOGS);
   calcState={totalCost,portions,tierPrices,sellEst,name,margin};
   document.getElementById('r-lbl').textContent=`Your Prices · ${name}`;
   document.getElementById('r-tier-grid').innerHTML=tierPrices.map((t,i)=>`
     <div class="tier${i===1?' hi':''}">
       <div class="tier-name">${t.label}</div>
       <div class="tier-price">GHS ${t.price}</div>
-      <div class="tier-unit">cost GHS ${fmt(t.cost)}</div>
+      <div class="tier-unit">per serving</div>
+      <div class="tier-row">Your cost<strong>GHS ${fmt(t.cost)}</strong></div>
     </div>`).join('');
+  document.getElementById('scenario-panel').classList.remove('show');
   const midProfit=tierPrices[1].price*sellEst-totalCost;
+  // Break-even: how many Medium portions to cover batch cost
+  const bePortions=Math.ceil(totalCost/tierPrices[1].price);
   document.getElementById('r-ctx').textContent=`${Math.round(margin*100)}% margin · batch of ${portions} · GHS ${fmt(totalCost)} total cost`;
   document.getElementById('r-pills').innerHTML=`
-    <div class="r-pill">Base Cost/portion<strong>GHS ${fmt(cpp)}</strong></div>
-    <div class="r-pill">Batch cost<strong>GHS ${fmt(totalCost)}</strong></div>
-    <div class="r-pill hi">Est. profit (Med)<strong style="color:${midProfit>=0?'var(--green)':'var(--red)'}">GHS ${fmt(midProfit)}</strong></div>`;
-
+    <div class="r-pill">Cost per portion<strong>GHS ${fmt(cpp)}</strong></div>
+    <div class="r-pill">Break-even (Med)<strong style="color:var(--amber)">${bePortions} sold</strong></div>
+    <div class="r-pill hi">Projected profit<strong style="color:${midProfit>=0?'var(--green)':'var(--red)'}">GHS ${fmt(midProfit)}</strong></div>`;
   document.getElementById('r-breakdown').innerHTML=
     expenses.map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('')+
     `<div class="brow total"><span>Total batch cost</span><span>GHS ${fmt(totalCost)}</span></div>`;
-  document.getElementById('r-save-btn').onclick=()=>
-    savePlan(name,portions,sellEst,totalCost,margin,tierPrices,midProfit,[...expenses]);
-
+  document.getElementById('r-save-btn').onclick=()=>savePlan(name,portions,sellEst,totalCost,margin,tierPrices,midProfit,[...expenses]);
   document.getElementById('price-result').style.display='block';
   document.getElementById('run-scenarios-btn').style.display='block';
-  
-  prefillSalePrices();
   setTimeout(()=>document.getElementById('price-result').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
 }
 
 // ══════════════════════════════════════
-// WHAT IF? BOTTOM SHEET SCENARIOS
+// SALES FORECAST (was "What If?")
 // ══════════════════════════════════════
-function openWhatIf() {
-  if(!calcState) return;
-  document.getElementById('whatif-bd').classList.add('show');
-  
-  const maxQty = calcState.portions;
-  const seed = calcState.sellEst;
-  calcState.tierPrices.forEach((t, i) => {
-      document.getElementById(`sc-tp-${i}`).textContent = `GHS ${t.price} / serving`;
-      const sl = document.getElementById(`sc-slider-${i}`);
-      sl.max = maxQty;
-      document.getElementById(`sc-max-${i}`).textContent = `${maxQty} (batch max)`;
-      sl.value = (i === 1) ? seed : 0; 
+function openForecast(){
+  if(!calcState)return;
+  fcBatchOverride=null;
+  const activeBatch=calcState.portions;
+  calcState.tierPrices.forEach((t,i)=>{
+    document.getElementById(`sc-tp-${i}`).textContent=`GHS ${t.price} / serving`;
+    const sl=document.getElementById(`sc-slider-${i}`);
+    sl.max=activeBatch;
+    sl.value=(i===1)?calcState.sellEst:0;
   });
-  [0, 1, 2].forEach(i => fillSlider(document.getElementById(`sc-slider-${i}`)));
+  updateFcBatchDisplay();
+  document.getElementById('sc-badge-text').textContent='Sales Forecast';
+  document.getElementById('scenario-panel').classList.add('show');
+  [0,1,2].forEach(i=>fillSlider(document.getElementById(`sc-slider-${i}`)));
+  updateMultiScenario();
+  setTimeout(()=>document.getElementById('scenario-panel').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+}
+function closeForecast(){document.getElementById('scenario-panel').classList.remove('show');}
+// Keep old names as aliases for any references
+const openWhatIf=openForecast,closeWhatIf=closeForecast;
+
+function adjustFcBatch(delta){
+  if(!calcState)return;
+  const cur=fcBatchOverride!==null?fcBatchOverride:calcState.portions;
+  fcBatchOverride=Math.max(1,cur+delta);
+  // Reset slider values to 0 when batch changes (avoids out-of-range values)
+  [0,1,2].forEach(i=>{
+    const sl=document.getElementById(`sc-slider-${i}`);
+    sl.max=fcBatchOverride;
+    sl.value=0;
+    fillSlider(sl);
+  });
+  updateFcBatchDisplay();
   updateMultiScenario();
 }
 
-function closeWhatIf(){
-  document.getElementById('whatif-bd').classList.remove('show');
+function updateFcBatchDisplay(){
+  if(!calcState)return;
+  const activeBatch=fcBatchOverride!==null?fcBatchOverride:calcState.portions;
+  const scaledCost=calcState.totalCost*(activeBatch/calcState.portions);
+  const valEl=document.getElementById('fc-batch-val');
+  valEl.textContent=activeBatch;
+  valEl.className='fc-override-val'+(fcBatchOverride!==null&&fcBatchOverride!==calcState.portions?' changed':'');
+  document.getElementById('fc-plan-note').textContent=`Your plan: ${calcState.portions} portions`;
+  document.getElementById('fc-scaled-cost').textContent=`GHS ${fmt(scaledCost)}`;
 }
 
 function fillSlider(sl){
-  const pct=(sl.value/sl.max)*100;
+  const min=parseFloat(sl.min)||0,max=parseFloat(sl.max)||1,val=parseFloat(sl.value)||0;
+  const pct=max>min?((val-min)/(max-min))*100:0;
   sl.style.background=`linear-gradient(to right,var(--green) ${pct}%,var(--s3) ${pct}%)`;
 }
 
+// FIXED: only clamp the moved slider. Never mutate other sliders' .max.
 function handleSliderInput(idx){
   if(!calcState)return;
-  const batchMax=calcState.portions;
+  const activeBatch=fcBatchOverride!==null?fcBatchOverride:calcState.portions;
   const sliders=[0,1,2].map(i=>document.getElementById(`sc-slider-${i}`));
   const othersSum=sliders.reduce((s,sl,i)=>i!==idx?s+Math.round(+sl.value||0):s,0);
-  const allowed=Math.max(0,batchMax-othersSum);
-  if(+sliders[idx].value>allowed)sliders[idx].value=allowed;
+  const allowed=Math.max(0,activeBatch-othersSum);
+  const clamped=Math.min(Math.round(+sliders[idx].value||0),allowed);
+  sliders[idx].value=clamped;
   updateMultiScenario();
 }
 
 function updateMultiScenario(){
   if(!calcState)return;
-  const batchMax=calcState.portions;
+  const activeBatch=fcBatchOverride!==null?fcBatchOverride:calcState.portions;
+  // Proportionally scale cost if batch size was overridden
+  const scaledCost=calcState.totalCost*(activeBatch/calcState.portions);
   const sliders=[0,1,2].map(i=>document.getElementById(`sc-slider-${i}`));
   const qtys=sliders.map(sl=>Math.round(+sl.value||0));
   const usedTotal=qtys.reduce((a,b)=>a+b,0);
-  
+  const leftover=Math.max(0,activeBatch-usedTotal);
+
+  // Fill sliders — keep sl.max stable at activeBatch
   sliders.forEach((sl,i)=>{
+    sl.max=activeBatch;
     fillSlider(sl);
-    const othersSum=qtys.reduce((s,v,j)=>j!==i?s+v:s,0);
-    const remaining=Math.max(0,batchMax-othersSum);
-    sl.max=remaining;
-    const leftover=batchMax-usedTotal;
-    document.getElementById(`sc-max-${i}`).textContent=
-      leftover<=0?'Batch full':remaining===batchMax?`${batchMax} (batch max)`:`${remaining} left`;
+    const lbl=document.getElementById(`sc-max-${i}`);
+    if(leftover===0){lbl.textContent='Batch full';lbl.className='fc-remain full';}
+    else{lbl.textContent=`${leftover} left`;lbl.className='fc-remain ok';}
   });
+
   const tiers=calcState.tierPrices;
   let totalRev=0;
   qtys.forEach((q,i)=>{
-    const rev=tiers[i].price*q;
-    totalRev+=rev;
+    const rev=tiers[i].price*q;totalRev+=rev;
     document.getElementById(`sc-qty-${i}`).textContent=q;
     document.getElementById(`sc-rev-${i}`).textContent=`GHS ${fmt(rev)}`;
     const rowCls=['active-s','active-m','active-l'];
     document.getElementById(`sc-row-${i}`).classList.toggle(rowCls[i],q>0);
   });
+
   const totalQty=qtys.reduce((a,b)=>a+b,0);
-  const prf=totalRev-calcState.totalCost;
+  // UNIFIED MATH: same as sales log — profit = revenue − fullBatchCost
+  const prf=totalRev-scaledCost;
   const mPct=totalRev>0?((prf/totalRev)*100).toFixed(1):'0';
-  const plEl=document.getElementById('sc-pl-amount');
-  const lbEl=document.getElementById('sc-pl-label');
-  const metaEl=document.getElementById('sc-pl-meta');
-  const beRemaining=calcState.totalCost-totalRev;
-  const hFill=document.getElementById('health-fill');
-  const hLabel=document.getElementById('health-label');
-  if(totalQty===0){
-    hFill.style.width='0%';hFill.style.background='var(--dim)';
-    hLabel.textContent='No portions set yet';
-  } else if(prf<0){
-    const lossRatio=Math.min(Math.abs(prf)/calcState.totalCost,1);
-    hFill.style.width=Math.round((1-lossRatio)*40)+'%';
-    hFill.style.background='var(--red)';
-    hLabel.textContent='Below break-even — slide up to recover';
-  } else if(prf===0){
-    hFill.style.width='50%';hFill.style.background='var(--amber)';
-    hLabel.textContent='Exactly at break-even';
-  } else {
-    const profitRatio=Math.min(prf/(calcState.totalCost*1.5),1);
-    hFill.style.width=Math.round(50+profitRatio*50)+'%';
-    hFill.style.background='var(--green)';
-    hLabel.textContent=`Profit health: ${mPct}% margin`;
-  }
-  
-  if(totalQty===0){
-    plEl.textContent='—';plEl.className='pl-amount';
-    lbEl.textContent='Your estimated result';
-    metaEl.innerHTML='Slide the portions below to see your outcome';
-  } else if(Math.abs(prf)<0.01){
-    plEl.textContent='Break Even';plEl.className='pl-amount breakeven';
-    lbEl.textContent='Exactly at break-even';
-    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> covers your costs`;
-  } else if(prf>0){
-    plEl.textContent=`GHS ${fmt(prf)}`;plEl.className='pl-amount profit';
-    lbEl.textContent='Your estimated profit';
-    metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> · Margin <strong>${mPct}%</strong>`;
-  } else {
-    plEl.textContent=`−GHS ${fmt(Math.abs(prf))}`;plEl.className='pl-amount loss';
-    lbEl.textContent='You\'re in the red';
-    metaEl.innerHTML=`Short by <strong>GHS ${fmt(Math.abs(prf))}</strong> · Revenue <strong>GHS ${fmt(totalRev)}</strong>`;
-  }
-  
+  const roiVal=scaledCost>0?((prf/scaledCost)*100).toFixed(1):'0';
+  const beRemaining=scaledCost-totalRev;
+  const plEl=document.getElementById('sc-pl-amount'),lbEl=document.getElementById('sc-pl-label'),metaEl=document.getElementById('sc-pl-meta');
+
+  // Health bar
+  const hFill=document.getElementById('health-fill'),hLabel=document.getElementById('health-label');
+  if(totalQty===0){hFill.style.width='0%';hFill.style.background='var(--dim)';hLabel.textContent='Move the sliders to see your outcome';}
+  else if(prf<0){const r=Math.min(Math.abs(prf)/scaledCost,1);hFill.style.width=Math.round((1-r)*40)+'%';hFill.style.background='var(--red)';hLabel.textContent='Below break-even — add more portions';}
+  else if(prf===0){hFill.style.width='50%';hFill.style.background='var(--amber)';hLabel.textContent='Exactly at break-even';}
+  else{const r=Math.min(prf/(scaledCost*1.5),1);hFill.style.width=Math.round(50+r*50)+'%';hFill.style.background='var(--green)';hLabel.textContent=`Looking good — ${mPct}% margin`;}
+
+  if(totalQty===0){plEl.textContent='—';plEl.className='pl-amount';lbEl.textContent='Your estimated result';metaEl.innerHTML='Move the sliders to see your outcome';}
+  else if(Math.abs(prf)<0.01){plEl.textContent='Break Even';plEl.className='pl-amount breakeven';lbEl.textContent='Exactly at break-even';metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> covers your costs`;}
+  else if(prf>0){plEl.textContent=`GHS ${fmt(prf)}`;plEl.className='pl-amount profit';lbEl.textContent='Your estimated profit';metaEl.innerHTML=`Revenue <strong>GHS ${fmt(totalRev)}</strong> · Margin <strong>${mPct}%</strong>`;}
+  else{plEl.textContent=`−GHS ${fmt(Math.abs(prf))}`;plEl.className='pl-amount loss';lbEl.textContent='You\'re in the red';metaEl.innerHTML=`Need <strong>GHS ${fmt(Math.abs(prf))}</strong> more · Revenue so far <strong>GHS ${fmt(totalRev)}</strong>`;}
+
   const beEl=document.getElementById('sc-be-marker');
-  if(totalQty===0){
-    beEl.textContent='';beEl.className='be-marker';
-  } else if(beRemaining>0.01){
-    beEl.textContent=`Need GHS ${fmt(beRemaining)} more revenue to break even`;beEl.className='be-marker bad';
-  } else if(Math.abs(beRemaining)<=0.01){
-    beEl.textContent='▲ Exactly at break-even';beEl.className='be-marker warn';
-  } else {
-    beEl.textContent=`✓ Costs covered — GHS ${fmt(Math.abs(beRemaining))} above break-even`;beEl.className='be-marker ok';
-  }
-  
+  if(totalQty===0){beEl.textContent='';beEl.className='be-marker';}
+  else if(beRemaining>0.01){beEl.textContent=`Need GHS ${fmt(beRemaining)} more to break even`;beEl.className='be-marker bad';}
+  else if(Math.abs(beRemaining)<=0.01){beEl.textContent='▲ Exactly at break-even';beEl.className='be-marker warn';}
+  else{beEl.textContent=`✓ Costs covered · GHS ${fmt(Math.abs(beRemaining))} above break-even`;beEl.className='be-marker ok';}
+
   document.getElementById('sc-sum-qty').textContent=totalQty+' portions';
   document.getElementById('sc-sum-rev').textContent=`GHS ${fmt(totalRev)}`;
-  document.getElementById('sc-sum-cost').textContent=`GHS ${fmt(calcState.totalCost)}`;
-  const plRow=document.getElementById('sc-sum-pl-row');
-  const plVal=document.getElementById('sc-sum-pl');
+  document.getElementById('sc-sum-cost').textContent=`GHS ${fmt(scaledCost)}`;
+  const roiEl=document.getElementById('sc-sum-roi');
+  if(totalQty===0){roiEl.textContent='—';roiEl.style.color='var(--sub)';}
+  else if(scaledCost===0){roiEl.textContent='∞';roiEl.style.color='var(--green)';}
+  else{roiEl.textContent=`${roiVal}% ROI · ${mPct}% margin`;roiEl.style.color=prf>=0?'var(--green)':'var(--red)';}
+  const plRow=document.getElementById('sc-sum-pl-row'),plVal=document.getElementById('sc-sum-pl');
   if(totalQty===0){plVal.textContent='—';plRow.className='sc-sum-row big';}
   else if(prf>0){plVal.textContent=`+GHS ${fmt(prf)}`;plRow.className='sc-sum-row big profit-row';}
   else if(prf<0){plVal.textContent=`−GHS ${fmt(Math.abs(prf))}`;plRow.className='sc-sum-row big loss-row';}
@@ -1274,163 +1422,230 @@ function updateMultiScenario(){
 }
 
 // ══════════════════════════════════════
-// RECORD SALES & LEDGER (UPDATED LOGIC)
+// SALES LOG — unified math model
 // ══════════════════════════════════════
 function stepQty(tier,delta){
-  lgQty[tier]=Math.max(0,lgQty[tier]+delta);
-  const disp=document.getElementById(`lg-q${tier}-disp`);
-  disp.textContent=lgQty[tier];
-  disp.className='qt-count'+(lgQty[tier]>0?' has-val':'');
-  document.getElementById(`qt-row-${tier}`).classList.toggle('active',lgQty[tier]>0);
-  updateLogPreview();
+  const inp=document.getElementById(`lg-q${tier}-disp`);
+  const next=Math.max(0,(parseInt(inp.value)||0)+delta);
+  inp.value=next;
+  inp.className='qt-num'+(next>0?' has-val':'');
+  document.getElementById(`qt-row-${tier}`).classList.toggle('active',next>0);
+  updateLogPreview();updateBatchHint();
+}
+function onQtyInput(tier){
+  const inp=document.getElementById(`lg-q${tier}-disp`);
+  const v=Math.max(0,parseInt(inp.value)||0);inp.value=v;
+  inp.className='qt-num'+(v>0?' has-val':'');
+  document.getElementById(`qt-row-${tier}`).classList.toggle('active',v>0);
+  updateLogPreview();updateBatchHint();
+}
+function stepWaste(delta){
+  const inp=document.getElementById('lg-waste-disp');
+  lgWaste=Math.max(0,(parseInt(inp.value)||0)+delta);
+  inp.value=lgWaste;inp.className='qt-num'+(lgWaste>0?' has-val-red':'');
+  document.getElementById('qt-row-waste').classList.toggle('active',lgWaste>0);
+  updateWasteBadge();updateLogPreview();updateBatchHint();
+}
+function onWasteInput(){
+  const inp=document.getElementById('lg-waste-disp');
+  lgWaste=Math.max(0,parseInt(inp.value)||0);
+  inp.className='qt-num'+(lgWaste>0?' has-val-red':'');
+  document.getElementById('qt-row-waste').classList.toggle('active',lgWaste>0);
+  updateWasteBadge();updateLogPreview();updateBatchHint();
+}
+function updateWasteBadge(){
+  const badge=document.getElementById('waste-badge');
+  if(lgWaste>0&&currentBaseCOGS>0){badge.textContent=`~GHS ${fmt(lgWaste*currentBaseCOGS)} of cost`;badge.classList.add('show');}
+  else badge.classList.remove('show');
+}
+function updateWasteCostHint(){
+  const hint=document.getElementById('waste-cost-hint');
+  if(!hint)return;
+  hint.textContent='for tracking only';hint.style.color='var(--dim)';
+}
+
+// Shows batch sell-through live when calcState is active
+function updateBatchHint(){
+  const hint=document.getElementById('batch-hint');if(!hint)return;
+  if(!calcState){hint.classList.remove('show');return;}
+  const sold=[0,1,2].reduce((a,t)=>a+getQty(t),0);
+  const total=sold+lgWaste;
+  const batch=calcState.portions;
+  const unaccounted=batch-total;
+  hint.classList.add('show');
+  const stPct=batch>0?Math.round((sold/batch)*100):0;
+  document.getElementById('bh-sub').textContent=`${sold} sold · ${lgWaste} left over · ${stPct}% of batch`;
+  if(unaccounted>0){hint.className='batch-hint show warn';document.getElementById('bh-text').textContent=`${unaccounted} portion${unaccounted!==1?'s':''} still unaccounted`;}
+  else if(unaccounted<0){hint.className='batch-hint show over';document.getElementById('bh-text').textContent=`${Math.abs(unaccounted)} over batch size`;}
+  else{hint.className='batch-hint show ok';document.getElementById('bh-text').textContent='All portions accounted for ✓';}
 }
 
 function updateLogPreview(){
-  const tiers=[0,1,2].map(i=>({
-    price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,
-    qty:lgQty[i],
-    cogsFraction:TIER_MULTS[i]*currentBaseCOGS*lgQty[i]
-  }));
-  const manualCosts=parseFloat(document.getElementById('lg-costs').value)||0;
-  const wasteQty=parseInt(document.getElementById('lg-waste').value)||0;
-  
-  // Calculate the cost of the wasted/unsold food
-  const wasteCost = wasteQty * currentBaseCOGS;
-  
-  const rev=tiers.reduce((s,t)=>s+t.price*t.qty,0);
-  // Add wasteCost to the total allocated cost
-  const allocatedCost=(manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0)) + wasteCost;
-  
-  const prf=rev-allocatedCost;
+  const rev=[0,1,2].reduce((s,t)=>s+(parseFloat(document.getElementById(`lg-p${t}`).value)||0)*getQty(t),0);
+  // UNIFIED MATH: profit = revenue − batchCost − extraCosts
+  const batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  const extraCosts=parseFloat(document.getElementById('lg-costs').value)||0;
+  const totalCost=batchCost+extraCosts;
+  const prf=rev-totalCost;
   const el=document.getElementById('lg-preview');
-  
-  // Check if there's any valid input across any of the fields to show preview
-  const any=tiers.some(t=>t.price>0||t.qty>0)||manualCosts>0||wasteQty>0;
-  if(!any){el.classList.remove('show');return;}
-  
+  const anyQty=[0,1,2].some(t=>getQty(t)>0)||lgWaste>0;
+  const anyVal=anyQty||batchCost>0||extraCosts>0||[0,1,2].some(t=>parseFloat(document.getElementById(`lg-p${t}`).value)||0);
+  if(!anyVal){el.classList.remove('show');return;}
   document.getElementById('lg-prev-rev').textContent=`Revenue: GHS ${fmt(rev)}`;
   const pEl=document.getElementById('lg-prev-prf');
   if(prf>=0){pEl.textContent=`+GHS ${fmt(prf)} profit`;pEl.style.color='var(--green)';}
   else{pEl.textContent=`−GHS ${fmt(Math.abs(prf))} loss`;pEl.style.color='var(--red)';}
+  // Break-even: how much more revenue needed
+  const beEl=document.getElementById('lg-prev-be');
+  if(batchCost>0&&prf<0){beEl.textContent=`GHS ${fmt(Math.abs(prf))} more to break even`;}
+  else if(batchCost>0&&prf>=0){beEl.textContent='';}
+  else beEl.textContent='';
   el.classList.add('show');
+  // Budget variance
+  updateBatchVariance(batchCost);
+}
+
+function updateBatchVariance(entered){
+  const varEl=document.getElementById('lg-batch-variance');if(!varEl)return;
+  if(!calcState||!entered){varEl.textContent='';return;}
+  const planned=calcState.totalCost;
+  const diff=entered-planned;
+  if(Math.abs(diff)<0.5){varEl.textContent='Matches your plan';varEl.className='batch-variance neutral';}
+  else if(diff>0){varEl.textContent=`GHS ${fmt(diff)} over your plan`;varEl.className='batch-variance over';}
+  else{varEl.textContent=`GHS ${fmt(Math.abs(diff))} under your plan`;varEl.className='batch-variance saved';}
 }
 
 function prefillSalePrices(){
-  if(!calcState) return;
+  if(!calcState)return;
   calcState.tierPrices.forEach((t,i)=>{
     const inp=document.getElementById(`lg-p${i}`);
-    if(inp) inp.value = t.price;
+    if(inp&&!inp.value)inp.value=t.price;
   });
+  // Pre-fill batch cost with planned batch cost
+  const bc=document.getElementById('lg-batch-cost');
+  if(bc&&!bc.value)bc.value=calcState.totalCost;
+  updateBatchVariance(calcState.totalCost);
+  updateBatchHint();
 }
 
 function logSale(){
   const dish=document.getElementById('lg-dish').value.trim()||'Unnamed Dish';
-  const manualCosts=parseFloat(document.getElementById('lg-costs').value)||0;
-  const wasteQty=parseInt(document.getElementById('lg-waste').value)||0;
-  const wasteCost=wasteQty * currentBaseCOGS;
-
   const LABELS=['Small','Medium','Large'];
-  const tiers=[0,1,2].map(i=>({
-    label:LABELS[i],
-    price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,
-    qty:lgQty[i],
-    cogsFraction:TIER_MULTS[i]*currentBaseCOGS*lgQty[i]
-  })).filter(t=>t.qty>0);
-
-  if(!tiers.length && wasteQty === 0 && manualCosts === 0){alert('Add portions sold or waste.');return;}
-  
+  const tiers=[0,1,2].map(i=>({label:LABELS[i],price:parseFloat(document.getElementById(`lg-p${i}`).value)||0,qty:getQty(i)})).filter(t=>t.qty>0);
+  const batchCost=parseFloat(document.getElementById('lg-batch-cost').value)||0;
+  const extraCosts=parseFloat(document.getElementById('lg-costs').value)||0;
+  if(!tiers.length&&!batchCost){alert('Add portions sold and your batch cost first.');return;}
   const revenue=tiers.reduce((s,t)=>s+t.price*t.qty,0);
-  const allocatedCost=(manualCosts>0?manualCosts:tiers.reduce((s,t)=>s+t.cogsFraction,0)) + wasteCost;
-  const profit=revenue-allocatedCost;
-  
-  // Include waste details in the history object
-  sales.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-GB'),dish,costs:allocatedCost,revenue,profit,tiers,wasteQty,wasteCost});
+  const totalCosts=batchCost+extraCosts;
+  const profit=revenue-totalCosts;
+  const soldTotal=tiers.reduce((a,t)=>a+(t.qty||0),0);
+  const batchSize=calcState?calcState.portions:null;
+  const stPct=batchSize&&(soldTotal+lgWaste)>0?Math.round((soldTotal/(soldTotal+lgWaste))*100):null;
+  sales.unshift({
+    id:Date.now(),date:new Date().toLocaleDateString('en-GB'),
+    dish,batchCost,extraCosts,costs:totalCosts,revenue,profit,
+    tiers,wasteQty:lgWaste,soldTotal,batchSize,stPct
+  });
   save('ca2_sales',sales);
-  
-  // Reset form
+  clearSaleForm();
+  showToast('Sale recorded ✓');
+  renderSales();renderSalesTotals();refreshDash();
+}
+
+function clearSaleForm(){
   document.getElementById('lg-dish').value='';
+  document.getElementById('lg-batch-cost').value='';
   document.getElementById('lg-costs').value='';
-  document.getElementById('lg-waste').value='';
+  document.getElementById('lg-batch-variance').textContent='';
   [0,1,2].forEach(i=>{
     document.getElementById(`lg-p${i}`).value='';
-    lgQty[i]=0;
-    document.getElementById(`lg-q${i}-disp`).textContent='0';
-    document.getElementById(`lg-q${i}-disp`).className='qt-count';
+    const inp=document.getElementById(`lg-q${i}-disp`);
+    inp.value=0;inp.className='qt-num';
     document.getElementById(`qt-row-${i}`).classList.remove('active');
   });
+  lgWaste=0;
+  const wd=document.getElementById('lg-waste-disp');if(wd){wd.value=0;wd.className='qt-num';}
+  const wb=document.getElementById('waste-badge');if(wb)wb.classList.remove('show');
+  const wr=document.getElementById('qt-row-waste');if(wr)wr.classList.remove('active');
   document.getElementById('lg-preview').classList.remove('show');
-  
-  showToast('Entry logged successfully!');
-  renderSales();
-  renderSalesTotals();
-  refreshDash();
+  const bh=document.getElementById('batch-hint');if(bh)bh.classList.remove('show');
 }
 
 function deleteSale(id){
-  sales=sales.filter(s=>s.id!==id);save('ca2_sales',sales);
+  const idx=sales.findIndex(s=>s.id===id);if(idx===-1)return;
+  undoBuffer={sale:sales[idx],idx};
+  sales.splice(idx,1);
+  save('ca2_sales',sales);
   renderSales();renderSalesTotals();refreshDash();
+  if(undoTimer)clearTimeout(undoTimer);
+  showUndoToast('Sale removed',()=>{
+    if(!undoBuffer)return;
+    sales.splice(undoBuffer.idx,0,undoBuffer.sale);
+    undoBuffer=null;
+    save('ca2_sales',sales);
+    renderSales();renderSalesTotals();refreshDash();
+    showToast('Sale restored ✓');
+  });
+  undoTimer=setTimeout(()=>{undoBuffer=null;},5100);
 }
 
 function renderSalesTotals(){
   const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
   const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
   const netProfit=income-costs;
-  const totalLosses=sales.reduce((s,x)=>x.profit<0 ? s+Math.abs(x.profit) : s, 0);
-
+  const totalLosses=sales.reduce((s,x)=>x.profit<0?s+Math.abs(x.profit):s,0);
   document.getElementById('sl-income').textContent='GHS '+fmt(income);
   document.getElementById('sl-costs').textContent='GHS '+fmt(costs);
-  document.getElementById('sl-loss').textContent='GHS '+fmt(totalLosses);
-  
-  const pEl=document.getElementById('sl-profit');
-  pEl.textContent='GHS '+fmt(netProfit);
-  pEl.style.color=netProfit>=0?'var(--green)':'var(--red)';
+  const lEl=document.getElementById('sl-loss');if(lEl)lEl.textContent='GHS '+fmt(totalLosses);
+  const pEl=document.getElementById('sl-profit');pEl.textContent='GHS '+fmt(netProfit);pEl.style.color=netProfit>=0?'var(--green)':'var(--red)';
 }
 
 function renderSales(){
-  const c=document.getElementById('sales-list-container');
-  if(!sales.length){
-    c.innerHTML=`<div class="empty"><div class="empty-icon">🧾</div>No sales logged yet.<br>Go to the Sales tab to log your first sale!</div>`;
-    return;
-  }
+  const c=document.getElementById('sales-list');
+  if(!sales.length){c.innerHTML=`<div class="empty"><div class="empty-icon">🧾</div>No sales recorded yet.<br>Fill in the form above after you cook!</div>`;return;}
   c.innerHTML=sales.map(s=>{
-    const profitTag=s.profit>=0
-      ?`<span class="tag green">+GHS ${fmt(s.profit)}</span>`
-      :`<span class="tag red">−GHS ${fmt(Math.abs(s.profit))}</span>`;
+    const profitTag=s.profit>=0?`<span class="tag green">+GHS ${fmt(s.profit)}</span>`:`<span class="tag red">−GHS ${fmt(Math.abs(s.profit))}</span>`;
     let tierRows='';
     if(s.tiers&&s.tiers.length){
       tierRows=s.tiers.map(t=>`<div class="sale-tier-row">
         <span class="stl">${t.label} × ${t.qty}</span>
         <span class="stv">GHS ${fmt(t.price)} = <strong>GHS ${fmt(t.qty*t.price)}</strong></span>
       </div>`).join('');
-    } else if(s.portions) {
+    } else if(s.portions){
       tierRows=`<div class="sale-tier-row"><span class="stl">${s.portions} portions @ GHS ${fmt(s.pricePerPortion)}</span></div>`;
     }
-
-    // NEW: Render explicit waste row
-    if(s.wasteQty > 0) {
-      tierRows += `<div class="sale-tier-row" style="margin-top:4px; padding-top:4px; border-top:1px dashed var(--bd)">
-        <span class="stl" style="color:var(--red)">Unsold / Waste × ${s.wasteQty}</span>
-        <span class="stv" style="color:var(--red)">Loss of <strong>GHS ${fmt(s.wasteCost)}</strong></span>
+    if(s.wasteQty>0){
+      tierRows+=`<div class="sale-tier-row" style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--bd)">
+        <span class="stl" style="color:var(--amber)">Left over × ${s.wasteQty}</span>
+        <span class="stv" style="color:var(--sub)">tracking only</span>
       </div>`;
     }
-
-    const totalQty=(s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0)) + (s.wasteQty||0);
- 
+    if(s.extraCosts>0){
+      tierRows+=`<div class="sale-tier-row" style="margin-top:4px;padding-top:4px;border-top:1px dashed var(--bd)">
+        <span class="stl" style="color:var(--amber)">Extra costs</span>
+        <span class="stv" style="color:var(--amber)"><strong>GHS ${fmt(s.extraCosts)}</strong></span>
+      </div>`;
+    }
+    const soldQty=s.tiers?s.tiers.reduce((a,t)=>a+(t.qty||0),0):(s.portions||0);
+    const stNote=s.stPct!=null?` · ${s.stPct}% sell-through`:'';
+    const batchNote=s.batchSize?` · batch of ${s.batchSize}`:'';
+    const dotColor=s.profit<0?'background:var(--red);box-shadow:0 0 8px rgba(255,71,87,0.4)':'';
     return`<div class="sale-card">
       <div class="sale-top">
-        <div class="sale-dot"></div>
+        <div class="sale-dot" style="${dotColor}"></div>
         <div class="sale-info">
           <div class="sale-dish">${s.dish}</div>
-          <div class="sale-meta">${s.date} · ${totalQty} logged units</div>
+          <div class="sale-meta">${s.date} · ${soldQty} portions sold${batchNote}</div>
+          ${s.stPct!=null?`<div class="sale-st"><strong>${s.stPct}%</strong> sell-through</div>`:''}
         </div>
         <div class="sale-right">
-          <div class="sale-rev">GHS ${fmt(s.revenue)}</div>
+          <div class="sale-rev" style="${s.profit<0?'color:var(--sub)':''}">GHS ${fmt(s.revenue)}</div>
           <span class="sale-del" onclick="deleteSale(${s.id})">✕</span>
         </div>
       </div>
       <div class="sale-tiers">${tierRows}</div>
       <div class="sale-footer">
-        <span style="font-size:11px;color:var(--sub)">Cost: GHS ${fmt(s.costs)}</span>
+        <span style="font-size:11px;color:var(--sub)">Batch cost: GHS ${fmt(s.batchCost||s.costs)}</span>
         ${profitTag}
       </div>
     </div>`;
@@ -1438,64 +1653,53 @@ function renderSales(){
 }
 
 // ══════════════════════════════════════
-// UNIFIED LEDGER TOGGLE (TAB 3)
-// ══════════════════════════════════════
-function switchLedger(tab) {
-  const btnS = document.getElementById('tog-sales');
-  const btnP = document.getElementById('tog-plans');
-  const conS = document.getElementById('sales-list-container');
-  const conP = document.getElementById('saved-plans-container');
-  
-  if (tab === 'sales') {
-      btnS.style.background = 'var(--s3)';
-      btnS.style.color = 'var(--text)';
-      btnP.style.background = 'transparent'; btnP.style.color = 'var(--sub)';
-      conS.style.display = 'block'; conP.style.display = 'none';
-      renderSales();
-  } else {
-      btnP.style.background = 'var(--s3)'; btnP.style.color = 'var(--text)';
-      btnS.style.background = 'transparent'; btnS.style.color = 'var(--sub)';
-      conP.style.display = 'block'; conS.style.display = 'none';
-      renderHistory();
-  }
-}
-
-// ══════════════════════════════════════
-// SAVED PLANS (HISTORY)
+// HISTORY — with Load Plan + actual outcome
 // ══════════════════════════════════════
 function savePlan(name,portions,sellEst,totalCost,margin,tierPrices,profit,expSnap){
+  // Snapshot any sales for this dish as context
+  const related=sales.filter(s=>s.dish&&s.dish.toLowerCase()===name.toLowerCase()).slice(0,5);
+  const actualRevenue=related.reduce((s,x)=>s+(x.revenue||0),0);
+  const actualProfit=related.reduce((s,x)=>s+(x.profit||0),0);
   history.unshift({
     id:Date.now(),date:new Date().toLocaleDateString('en-GB'),
     name,portions,sellEst,totalCost,margin,tierPrices,
-    sellPrice:tierPrices[1].price,profit,expenses:expSnap
+    sellPrice:tierPrices[1].price,profit,expenses:expSnap,
+    actualRevenue,actualProfit,relatedCount:related.length
   });
   save('ca2_history',history);
-  
-  showToast('Plan saved to Ledger!');
-  renderHistory();
+  navigate(3);
+}
+
+function loadPlan(id){
+  const h=history.find(x=>x.id===id);if(!h)return;
+  document.getElementById('p-name').value=h.name;
+  document.getElementById('p-portions').value=h.portions;
+  document.getElementById('p-sellest').value=h.sellEst;
+  document.getElementById('margin-slider').value=Math.round((h.margin||0.5)*100);
+  document.getElementById('margin-val').textContent=Math.round((h.margin||0.5)*100)+'%';
+  fillSlider(document.getElementById('margin-slider'));
+  if(h.expenses&&h.expenses.length){expenses=h.expenses.map(e=>({...e}));saveExpenses();renderExpenseList();}
+  navigate(1);
+  showToast('Plan loaded — tap Calculate to apply');
 }
 
 function renderHistory(){
-  const c=document.getElementById('saved-plans-container');
-  if(!history.length){
-    c.innerHTML=`<div class="empty"><div class="empty-icon">📊</div>No saved plans yet.<br>Calculate a price and tap "Save This Plan".</div>`;
-    return;
-  }
+  const c=document.getElementById('hist-list');
+  if(!history.length){c.innerHTML=`<div class="empty"><div class="empty-icon">📊</div>No saved plans yet.<br>Calculate a price and tap "Save This Plan".</div>`;return;}
   c.innerHTML=history.map((h,i)=>{
     const cpm=h.totalCost/h.portions;
     const tiers=h.tierPrices||[
-      {label:'Small', mult:TIER_MULTS[0],price:Math.ceil(TIER_MULTS[0]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[0]*cpm).toFixed(2))},
+      {label:'Small',mult:TIER_MULTS[0],price:Math.ceil(TIER_MULTS[0]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[0]*cpm).toFixed(2))},
       {label:'Medium',mult:TIER_MULTS[1],price:Math.ceil(TIER_MULTS[1]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[1]*cpm).toFixed(2))},
-      {label:'Large', mult:TIER_MULTS[2],price:Math.ceil(TIER_MULTS[2]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[2]*cpm).toFixed(2))}
+      {label:'Large',mult:TIER_MULTS[2],price:Math.ceil(TIER_MULTS[2]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[2]*cpm).toFixed(2))}
     ];
-    const tHTML=tiers.map((t,ti)=>`
-      <div class="ht${ti===1?' hi':''}">
-        <div class="ht-name">${t.label}</div>
-        <div class="ht-price">GHS ${t.price}</div>
-        <div class="ht-unit">per serving</div>
-        <div class="ht-row">Cost<strong>GHS ${fmt(t.cost)}</strong></div>
-      </div>`).join('');
+    const tHTML=tiers.map((t,ti)=>`<div class="ht${ti===1?' hi':''}">
+      <div class="ht-name">${t.label}</div><div class="ht-price">GHS ${t.price}</div>
+      <div class="ht-unit">per serving</div><div class="ht-row">Cost<strong>GHS ${fmt(t.cost)}</strong></div>
+    </div>`).join('');
     const expRows=(h.expenses||[]).map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('');
+    const outcomeRow=h.relatedCount>0
+      ?`<div class="brow${h.actualProfit>=0?' profit':' loss'}"><span>Actual result (${h.relatedCount} sale${h.relatedCount!==1?'s':''})</span><span>${h.actualProfit>=0?'+':'−'}GHS ${fmt(Math.abs(h.actualProfit))}</span></div>`:'';
     return`<div class="hist-card" id="hc-${i}">
       <div class="hist-hd" onclick="toggleHist(${i})">
         <div>
@@ -1515,13 +1719,18 @@ function renderHistory(){
         <div class="breakdown">
           ${expRows}
           <div class="brow total"><span>Total batch cost</span><span>GHS ${fmt(h.totalCost)}</span></div>
-          <div class="brow${h.profit>=0?' profit':' loss'}"><span>Est. profit at medium tier</span><span>${h.profit>=0?'+':'−'}GHS ${fmt(Math.abs(h.profit))}</span></div>
+          <div class="brow${h.profit>=0?' profit':' loss'}"><span>Projected profit (medium tier)</span><span>${h.profit>=0?'+':'−'}GHS ${fmt(Math.abs(h.profit))}</span></div>
+          ${outcomeRow}
         </div>
-        <button class="btn btn-ghost sm" onclick="deleteHistory(${h.id})" style="margin-top:12px">Remove plan</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+          <button class="btn btn-ghost sm" onclick="loadPlan(${h.id})">↩ Load this plan</button>
+          <button class="btn btn-ghost sm" onclick="deleteHistory(${h.id})" style="color:var(--red)">Remove</button>
+        </div>
       </div>
     </div>`;
   }).join('');
 }
+
 function toggleHist(i){document.getElementById(`hc-${i}`).classList.toggle('open');}
 function deleteHistory(id){history=history.filter(h=>h.id!==id);save('ca2_history',history);renderHistory();}
 
@@ -1530,19 +1739,9 @@ function deleteHistory(id){history=history.filter(h=>h.id!==id);save('ca2_histor
 // ══════════════════════════════════════
 function openSettings(){document.getElementById('settings-bd').classList.add('show');}
 function closeSettings(){document.getElementById('settings-bd').classList.remove('show');}
-function toggleTheme(){
-  const cur=document.body.getAttribute('data-theme');
-  const next=cur==='dark'?'light':'dark';
-  document.body.setAttribute('data-theme',next);save('ca2_theme',next);updateThemeUI(next);
-}
-function updateThemeUI(theme){
-  document.getElementById('theme-icon').textContent=theme==='dark'?'☀️':'🌙';
-  document.getElementById('theme-lbl').textContent=theme==='dark'?'Switch to Light Mode':'Switch to Dark Mode';
-}
-function clearAllData(){
-  if(!confirm('Delete ALL data? This cannot be undone.'))return;
-  localStorage.clear();location.reload();
-}
+function toggleTheme(){const cur=document.body.getAttribute('data-theme'),next=cur==='dark'?'light':'dark';document.body.setAttribute('data-theme',next);save('ca2_theme',next);updateThemeUI(next);}
+function updateThemeUI(theme){document.getElementById('theme-icon').textContent=theme==='dark'?'☀️':'🌙';document.getElementById('theme-lbl').textContent=theme==='dark'?'Switch to Light Mode':'Switch to Dark Mode';}
+function clearAllData(){if(!confirm('Delete ALL data? This cannot be undone.'))return;localStorage.clear();location.reload();}
 </script>
 </body>
 </html>
