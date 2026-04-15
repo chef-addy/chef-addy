@@ -66,6 +66,12 @@ body{
 }
 [data-theme="dark"] body{background:#080808}
 
+/* IMPROVEMENT: Focus visible for accessibility */
+button:focus-visible, input:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
 /* ══════════════════════════════════════
    HEADER
 ══════════════════════════════════════ */
@@ -836,7 +842,6 @@ input[type="range"]::-webkit-slider-thumb:active{
           <div class="sc-close" onclick="closeForecast()">✕</div>
         </div>
 
-        <!-- Batch size override — "I cooked more or less than planned" -->
         <div class="fc-override">
           <div class="fc-override-row">
             <div>
@@ -958,7 +963,6 @@ input[type="range"]::-webkit-slider-thumb:active{
       <input class="inp sm" id="lg-dish" type="text" placeholder="e.g. Jollof Rice">
     </div>
 
-    <!-- Qty rows — tap count to type, or use +/− -->
     <div class="qt-grid">
       <div class="qt-row" id="qt-row-0">
         <div class="qt-label"><div class="qt-label-name">Small</div></div>
@@ -998,13 +1002,11 @@ input[type="range"]::-webkit-slider-thumb:active{
       </div>
     </div>
 
-    <!-- Live batch accounting hint -->
     <div id="batch-hint" class="batch-hint">
       <span id="bh-text">—</span>
       <span id="bh-sub" style="font-size:10px;opacity:0.75;text-align:right"></span>
     </div>
 
-    <!-- Left over row — tracking only, no longer adds to cost -->
     <div class="qt-row waste-row" id="qt-row-waste">
       <div class="qt-label">
         <div class="qt-label-name w">Left over</div>
@@ -1024,19 +1026,16 @@ input[type="range"]::-webkit-slider-thumb:active{
       </div>
     </div>
 
-    <!-- Batch cost is auto-filled from your plan — no need to re-enter -->
     <div id="lg-batch-cost-hidden" style="display:none">
       <input id="lg-batch-cost" type="number">
     </div>
 
-    <!-- Batch cost smart display -->
     <div id="lg-batch-display" class="batch-cost-wrap">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span class="lbl" style="margin-bottom:0" id="lg-batch-lbl">Batch Cost <span class="lbl-sub">from your plan</span></span>
         <span id="lg-batch-display-val" style="font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:var(--amber)">—</span>
       </div>
       <div id="lg-batch-variance" class="batch-variance neutral"></div>
-      <!-- Manual override shown only when no plan loaded -->
       <input class="inp sm" id="lg-batch-cost-manual" type="number" inputmode="decimal" placeholder="GHS 0 (enter manually)" style="margin-top:10px;display:none" oninput="onManualBatchCost()">
     </div>
 
@@ -1069,7 +1068,6 @@ input[type="range"]::-webkit-slider-thumb:active{
   <h1 class="pg-title">Price <em>History</em></h1>
   <p class="pg-sub">Saved plans and all recorded sales in one place.</p>
 
-  <!-- Sales Log History -->
   <div class="sec-row" style="margin-top:10px">
     <span class="sec-title">Sales Log</span>
     <button class="pill" id="sl-undo-btn" onclick="undoLastSale()" style="display:none;color:var(--amber);border-color:var(--a-bd);background:var(--a-dim)">↩ Undo Last</button>
@@ -1093,7 +1091,7 @@ input[type="range"]::-webkit-slider-thumb:active{
     </button>
     <button class="nav-btn" id="nav-1" onclick="navigate(1)">
       <div class="nav-bar"></div>
-      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.5 2a.5.5 0 00-1 0v1.07A6.5 6.5 0 0010 3a7 7 0 107 7 .5.5 0 00-1 0 6 6 0 11-5.5-5.972V2zM13 2.5a.5.5 0 011 0v3a.5.5 0 01-.5.5h-3a.5.5 0 010-1H13V2.5z"/><path d="M9.5 7a.5.5 0 01.5.5V10h1.5a.5.5 0 010 1H9.5a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5z"/></svg>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.5 2a.5.5 0 00-1 0v1.07A6.5 6.5 0 0010 3a7 7 0 107 7 .5.5 0 00-1 0 6 6 0 11-5.5-5.972V2zM13 2.5a.5.5 0 011 0v3a.5.5 0 01-.5.5h-3a.5.5 0 010-1H13V2.5z"/><path d="M9.5 7a.5.5 0 01.5.5V10h1.5a.5.5 0 010 1H9.5a.5.5 0 01-.5-.5v-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5z"/></svg>
       <span>Price</span>
     </button>
     <button class="nav-btn" id="nav-2" onclick="navigate(2)">
@@ -1144,7 +1142,12 @@ let undoBuffer=null,undoTimer=null;
 
 const ls=k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const fmt=n=>{if(isNaN(n)||n==null)return'0';const r=Math.round(n*100)/100;return r%1===0?r.toString():r.toFixed(2)};
+// IMPROVEMENT: Added toLocaleString to format numbers with commas
+const fmt=n=>{
+  if(isNaN(n)||n==null)return'0';
+  const r=Math.round(n*100)/100;
+  return Number(r).toLocaleString('en-GB', { minimumFractionDigits: r%1===0?0:2, maximumFractionDigits: 2 });
+};
 const getQty=t=>Math.max(0,parseInt(document.getElementById(`lg-q${t}-disp`).value)||0);
 
 // ══════════════════════════════════════
@@ -1281,13 +1284,19 @@ function setGreeting(){
 // ══════════════════════════════════════
 function refreshDash(){
   const totalRevenue=sales.reduce((s,x)=>s+(x.revenue||0),0);
-  const totalInvested=sales.reduce((s,x)=>s+(x.batchCost||x.costs||0),0);
+  
+  // FIX: Make sure the totalInvested pulls directly from the combined 'costs' key.
+  // If an older save is missing the 'costs' key, it safely adds up the batch and extra costs instead.
+  const totalInvested=sales.reduce((s,x)=>s+(x.costs !== undefined ? x.costs : ((x.batchCost||0) + (x.extraCosts||0))),0);
+  
   const netPL=totalRevenue-totalInvested;
   const totalLosses=sales.reduce((s,x)=>x.profit<0?s+Math.abs(x.profit):s,0);
+  
   if(document.getElementById('dash-revenue'))animNum('dash-revenue',totalRevenue);
   if(document.getElementById('dash-invested'))animNum('dash-invested',totalInvested);
   animNum('dash-profit',Math.abs(netPL));
   if(document.getElementById('dash-loss'))animNum('dash-loss',totalLosses);
+  
   const profitStat=document.getElementById('stat-profit');
   const profitLbl=document.getElementById('stat-pl-lbl');
   if(profitStat&&profitLbl){
@@ -1295,11 +1304,12 @@ function refreshDash(){
     profitLbl.textContent=netPL>=0?'Net Profit':'Net Loss';
   }
 }
+
 function animNum(id,target){
   const el=document.getElementById(id);if(!el)return;
   const dur=650,t0=performance.now();
   const step=now=>{const p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,3);
-    el.textContent='GHS '+Math.round(target*ease);if(p<1)requestAnimationFrame(step);};
+    el.textContent='GHS '+fmt(target*ease);if(p<1)requestAnimationFrame(step);};
   requestAnimationFrame(step);
 }
 
@@ -1370,7 +1380,7 @@ function calcPrice(){
   document.getElementById('r-tier-grid').innerHTML=tierPrices.map((t,i)=>`
     <div class="tier${i===1?' hi':''}">
       <div class="tier-name">${t.label}</div>
-      <div class="tier-price">GHS ${t.price}</div>
+      <div class="tier-price">GHS ${fmt(t.price)}</div>
       <div class="tier-unit">per serving</div>
       <div class="tier-row">Your cost<strong>GHS ${fmt(t.cost)}</strong></div>
     </div>`).join('');
@@ -1400,7 +1410,7 @@ function openForecast(){
   fcBatchOverride=null;
   const activeBatch=calcState.portions;
   calcState.tierPrices.forEach((t,i)=>{
-    document.getElementById(`sc-tp-${i}`).textContent=`GHS ${t.price} / serving`;
+    document.getElementById(`sc-tp-${i}`).textContent=`GHS ${fmt(t.price)} / serving`;
     const sl=document.getElementById(`sc-slider-${i}`);
     sl.max=activeBatch;
     sl.value=(i===1)?calcState.sellEst:0;
@@ -1721,9 +1731,13 @@ function deleteSale(id){
 
 function renderSalesTotals(){
   const income=sales.reduce((s,x)=>s+(x.revenue||0),0);
-  const costs=sales.reduce((s,x)=>s+(x.costs||0),0);
+  
+  // FIX: Make sure the totals tab perfectly mirrors the fix in the dashboard.
+  const costs=sales.reduce((s,x)=>s+(x.costs !== undefined ? x.costs : ((x.batchCost||0) + (x.extraCosts||0))),0);
+  
   const netProfit=income-costs;
   const totalLosses=sales.reduce((s,x)=>x.profit<0?s+Math.abs(x.profit):s,0);
+  
   document.getElementById('sl-income').textContent='GHS '+fmt(income);
   document.getElementById('sl-costs').textContent='GHS '+fmt(costs);
   const lEl=document.getElementById('sl-loss');if(lEl)lEl.textContent='GHS '+fmt(totalLosses);
@@ -1825,7 +1839,7 @@ function renderHistory(){
       {label:'Large',mult:TIER_MULTS[2],price:Math.ceil(TIER_MULTS[2]*cpm/(1-(h.margin||0.45))),cost:parseFloat((TIER_MULTS[2]*cpm).toFixed(2))}
     ];
     const tHTML=tiers.map((t,ti)=>`<div class="ht${ti===1?' hi':''}">
-      <div class="ht-name">${t.label}</div><div class="ht-price">GHS ${t.price}</div>
+      <div class="ht-name">${t.label}</div><div class="ht-price">GHS ${fmt(t.price)}</div>
       <div class="ht-unit">per serving</div><div class="ht-row">Cost<strong>GHS ${fmt(t.cost)}</strong></div>
     </div>`).join('');
     const expRows=(h.expenses||[]).map(e=>`<div class="brow"><span>${e.name||'Cost'}</span><span>GHS ${fmt(e.amount)}</span></div>`).join('');
@@ -1839,7 +1853,7 @@ function renderHistory(){
         </div>
         <div style="display:flex;align-items:center">
           <div style="text-align:right">
-            <div class="hist-cost">GHS ${tiers[0].price}–${tiers[2].price}</div>
+            <div class="hist-cost">GHS ${fmt(tiers[0].price)}–${fmt(tiers[2].price)}</div>
             <div class="hist-meta">S / M / L</div>
           </div>
           <span class="hist-chev">&#9660;</span>
